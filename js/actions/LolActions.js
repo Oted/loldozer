@@ -9,7 +9,7 @@ var LolActions = {
      * Creates a new obj and add it to the performers
      */
     create: function(obj) {
-        console.log('action create');
+        console.log('action create', obj);
         AppDispatcher.dispatch({
             actionType: LolConstants.LOL_CREATE,
             obj: obj

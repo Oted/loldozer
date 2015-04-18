@@ -1,10 +1,10 @@
 /**
  *  Finds a performer given a hash
  */
-module.exports.getPerformer = function(performers, hash) {
+module.exports.getPerformer = function(performers, _hash) {
     for (var i = 0; i < performers.length; i++) {
-        if (performers[i].hash === hash) {
-            return performers[i].hash;
+        if (performers[i]._hash === _hash) {
+            return performers[i];
         }
     }
 
@@ -21,9 +21,9 @@ module.exports.getNextPerformer = function(performers) {
 /**
  *  Deletes a performer given a hash
  */
-module.exports.destroyPerformer = function(performers, hash) {
+module.exports.destroyPerformer = function(performers, _hash) {
     for (var i = performers.length - 1; i > 0; i--) {
-        if (performers[i].hash === hash) {
+        if (performers[i]._hash === _hash) {
             performers.splice(i,1);
             break;
         }

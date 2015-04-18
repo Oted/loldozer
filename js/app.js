@@ -2,8 +2,11 @@
  * Init File
  */
 
-var React = require('react');
-var LolApp = require('./components/LolApp.react');
+var React   = require('react'),
+    LolApp  = require('./components/LolApp.react'),
+    Api     = require('./utils/API.js');
+
+Api.getItems();
 
 React.render(
   <LolApp />,

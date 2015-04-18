@@ -9,30 +9,36 @@ var AppDispatcher   = require('../dispatcher/AppDispatcher'),
 
 var CHANGE_EVENT = 'change';
 
-var _performers = require('../../common/dummy_data.json'),
+var _performers = [], 
     _currentPerformer = null;
 
 /**
  *  Creates a performer
  */
 function createPerformer(obj) {
-    if (!obj.hash) {
+    if (!obj.__hash) {
         return null;
     }
 
+
     obj.seen = false;
     _performers.push(obj);
+
+    //if there is no current, add a new one
+    if (!_currentPerformer) {
+        _currentPerformer = Utils.getNextPerformer(_performers);
+    }
 };
 
 /**
  *  Change the current performer to a new one,
  *  moves the current to unseen
  */
-function changeCurrentPerformer(hash) {
-    if (!hash) {
+function changeCurrentPerformer(__hash) {
+    if (!_hash) {
         _currentPerformer = Utils.getNextPerformer(_performers);
     } else {
-        _currentPerformer = Utils.getPerformer(_performers, hash);
+        _currentPerformer = Utils.getPerformer(_performers, _hash);
     }
     
     Utils.middleware(_currentPerformer);
@@ -43,8 +49,8 @@ function changeCurrentPerformer(hash) {
  * Delete an item.
  * @param  {string} id
  */
-function destroyPerformer(hash) {
-    Utils.destroyPerformer(_performers, hash);
+function destroyPerformer(_hash) {
+    Utils.destroyPerformer(_performers, _hash);
 }
 
 /**
@@ -53,7 +59,7 @@ function destroyPerformer(hash) {
 function destroySeenPerformers() {
     for (var i in _performers) {
         if (_performers[i].seen) {
-            destroyPerformer(_performers[i].hash);
+            destroyPerformer(_performers[i]._hash);
         }
     }
 }
@@ -64,8 +70,8 @@ var LolStore = assign({}, EventEmitter.prototype, {
     * @return {boolean}
     */
     areAllSeen: function() {
-        for (var hash in _performers) {
-            if (!_performers[hash].seen) {
+        for (var _hash in _performers) {
+            if (!_performers[_hash].seen) {
                 return false;
             }
         }
@@ -114,7 +120,10 @@ AppDispatcher.register(function(action) {
 
     switch(action.actionType) {
         case LolConstants.LOL_CREATE:
-            obj = action.obj;
+            var obj = action.obj;
+
+            //could check the obj here
+
             createPerformer(obj);
             LolStore.emitChange();
         break;
@@ -124,13 +133,8 @@ AppDispatcher.register(function(action) {
             LolStore.emitChange();
         break;
 
-        case LolConstants.LOL_SEEN:
-            updatePerformer(action.hash, {seen: true});
-            LolStore.emitChange();
-        break;
-
         case LolConstants.LOL_DESTROY:
-            destroyPerformer(action.hash);
+            destroyPerformer(action._hash);
             LolStore.emitChange();
         break;
 
