@@ -1,2 +1,1 @@
-# loldozer
-Get some internet, join the war agains boredom, loldozer
+Loldozer, the war against boredom
