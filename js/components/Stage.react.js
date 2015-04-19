@@ -5,6 +5,7 @@ var React           = require('react'),
 var Youtube         = require('../components/Youtube.react'),
     Soundcloud      = require('../components/Soundcloud.react'),
     Image           = require('../components/Image.react'),
+    Video           = require('../components/Video.react'),
     Gif             = require('../components/Gif.react');
 
 /**
@@ -41,6 +42,9 @@ var Stage = React.createClass({
                     current = {this.props.current}
                 />
                 <Image
+                    current = {this.props.current}
+                />
+                <Video
                     current = {this.props.current}
                 />
             </div>

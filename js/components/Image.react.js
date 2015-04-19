@@ -7,7 +7,7 @@ var React       = require('react'),
 var Image = React.createClass({
     render: function() {
         var isImage = this.props.current.type === 'img';
-        
+    
         return (
             <div 
                 className={isImage ? 'container' : 'hidden'}>

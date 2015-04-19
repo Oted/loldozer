@@ -13,7 +13,6 @@ var React       = require('react'),
  * Retrieve the current performers data from the LolStore
  */
 function getLolState() {
-    console.log('getting state...');
     return {
         current: LolStore.getCurrentPerformer(),
         areAllSeen: LolStore.areAllSeen(),
@@ -26,7 +25,6 @@ function getLolState() {
  */
 var LolApp = React.createClass({
     getInitialState: function() {
-        console.log('Init state');
         return getLolState();
     },
 
@@ -42,7 +40,6 @@ var LolApp = React.createClass({
     * @return {object}
     */
     render: function() {
-        console.log('render LolApp');
   	    return (
             <div>
                 <Nav

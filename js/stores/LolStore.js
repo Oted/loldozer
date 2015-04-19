@@ -60,7 +60,7 @@ function changeCurrentPerformer(_hash) {
     }
  
     // console.log('last',lastPerformer); 
-    // console.log('curr',_currentPerformer);
+    console.log('new current ',_currentPerformer);
     // console.log('performers',_performers);
     // console.log('seen',_seen);
 }

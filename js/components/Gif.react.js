@@ -1,5 +1,4 @@
-var React       = require('react'),
-    ImageLoader = require('react-imageloader');
+var React       = require('react');
 
 /**
  * The navigation
@@ -11,19 +10,10 @@ var Gif = React.createClass({
         return (
             <div 
                 className={isGif ? 'container' : 'hidden'}>
-                <ImageLoader 
-                    src={isGif ? this.props.current.data : ''}
-                    preloader={this._whileLoading}>
-                </ImageLoader>
+                <img 
+                    src={isGif ? this.props.current.data : ''}>
+                </img>
             </div>
-        );
-    },
-    _whileLoading : function() {
-        return (
-            <img
-                className={'loading'}
-                src={'common/loading.gif'}>
-            </img>
         );
     }
 });

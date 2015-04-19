@@ -154,7 +154,8 @@ var checkForOverlaps = function() {
         return;
     }
    
-    console.log('in merge overlaps',currentStorage); 
+    //console.log('in merge overlaps',currentStorage); 
+    
     //iterate the keys
     //this is the heart of the ISP,
     //compare lasts with firsts etc
@@ -169,8 +170,8 @@ var checkForOverlaps = function() {
                 curr = currentStorage[key][i],
                 obj  = {};
         
-            console.log('curr', time(curr.first), time(curr.last));
-            console.log('prev', time(prev.first), time(prev.last));
+            //console.log('curr', time(curr.first), time(curr.last));
+            //console.log('prev', time(prev.first), time(prev.last));
            
             if (prev.first === curr.first && prev.last === curr.last) {
                 console.log('case0');
@@ -203,7 +204,7 @@ var checkForOverlaps = function() {
             if (obj["first"] && obj["last"]) { 
                 //we now have a new object that contains a merge of previously
                 //two intervals, delete the prev and replace the curr
-                console.log('overlap', time(obj.first), time(obj.last));
+                //console.log('overlap', time(obj.first), time(obj.last));
                 currentStorage[key].splice(i, 2, obj);
             }
         }

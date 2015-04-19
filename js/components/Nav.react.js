@@ -8,6 +8,10 @@ var Nav = React.createClass({
     render: function() {
         return (
             <nav>
+                <i
+                    id={'list-button'}
+                    className={'fa fa-list'}>
+                </i>
                 <a 
                     id={'downvote-button'}
                     className={'vote-button'}
