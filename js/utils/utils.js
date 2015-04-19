@@ -47,3 +47,10 @@ module.exports.middleware = function(performer) {
 module.exports.clone = function(object) {
     return JSON.parse(JSON.stringify(object));
 }
+
+/**
+ *  Sort to timestamp
+ */
+module.exports.time = function(sort) {
+    return (new Date(sort).toString()).split(" ").slice(-3,-2);
+}

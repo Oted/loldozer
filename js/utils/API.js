@@ -14,15 +14,16 @@ module.exports.getItems = function() {
         }
     };
 
-    console.log('in api', seenStorage);
+    var first = Array.isArray(seenStorage.all) ? seenStorage.all[0].first : seenStorage.all.first; 
+    var last = Array.isArray(seenStorage.all) ? seenStorage.all[0].last : seenStorage.all.last; 
 
     $.ajax({
         method: 'GET',
         url:'http://188.166.45.196:3000/api/items',
         data: {
             amount : amount,
-            first: seenStorage.all[0].first,
-            last: seenStorage.all[0].last
+            first: first,
+            last: last
         },
         success: function(data) {
             console.log('response', data);

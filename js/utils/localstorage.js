@@ -37,19 +37,12 @@ storage['seen'] = {
 }
 */
 
-//get clone function
+//get utils 
 var clone = require('./utils').clone;
+var time = require('./utils').time;
 
 var currentStorage = null,
     currentSession = {};
-
-/*
- *  Delete from local storage
- */
-module.exports.destroyStorage = function() {
-    localStorage.removeItem("seen");
-}
-
 
 /**
  *  Gets the current localstorage
@@ -126,7 +119,7 @@ module.exports.mergeAndUpdateStorage = function() {
         console.log('no current session, this is crazy');
         return;
     }
-
+    
     //assign current storage if its undefined
     currentStorage = currentStorage || {};
 
@@ -138,16 +131,19 @@ module.exports.mergeAndUpdateStorage = function() {
             currentStorage[key] = clone([currentSession[key]]);
         } else {
             //else push it to the front
-            currentStorage[key].unshift(clone(currentSession[key]));
+            currentStorage[key].push(clone(currentSession[key]));
         }
     }
 
     checkForOverlaps();
     console.log('update storage', JSON.stringify(currentStorage));
-    localStorage.setItem("seen", JSON.stringify(currentStorage));
+    
+    try {
+        localStorage.setItem("seen", JSON.stringify(currentStorage));
+    } catch (err) {
+    
+    }
 };
-
-
 
 /**
  *  Helper function to check for overlaps.
@@ -157,27 +153,72 @@ var checkForOverlaps = function() {
         console.log('no current storage, crazy times awaits...');
         return;
     }
-    
+   
+    console.log('in merge overlaps',currentStorage); 
     //iterate the keys
     //this is the heart of the ISP,
     //compare lasts with firsts etc
     for (var key in currentStorage) {
+        //sort on first
+        currentStorage[key].sort(function(a,b) { 
+            return b.first - a.first
+        });
+        
         for (var i = currentStorage[key].length - 2; i >= 0; i--) {
             var prev = currentStorage[key][i + 1],
                 curr = currentStorage[key][i],
                 obj  = {};
         
+            console.log('curr', time(curr.first), time(curr.last));
+            console.log('prev', time(prev.first), time(prev.last));
+           
+            if (prev.first === curr.first && prev.last === curr.last) {
+                console.log('case0');
+                currentStorage[key].splice(i, 1);
+                continue;
+            }
+
             //if the previous first date is larger or eq to the
             //currents first then these should be merged
             if (prev.first >= curr.last) {
+                console.log('case1');
                 obj.first = curr.first;
                 obj.last = prev.last;
+            } 
+            
+            if (prev.first >= curr.first) {
+                console.log('case2');
+                obj.first = prev.first;
+                obj.last = Math.min(prev.last, curr.last);
+            } 
+            
+            if (curr.last <= prev.last) {
+                console.log('case3');
+                obj.first = Math.max(prev.first, curr.first);
+                obj.last = curr.last;
+           } else {
+                console.log('found no overlap');
+            }
 
+            if (obj["first"] && obj["last"]) { 
                 //we now have a new object that contains a merge of previously
                 //two intervals, delete the prev and replace the curr
+                console.log('overlap', time(obj.first), time(obj.last));
                 currentStorage[key].splice(i, 2, obj);
             }
         }
+
+        //if there are more intervals than 2, 
+        //this means that the api could not find anything inbetween or over
+        //so the first two must be merged
+        if (currentStorage[key].length > 2) {
+            var obj = {};
+            obj.first =  currentStorage[key][0].first;
+            obj.last =  currentStorage[key][1].last;
+            currentStorage[key].splice(0, 2, obj);
+        }
+       
+        currentSession[key] = currentStorage[key][0];
     }
 };
 
@@ -195,6 +236,20 @@ module.exports.getStorage = function() {
     return currentStorage;
 }
 
+/*
+ *  Delete from local storage
+ */
+module.exports.destroyStorage = function() {
+    localStorage.removeItem("seen");
+    currentStorage = null;
+}
+
+/*
+ *  Delete from local session
+ */
+module.exports.destroySession = function() {
+    currentSession = {};
+}
 
 /**
  *  Gets the suggested queries for first and last
