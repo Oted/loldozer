@@ -16,3 +16,4 @@ React.render(
   <LolApp />,
   document.getElementById('lolapp')
 );
+

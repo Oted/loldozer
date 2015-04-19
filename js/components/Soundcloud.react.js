@@ -31,7 +31,7 @@ var Soundcloud = React.createClass({
 
         return (
             <div 
-                className={'soundcloud'}>
+                className={'container'}>
                 <SoundcloudReact
                     url={'http://soundcloud.com/getdownedits/get-down-edits-classic-mix-pt-1'}
                     opts = {options}               

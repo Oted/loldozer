@@ -10,7 +10,7 @@ var Gif = React.createClass({
         
         return (
             <div 
-                className={isGif ? '' : 'hidden'}>
+                className={isGif ? 'container' : 'hidden'}>
                 <ImageLoader 
                     src={isGif ? this.props.current.data : ''}
                     preloader={this._whileLoading}>

@@ -10,7 +10,7 @@ var Image = React.createClass({
         
         return (
             <div 
-                className={isImage ? '' : 'hidden'}>
+                className={isImage ? 'container' : 'hidden'}>
                 <ImageLoader 
                     src={isImage ? this.props.current.data : ''}
                     preloader={this._whileLoading}>

@@ -7,6 +7,7 @@ var AppDispatcher   = require('../dispatcher/AppDispatcher'),
     Utils           = require('./../utils/utils'),
     Storage         = require('./../utils/localstorage'),
     Api             = require('./../utils/API'),
+    $               = require('../../common/jquery.min'),
     assign          = require('object-assign');
 
 var CHANGE_EVENT = 'change';
@@ -14,6 +15,17 @@ var CHANGE_EVENT = 'change';
 var _performers         = [],
     _seen               = [],
     _currentPerformer   = null;
+
+
+//make sure things are saved before close
+window.onbeforeunload = function () {
+    Storage.updateSession(_seen.concat(_performers));
+};
+
+//make sure things are saved before close
+$(window).unload(function() {
+    Storage.updateSession(_seen.concat(_performers));
+});
 
 /**
  *  Creates a performer

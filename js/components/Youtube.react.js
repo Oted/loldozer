@@ -27,7 +27,7 @@ var Youtube = React.createClass({
 
         return (
             <div 
-                className={''}>
+                className={'container'}>
                 <YoutubeReact 
                     url={'https://www.youtube.com/watch?v=' + this.props.current.data}
                     opts = {options}               
