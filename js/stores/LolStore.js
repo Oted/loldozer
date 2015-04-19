@@ -47,10 +47,10 @@ function changeCurrentPerformer(_hash) {
         _seen.push(lastPerformer);
     }
  
-    console.log('last',lastPerformer); 
-    console.log('curr',_currentPerformer);
-    console.log('performers',_performers);
-    console.log('seen',_seen);
+    // console.log('last',lastPerformer); 
+    // console.log('curr',_currentPerformer);
+    // console.log('performers',_performers);
+    // console.log('seen',_seen);
 }
 
 /**
@@ -140,9 +140,10 @@ AppDispatcher.register(function(action) {
         break;
 
         case LolConstants.LOL_NEXT:
+            
             //check if we need to fetch new stuff
             if (_performers.length < Math.floor(Api.getAmount() / 2) && _currentPerformer) {
-                Storage.updateStorage(_seen.concat(_performers));
+                Storage.updateSession(_seen.concat(_performers));
                 Api.getItems();
             }
 

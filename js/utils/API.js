@@ -7,15 +7,22 @@ var LolActions  = require('../actions/LolActions'),
  *  Fetches new items from the database.
  */
 module.exports.getItems = function() {
-    var seenStorage = Storage.getStorage();
-    console.log('seen',seenStorage);
+    var seenStorage = Storage.getSuggestedQuery() || {
+        "all" : {
+            "first" : Number.MAX_VALUE,
+            "last" : 0
+        }
+    };
+
+    console.log('in api', seenStorage);
+
     $.ajax({
         method: 'GET',
         url:'http://188.166.45.196:3000/api/items',
         data: {
             amount : amount,
-            first: seenStorage.all.first,
-            last: seenStorage.all.last
+            first: seenStorage.all[0].first,
+            last: seenStorage.all[0].last
         },
         success: function(data) {
             console.log('response', data);

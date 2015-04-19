@@ -3,8 +3,6 @@
  *  or the first one in the list of not provided
  */
 module.exports.getPerformer = function(performers, _hash) {
-    console.log(performers, _hash);
-    
     if (!_hash) {
         return performers[0];
     }
@@ -36,10 +34,16 @@ module.exports.destroyPerformer = function(performers, _hash) {
  *  All new current passes through this function
  */
 module.exports.middleware = function(performer) {
-    console.log(performer); 
     if (typeof performer.data === 'string') {  
         performer.data = performer.data
             .replace(/^(http:\/\/)+/, 'http://')
             .replace(/^http:\/\/https:\/\//, 'http://');
     }
 };
+
+/**
+ *  Cheat-clone for now
+ */
+module.exports.clone = function(object) {
+    return JSON.parse(JSON.stringify(object));
+}
