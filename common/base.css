@@ -1,4 +1,5 @@
 html,body {
+  background-image: url('./backgound6.png');
   font-size: 17px;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -44,8 +45,9 @@ footer {
 }
 
 nav {
+  box-shadow:0px 10px 32px rgba(0,0,0,0.5);
   position : fixed;
-  width:100%;
+  width: 99%;
   background: #0f0f0f;
   text-align: center;
   height: 3rem;
@@ -56,6 +58,8 @@ img {
   width:auto; 
   max-width:800px; 
 }
+
+.imageloader {}
 
 .container {
   margin-bottom: 2rem;
@@ -76,6 +80,26 @@ img {
   display : block;
   text-align: center;
   width:100%
+}
+
+#list-button {
+  left:0px;
+  position:absolute;
+  margin-left:1rem;
+  color: #f0f0f0;
+  display: inline-block;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 3rem;
+  height: 3rem;
+  padding: 0 0.5rem;
+  -webkit-transition: color 0.25s;
+  -moz-transition: color 0.25s;
+  -o-transition: color 0.25s;
+  transition: color 0.25s;
+  cursor: pointer; 
+  cursor: hand;
 }
 
 .vote-button {
