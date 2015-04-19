@@ -58,6 +58,11 @@ img {
   max-width:800px; 
 }
 
+.loading {
+  width : 100px; 
+  height : 100px; 
+}
+
 .info {
   padding-top:3.5rem;
   display : block;
