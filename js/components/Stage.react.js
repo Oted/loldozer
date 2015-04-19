@@ -20,8 +20,8 @@ var Stage = React.createClass({
     * @return {object}
     */
     render: function() {
-        if (!this.props.current) {
-            console.log('No current, simulating next...');
+        if (!this.props.current || !this.props.current.type) {
+            console.log('No current...');
             return (
                 <div id={'stage'}></div>
             );

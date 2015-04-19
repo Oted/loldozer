@@ -1,15 +1,14 @@
-/*
- * Actions
- */
 var AppDispatcher   = require('../dispatcher/AppDispatcher'),
     LolConstants    = require('../constants/LolConstants');
 
+/*
+ * Actions
+ */
 var LolActions = {
     /**
      * Creates a new obj and add it to the performers
      */
     create: function(obj) {
-        console.log('action create', obj);
         AppDispatcher.dispatch({
             actionType: LolConstants.LOL_CREATE,
             obj: obj
@@ -20,7 +19,6 @@ var LolActions = {
      * Toggle the seen state of an object
      */
     toggleSeen: function(obj) {
-        console.log('action toggle seen');
         var hash = todo.hash;
         var actionType = todo.seen ?
             LolConstants.LOL_UNDO_SEEN :
@@ -36,7 +34,6 @@ var LolActions = {
      * When user press next
      */
     next: function() {
-        console.log('action next');
         AppDispatcher.dispatch({
             actionType: LolConstants.LOL_NEXT
         });
@@ -46,7 +43,6 @@ var LolActions = {
      * Remove an object
      */
     destroy: function(obj) {
-        console.log('action destroy');
         AppDispatcher.dispatch({
             actionType: LolConstants.LOL_DESTROY,
             obj: obj
@@ -57,7 +53,6 @@ var LolActions = {
     * Delete all the completed ToDos
     */
     destroySeen: function() {
-        console.log('action destroy seen');
         AppDispatcher.dispatch({
             actionType: LolConstants.LOL_DESTROY_SEEN
         });

@@ -1,18 +1,29 @@
-var React = require('react');
+var React       = require('react'),
+    ImageLoader = require('react-imageloader');
 
 /**
  * The navigation
  */
 var Gif = React.createClass({
     render: function() {
+        var isGif = this.props.current.type === 'gif';
+        
         return (
             <div 
-                className={this.props.current.type === 'gif' ? '' : 'hidden'}>
-                <img 
-                    id={'image-container'}
-                    src={this.props.current.data}>
-                </img>
+                className={isGif ? '' : 'hidden'}>
+                <ImageLoader 
+                    src={isGif ? this.props.current.data : ''}
+                    preloader={this._whileLoading}>
+                </ImageLoader>
             </div>
+        );
+    },
+    _whileLoading : function() {
+        return (
+            <img
+                className={'loading'}
+                src={'common/loading.gif'}>
+            </img>
         );
     }
 });

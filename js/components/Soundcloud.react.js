@@ -17,7 +17,6 @@ var Soundcloud = React.createClass({
         var isSoundcloud = this.props.current.type === 'soundcloud';
 
         if (!isSoundcloud) {
-            console.log('here');
             return (
                 <div 
                     className={'hidden'}>

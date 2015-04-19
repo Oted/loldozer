@@ -3,46 +3,54 @@
  */
 var AppDispatcher   = require('../dispatcher/AppDispatcher'),
     EventEmitter    = require('events').EventEmitter,
-    LolConstants   = require('../constants/LolConstants'),
+    LolConstants    = require('../constants/LolConstants'),
     Utils           = require('./../utils/utils'),
+    Storage         = require('./../utils/localstorage'),
+    Api             = require('./../utils/API'),
     assign          = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 
-var _performers = [], 
-    _currentPerformer = null;
+var _performers         = [],
+    _seen               = [],
+    _currentPerformer   = null;
 
 /**
  *  Creates a performer
  */
 function createPerformer(obj) {
-    if (!obj.__hash) {
+    if (!obj._hash) {
         return null;
     }
 
-
-    obj.seen = false;
     _performers.push(obj);
-
-    //if there is no current, add a new one
-    if (!_currentPerformer) {
-        _currentPerformer = Utils.getNextPerformer(_performers);
-    }
 };
 
 /**
  *  Change the current performer to a new one,
  *  moves the current to unseen
  */
-function changeCurrentPerformer(__hash) {
-    if (!_hash) {
-        _currentPerformer = Utils.getNextPerformer(_performers);
-    } else {
-        _currentPerformer = Utils.getPerformer(_performers, _hash);
+function changeCurrentPerformer(_hash) {
+    var lastPerformer = _currentPerformer;
+  
+    //add old to seen and then remove from performers
+    if (lastPerformer) { 
+        _performers = Utils.destroyPerformer(_performers, lastPerformer._hash);
     }
-    
+
+    //pass it through the middleware 
+    _currentPerformer = Utils.getPerformer(_performers, _hash);
     Utils.middleware(_currentPerformer);
-    console.log('new current', _currentPerformer);
+    
+    //add the last performer if there is any
+    if (lastPerformer) {
+        _seen.push(lastPerformer);
+    }
+ 
+    console.log('last',lastPerformer); 
+    console.log('curr',_currentPerformer);
+    console.log('performers',_performers);
+    console.log('seen',_seen);
 }
 
 /**
@@ -94,7 +102,6 @@ var LolStore = assign({}, EventEmitter.prototype, {
     },
 
     emitChange: function() {
-        console.log('Emitting change!');
         this.emit(CHANGE_EVENT);
     },
 
@@ -102,7 +109,6 @@ var LolStore = assign({}, EventEmitter.prototype, {
     * @param {function} callback
     */
     addChangeListener: function(callback) {
-        console.log('adding listener ', callback.toString());
         this.on(CHANGE_EVENT, callback);
     },
 
@@ -123,12 +129,23 @@ AppDispatcher.register(function(action) {
             var obj = action.obj;
 
             //could check the obj here
-
             createPerformer(obj);
+
+            //if there is no current, add a new one
+            if (!_currentPerformer) {
+                changeCurrentPerformer();
+            }
+
             LolStore.emitChange();
         break;
 
         case LolConstants.LOL_NEXT:
+            //check if we need to fetch new stuff
+            if (_performers.length < Math.floor(Api.getAmount() / 2) && _currentPerformer) {
+                Storage.updateStorage(_seen.concat(_performers));
+                Api.getItems();
+            }
+
             changeCurrentPerformer();
             LolStore.emitChange();
         break;
