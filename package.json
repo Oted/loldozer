@@ -16,8 +16,10 @@
   },
   "devDependencies": {
     "browserify": "^6.2.0",
+    "code": "^1.4.0",
     "envify": "^3.0.0",
     "jest-cli": "~0.1.17",
+    "lab": "^5.5.1",
     "reactify": "^0.15.2",
     "uglify-js": "~2.4.15",
     "watchify": "^2.1.1"
@@ -25,7 +27,7 @@
   "scripts": {
     "start": "watchify -o js/bundle.js -v -d js/app.js",
     "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > js/bundle.min.js",
-    "test": "jest"
+    "test": "lab test"
   },
   "author": "Bill Fisher",
   "browserify": {
