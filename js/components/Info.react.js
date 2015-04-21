@@ -8,8 +8,8 @@ var Info = React.createClass({
     render: function() {
         
         var style = {
-            width : calculateExp(this.props.interactions),
-            background : calculateColour(this.props.interactions)
+            width : this.props.experience + '%',
+            background : calculateColour(this.props.experience)
         };
         
         return (
@@ -31,17 +31,21 @@ var Info = React.createClass({
 });
 
 /**
- *  Calculates the exp given interactions
- */
-var calculateExp = function(interactions) {
-    return (((interactions.upvotes + interactions.downvotes) * 10) % 100) + '%'
-};
-
-/**
  *  Calculates the colour given percentage
  */
 var calculateColour = function(exp) {
-    return "#E7BE1B";
+    var red     = 0,
+        green   = 0;
+    
+    red     = exp <= 50 ? 1 : 1 - (((exp - 50) * 2) / 100);
+    green   = exp >= 50 ? 1 : ((exp * 2) / 100);
+
+    console.log('red',red);
+    console.log('green',green);
+   
+    var rgb = 'rgb(' + (Math.floor(255 * red)) + ',' + (Math.floor(255*green)) + ',0)'
+    console.log(rgb);
+    return rgb;
 };
 
 

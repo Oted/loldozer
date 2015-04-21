@@ -3,10 +3,10 @@ var React           = require('react'),
     options         = {
         auto_play : true,
         buying : false,
-        liking: false,
+        liking: true,
         download: false,
         sharing	: false,
-        show_artwork: false,
+        show_artwork: true,
         show_comments: false,
         show_playcount: false,
         show_user: false

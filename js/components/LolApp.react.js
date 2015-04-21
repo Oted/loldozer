@@ -15,7 +15,7 @@ var React       = require('react'),
 function getLolState() {
     return {
         current: LolStore.getCurrentPerformer(),
-        interactions: LolStore.getInteractions(),
+        experience: LolStore.getExperience(),
         all: LolStore.getAllPerformers()
     };
 }
@@ -46,7 +46,7 @@ var LolApp = React.createClass({
                 />
                 <Info
                     current={this.state.current}
-                    interactions={this.state.interactions}
+                    experience={this.state.experience}
                 />
                 <Stage
                     all={this.state.all}

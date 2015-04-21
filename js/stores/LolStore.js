@@ -4,9 +4,10 @@
 var AppDispatcher   = require('../dispatcher/AppDispatcher'),
     EventEmitter    = require('events').EventEmitter,
     LolConstants    = require('../constants/LolConstants'),
-    Utils           = require('./../utils/utils'),
-    Storage         = require('./../utils/localstorage'),
-    Api             = require('./../utils/API'),
+    Utils           = require('../utils/utils'),
+    Storage         = require('../utils/localstorage'),
+    Exp             = require('../utils/Exp')
+    Api             = require('../utils/API'),
     $               = require('../../common/jquery.min'),
     assign          = require('object-assign');
 
@@ -108,8 +109,8 @@ var LolStore = assign({}, EventEmitter.prototype, {
    /**
     * Get the current performer
     */
-    getInteractions: function() {
-        return _interactions;
+    getExperience: function() {
+        return Exp.getExperience();
     },
 
     emitChange: function() {
@@ -164,18 +165,21 @@ AppDispatcher.register(function(action) {
         case LolConstants.LOL_NO_VOTE:
             console.log('no vote');
             _interactions.novotes++; 
+            Exp.calculateExperience(_interactions);
             Api.noVote(_currentPerformer._hash);
             break;
 
         case LolConstants.LOL_UP_VOTE:
             console.log('+1 vote'); 
             _interactions.upvotes++; 
+            Exp.calculateExperience(_interactions);
             Api.upVote(_currentPerformer._hash);
             break;
         
         case LolConstants.LOL_DOWN_VOTE:
             console.log('-1 vote'); 
             _interactions.downvotes++; 
+            Exp.calculateExperience(_interactions);
             Api.downVote(_currentPerformer._hash);
             break;
         
