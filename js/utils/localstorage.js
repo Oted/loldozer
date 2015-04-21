@@ -40,6 +40,7 @@ storage['seen'] = {
 //get utils 
 var clone = require('./utils').clone;
 var time = require('./utils').time;
+var expired = require('./utils').hasExpired;
 
 var currentStorage = null,
     currentSession = {};
@@ -172,9 +173,20 @@ var checkForOverlaps = function() {
         
             //console.log('curr', time(curr.first), time(curr.last));
             //console.log('prev', time(prev.first), time(prev.last));
-           
-            if (prev.first === curr.first && prev.last === curr.last) {
+           if (prev.first === curr.first && prev.last === curr.last) {
                 console.log('case0');
+                currentStorage[key].splice(i, 1);
+                continue;
+            }
+
+            if (expired(curr.first)) {
+                console.log('case1');
+                currentStorage[key].splice(i, 1);
+                continue;
+            }
+
+            if (expired(prev.first)) {
+                console.log('case2');
                 currentStorage[key].splice(i, 1);
                 continue;
             }
@@ -182,19 +194,19 @@ var checkForOverlaps = function() {
             //if the previous first date is larger or eq to the
             //currents first then these should be merged
             if (prev.first >= curr.last) {
-                console.log('case1');
+                console.log('case2');
                 obj.first = curr.first;
                 obj.last = prev.last;
             } 
             
             if (prev.first >= curr.first) {
-                console.log('case2');
+                console.log('case3');
                 obj.first = prev.first;
                 obj.last = Math.min(prev.last, curr.last);
             } 
             
             if (curr.last <= prev.last) {
-                console.log('case3');
+                console.log('case4');
                 obj.first = Math.max(prev.first, curr.first);
                 obj.last = curr.last;
            } else {
@@ -212,12 +224,12 @@ var checkForOverlaps = function() {
         //if there are more intervals than 2, 
         //this means that the api could not find anything inbetween or over
         //so the first two must be merged
-        if (currentStorage[key].length > 2) {
-            var obj = {};
-            obj.first =  currentStorage[key][0].first;
-            obj.last =  currentStorage[key][1].last;
-            currentStorage[key].splice(0, 2, obj);
-        }
+        // if (currentStorage[key].length > 2) {
+            // var obj = {};
+            // obj.first =  currentStorage[key][0].first;
+            // obj.last =  currentStorage[key][1].last;
+            // currentStorage[key].splice(0, 2, obj);
+        // }
        
         currentSession[key] = currentStorage[key][0];
     }

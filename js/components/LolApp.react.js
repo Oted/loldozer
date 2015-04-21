@@ -5,8 +5,8 @@
 var React       = require('react'),
     Stage       = require('./Stage.react'),
     Nav         = require('./Nav.react'),
-    Exp         = require('./Exp.react'),
     Info        = require('./Info.react'),
+    Footer      = require('./Footer.react'),
     LolStore    = require('../stores/LolStore');
 
 /**
@@ -15,7 +15,7 @@ var React       = require('react'),
 function getLolState() {
     return {
         current: LolStore.getCurrentPerformer(),
-        areAllSeen: LolStore.areAllSeen(),
+        interactions: LolStore.getInteractions(),
         all: LolStore.getAllPerformers()
     };
 }
@@ -46,11 +46,13 @@ var LolApp = React.createClass({
                 />
                 <Info
                     current={this.state.current}
-                />
-                <Exp
+                    interactions={this.state.interactions}
                 />
                 <Stage
                     all={this.state.all}
+                    current={this.state.current}
+                />
+                <Footer
                     current={this.state.current}
                 />
             </div>

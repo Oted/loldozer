@@ -5,7 +5,7 @@ var React       = require('react');
  */
 var Video = React.createClass({
     componentDidMount: function() {
-        var isVideo = this.props.current.type === 'gifv',
+        var isVideo = this.props.current.type === 'video',
             video, 
             wrapper;
         

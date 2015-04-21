@@ -12,6 +12,12 @@ var AppDispatcher   = require('../dispatcher/AppDispatcher'),
 
 var CHANGE_EVENT = 'change';
 
+var _interactions = {
+    'novotes' : 0,
+    'upvotes' : 0,
+    'downvotes' : 0
+};
+
 var _performers         = [],
     _seen               = [],
     _currentPerformer   = null;
@@ -85,20 +91,6 @@ function destroySeenPerformers() {
 }
 
 var LolStore = assign({}, EventEmitter.prototype, {
-    /**
-    * Tests whether all the remaining performers are marked as seen.
-    * @return {boolean}
-    */
-    areAllSeen: function() {
-        for (var _hash in _performers) {
-            if (!_performers[_hash].seen) {
-                return false;
-            }
-        }
-        
-        return true;
-    },
-
    /**
     * Get the entire collection of performers 
     */
@@ -111,6 +103,13 @@ var LolStore = assign({}, EventEmitter.prototype, {
     */
     getCurrentPerformer: function() {
         return _currentPerformer;
+    },
+
+   /**
+    * Get the current performer
+    */
+    getInteractions: function() {
+        return _interactions;
     },
 
     emitChange: function() {
@@ -152,7 +151,6 @@ AppDispatcher.register(function(action) {
         break;
 
         case LolConstants.LOL_NEXT:
-            
             //check if we need to fetch new stuff
             if (_performers.length < Math.floor(Api.getAmount() / 2) && _currentPerformer) {
                 Storage.updateSession(_seen.concat(_performers));
@@ -163,6 +161,24 @@ AppDispatcher.register(function(action) {
             LolStore.emitChange();
         break;
 
+        case LolConstants.LOL_NO_VOTE:
+            console.log('no vote');
+            _interactions.novotes++; 
+            Api.noVote(_currentPerformer._hash);
+            break;
+
+        case LolConstants.LOL_UP_VOTE:
+            console.log('+1 vote'); 
+            _interactions.upvotes++; 
+            Api.upVote(_currentPerformer._hash);
+            break;
+        
+        case LolConstants.LOL_DOWN_VOTE:
+            console.log('-1 vote'); 
+            _interactions.downvotes++; 
+            Api.downVote(_currentPerformer._hash);
+            break;
+        
         case LolConstants.LOL_DESTROY:
             destroyPerformer(action._hash);
             LolStore.emitChange();

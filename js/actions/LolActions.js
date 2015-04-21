@@ -33,6 +33,33 @@ var LolActions = {
     /**
      * When user press next
      */
+    noVote: function() {
+        AppDispatcher.dispatch({
+            actionType: LolConstants.LOL_NO_VOTE
+        });
+    },
+    
+    /**
+     * When user press next
+     */
+    upVote: function() {
+        AppDispatcher.dispatch({
+            actionType: LolConstants.LOL_UP_VOTE
+        });
+    },
+    
+    /**
+     * When user press next
+     */
+    downVote: function() {
+        AppDispatcher.dispatch({
+            actionType: LolConstants.LOL_DOWN_VOTE
+        });
+    },
+    
+    /**
+     * When user press next
+     */
     next: function() {
         AppDispatcher.dispatch({
             actionType: LolConstants.LOL_NEXT

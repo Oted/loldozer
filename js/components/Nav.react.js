@@ -7,43 +7,81 @@ var React       = require('react'),
 var Nav = React.createClass({
     render: function() {
         return (
-            <nav>
-                <i
-                    id={'list-button'}
-                    className={'fa fa-list'}>
-                </i>
-                <a 
+            <ul 
+                id={'nav'}>
+                <li
+                    id={'list-button'}>
+                    <a
+                        className={'fa fa-list'}>
+                    </a>
+                    <ul>
+                        <li>
+                            <a
+                                className={'text-button'}
+                                href={'#'}>
+                                ADD ITEM
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                className={'text-button'}
+                                href={'#'}>
+                                HIGHSCORES
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                className={'text-button'}
+                                href={'#'}>
+                                FILTER
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li
                     id={'downvote-button'}
-                    className={'vote-button'}
-                    onClick={this._onVoteDown}>
-                    -
-                </a>
-                <a 
-                    id={'next-button'}
-                    onClick={this._onNext}>
-                    NEXT
-                </a>
-                <a 
+                    onClick={this._onVoteDown}
+                    className={'vote-button'}>
+                    <a 
+                        className={'fa fa-minus'}>
+                    </a>
+                </li>
+                <li
+                    className={'text-button'}>
+                    <a 
+                        onClick={this._onNext}>
+                        NEXT
+                    </a>
+                </li>
+                <li
                     id={'upvote-button'} 
-                    className={'vote-button'}
-                    onClick={this._onVoteUp}>
-                    +
-                </a>
-            </nav>
+                    onClick={this._onVoteUp}
+                    className={'vote-button'}>
+                    <a 
+                        className={'fa fa-plus'}>
+                    </a>
+                </li>
+            </ul>
         );
     },
 
     _onNext: function(text) {
         console.log('next');
+        LolActions.noVote();
         LolActions.next();
     },
 
     _onVoteUp: function(text) {
         console.log('up');
+        LolActions.upVote();
+        LolActions.next();
     },
 
     _onVoteDown: function(text) {
         console.log('down');
+        LolActions.downVote();
+        LolActions.next();
     }
 });
 

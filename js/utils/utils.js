@@ -1,3 +1,6 @@
+//3 days
+var expiredTime = 1000 * 60 * 60 * 24 * 3;
+
 /**
  *  Finds a performer given a hash,
  *  or the first one in the list of not provided
@@ -53,4 +56,11 @@ module.exports.clone = function(object) {
  */
 module.exports.time = function(sort) {
     return (new Date(sort).toString()).split(" ").slice(-3,-2);
+}
+
+/**
+ *  Tells if the _sort has expired or not.
+ */
+module.exports.hasExpired = function(sort) {
+    return (new Date - new Date(sort)) >= expiredTime;
 }

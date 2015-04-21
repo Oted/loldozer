@@ -5,7 +5,11 @@ var React       = require('react');
  */
 var Gif = React.createClass({
     render: function() {
-        var isGif = this.props.current.type === 'gif';
+        var isGif = this.props.current.type === 'gif' || this.props.current.type === 'gifv';
+
+        if (this.props.current.type === 'gifv') {
+            this.props.current.data = this.props.current.data.replace('.gifv', '.gif');
+        }
         
         return (
             <div 
