@@ -40,11 +40,7 @@ var calculateColour = function(exp) {
     red     = exp <= 50 ? 1 : 1 - (((exp - 50) * 2) / 100);
     green   = exp >= 50 ? 1 : ((exp * 2) / 100);
 
-    console.log('red',red);
-    console.log('green',green);
-   
     var rgb = 'rgb(' + (Math.floor(255 * red)) + ',' + (Math.floor(255*green)) + ',0)'
-    console.log(rgb);
     return rgb;
 };
 

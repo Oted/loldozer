@@ -13,6 +13,10 @@ var AppDispatcher   = require('../dispatcher/AppDispatcher'),
 
 var CHANGE_EVENT = 'change';
 
+var _modals = {
+    add : false
+};
+
 var _interactions = {
     'novotes' : 0,
     'upvotes' : 0,
@@ -112,6 +116,13 @@ var LolStore = assign({}, EventEmitter.prototype, {
     getExperience: function() {
         return Exp.getExperience();
     },
+    
+    /**
+     * Get modal states
+     */
+    getModalStates: function () {
+        return _modals;
+    },
 
     emitChange: function() {
         this.emit(CHANGE_EVENT);
@@ -138,12 +149,8 @@ AppDispatcher.register(function(action) {
 
     switch(action.actionType) {
         case LolConstants.LOL_CREATE:
-            var obj = action.obj;
-
-            //could check the obj here
-            createPerformer(obj);
-
-            //if there is no current, add a new one
+            createPerformer(action.obj);
+            
             if (!_currentPerformer) {
                 changeCurrentPerformer();
             }
@@ -183,6 +190,17 @@ AppDispatcher.register(function(action) {
             Api.downVote(_currentPerformer._hash);
             break;
         
+        case LolConstants.LOL_OPEN_MODAL:
+            _modals[action.modal] = true;
+            LolStore.emitChange();
+        break;
+
+        case LolConstants.LOL_CLOSE_MODAL:
+            console.log('here');
+            _modals[action.modal] = false;
+            LolStore.emitChange();
+        break;
+
         case LolConstants.LOL_DESTROY:
             destroyPerformer(action._hash);
             LolStore.emitChange();

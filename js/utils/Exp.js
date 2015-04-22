@@ -5,11 +5,10 @@ var currentExp = 0,
  * Calculates the exp given the interactions.
  */
 module.exports.calculateExperience = function(interactions) {
-    currentExp += ((interactions.upvotes + interactions.downvotes + (interactions.novotes / 10)) * (5 / currentLevel)) / 5;
+    currentExp = ((interactions.upvotes + interactions.downvotes + (interactions.novotes / 10)) * (5 / currentLevel));
 
-    if (currentExp > 100) {
+    if (currentExp > (100 * currentLevel)) {
         currentLevel++;
-        currentExp = 0;
     }
 
     console.log(currentExp);
@@ -21,5 +20,5 @@ module.exports.calculateExperience = function(interactions) {
  *  Get experience
  */
 module.exports.getExperience = function() {
-    return currentExp;
+    return currentExp % 100;
 };

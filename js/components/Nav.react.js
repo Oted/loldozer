@@ -18,6 +18,7 @@ var Nav = React.createClass({
                         <li>
                             <a
                                 className={'text-button'}
+                                onClick={this._openAddModal}
                                 href={'#'}>
                                 ADD ITEM
                             </a>
@@ -82,6 +83,11 @@ var Nav = React.createClass({
         console.log('down');
         LolActions.downVote();
         LolActions.next();
+    },
+
+    _openAddModal: function(text) {
+        console.log('add');
+        LolActions.openModal('add');
     }
 });
 

@@ -13,5 +13,8 @@ module.exports = keyMirror({
     LOL_UNDO_SEEN: null,
     LOL_DESTROY: null,
     LOL_DESTROY_SEEN:null,
-    LOL_FETCH: null
+    LOL_FETCH: null,
+    LOL_OPEN_MODAL:null,
+    LOL_CLOSE_MODAL:null,
+    LOL_ADD_ITEM: null
 });

@@ -7,6 +7,7 @@ var React       = require('react'),
     Nav         = require('./Nav.react'),
     Info        = require('./Info.react'),
     Footer      = require('./Footer.react'),
+    AddModal    = require('./AddModal.react'),
     LolStore    = require('../stores/LolStore');
 
 /**
@@ -16,7 +17,8 @@ function getLolState() {
     return {
         current: LolStore.getCurrentPerformer(),
         experience: LolStore.getExperience(),
-        all: LolStore.getAllPerformers()
+        all: LolStore.getAllPerformers(),
+        modals: LolStore.getModalStates()
     };
 }
 
@@ -42,6 +44,9 @@ var LolApp = React.createClass({
     render: function() {
   	    return (
             <div>
+                <AddModal
+                    modals={this.state.modals}
+                />
                 <Nav
                 />
                 <Info

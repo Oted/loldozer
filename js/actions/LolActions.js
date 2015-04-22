@@ -67,21 +67,32 @@ var LolActions = {
     },
     
     /**
-     * Remove an object
+     * Open modal
      */
-    destroy: function(obj) {
+    openModal: function(modal) {
         AppDispatcher.dispatch({
-            actionType: LolConstants.LOL_DESTROY,
-            obj: obj
+            actionType: LolConstants.LOL_OPEN_MODAL,
+            modal: modal
         });
     },
 
-   /**
-    * Delete all the completed ToDos
-    */
-    destroySeen: function() {
+    /**
+     * Open modal
+     */
+    closeModal: function(modal) {
         AppDispatcher.dispatch({
-            actionType: LolConstants.LOL_DESTROY_SEEN
+            actionType: LolConstants.LOL_CLOSE_MODAL,
+            modal: modal
+        });
+    },
+
+    /**
+     *  Adds a new item to the database
+     */
+    addItem: function(item) {
+        AppDispatcher.dispatch({
+            actionType: LolConstants.LOL_ADD_ITEM,
+            item: item
         });
     }
 };

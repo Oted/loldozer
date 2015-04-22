@@ -9,7 +9,7 @@ var Nav = React.createClass({
         return (
             <footer>
                 <p> 
-                    declaration of war against boredom since 2015
+                    Loldozer, a declaration of war against boredom since 2015.
                 </p>
             </footer>
         );
