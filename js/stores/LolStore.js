@@ -25,6 +25,7 @@ var _interactions = {
 
 var _performers         = [],
     _seen               = [],
+    _seen_hash          = {},
     _currentPerformer   = null;
 
 
@@ -43,6 +44,12 @@ $(window).unload(function() {
  */
 function createPerformer(obj) {
     if (!obj._hash) {
+        console.log('No hash on obj, returning null');
+        return null;
+    }
+    
+    if (_seen_hash[obj._hash]) {
+        console.log(obj, 'has already been seen');
         return null;
     }
 
@@ -68,6 +75,7 @@ function changeCurrentPerformer(_hash) {
     //add the last performer if there is any
     if (lastPerformer) {
         _seen.push(lastPerformer);
+        _seen_hash[lastPerformer._hash] = true;
     }
  
     // console.log('last',lastPerformer); 
