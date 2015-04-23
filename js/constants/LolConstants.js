@@ -16,5 +16,6 @@ module.exports = keyMirror({
     LOL_FETCH: null,
     LOL_OPEN_MODAL:null,
     LOL_CLOSE_MODAL:null,
+    LOL_LEVEL_UP:null,
     LOL_ADD_ITEM: null
 });

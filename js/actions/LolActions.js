@@ -94,6 +94,16 @@ var LolActions = {
             actionType: LolConstants.LOL_ADD_ITEM,
             item: item
         });
+    },
+
+    /**
+     *  Adds a new item to the database
+     */
+    levelUp: function(level) {
+        AppDispatcher.dispatch({
+            actionType: LolConstants.LOL_LEVEL_UP,
+            level: level
+        });
     }
 };
 

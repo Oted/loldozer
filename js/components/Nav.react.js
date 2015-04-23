@@ -49,7 +49,7 @@ var Nav = React.createClass({
                     </a>
                 </li>
                 <li
-                    className={'text-button'}>
+                    id={'next-button'}>
                     <a 
                         onClick={this._onNext}>
                         NEXT

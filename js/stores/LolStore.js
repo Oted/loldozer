@@ -13,6 +13,8 @@ var AppDispatcher   = require('../dispatcher/AppDispatcher'),
 
 var CHANGE_EVENT = 'change';
 
+var level = 0;
+
 var _modals = {
     add : false
 };
@@ -180,21 +182,21 @@ AppDispatcher.register(function(action) {
         case LolConstants.LOL_NO_VOTE:
             console.log('no vote');
             _interactions.novotes++; 
-            Exp.calculateExperience(_interactions);
+            Exp.calculateExperience(_interactions, '0');
             Api.noVote(_currentPerformer._hash);
             break;
 
         case LolConstants.LOL_UP_VOTE:
             console.log('+1 vote'); 
             _interactions.upvotes++; 
-            Exp.calculateExperience(_interactions);
+            Exp.calculateExperience(_interactions, '+1');
             Api.upVote(_currentPerformer._hash);
             break;
         
         case LolConstants.LOL_DOWN_VOTE:
             console.log('-1 vote'); 
             _interactions.downvotes++; 
-            Exp.calculateExperience(_interactions);
+            Exp.calculateExperience(_interactions, '-1');
             Api.downVote(_currentPerformer._hash);
             break;
         
@@ -204,9 +206,19 @@ AppDispatcher.register(function(action) {
         break;
 
         case LolConstants.LOL_CLOSE_MODAL:
-            console.log('here');
             _modals[action.modal] = false;
             LolStore.emitChange();
+        break;
+
+        case LolConstants.LOL_LEVEL_UP:
+            _level = action.level;
+            console.log('Wow! level ' + action.level + ' now. Nice! (something cool should happen)');
+            alert('Wow! level ' + action.level + ' now. Nice! (something cool should happen)');
+        break;
+
+        case LolConstants.LOL_ADD_ITEM:
+            Api.addItem(action.item);
+            destroyPerformer(action._hash);
         break;
 
         case LolConstants.LOL_DESTROY:

@@ -12,7 +12,8 @@
     "react-imageloader": "^1.2.0",
     "react-loadermixin": "^1.0.4",
     "react-soundcloud-widget": "^2.0.1",
-    "react-youtube": "^3.1.0"
+    "react-youtube": "^3.1.0",
+    "validator": "^3.39.0"
   },
   "devDependencies": {
     "browserify": "^6.2.0",

@@ -36,6 +36,30 @@ module.exports.getItems = function() {
 };
 
 /**
+ * Add a new item!
+ */
+module.exports.addItem = function(item) {
+    if (!item.title || !item.url) {
+        console.log('no data provided');
+        return null;
+    }
+        
+    $.ajax({
+        method: 'POST',
+        url:'http://188.166.45.196:3000/api/items',
+        data : {
+            data : item.url,
+            title : item.title,
+            scraped : false
+        },
+        success: function(data, status) {
+            console.log('response', data, status);
+        }
+    });
+};
+
+
+/**
  *  Votes 0 for an item
  */
 module.exports.noVote = function(hash) {
