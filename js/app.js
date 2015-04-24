@@ -7,7 +7,7 @@ var React       = require('react'),
     Api         = require('./utils/Api'),
     Storage     = require('./utils/localstorage');
 
-Storage.destroyStorage();
+//Storage.destroyStorage();
 Storage.loadStorage();
 
 Api.getItems();
