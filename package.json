@@ -1,8 +1,8 @@
 {
-  "name": "todomvc-flux",
+  "name": "Loldozer/GSI",
   "version": "0.0.3",
-  "description": "Example Flux architecture.",
-  "repository": "https://github.com/facebook/flux",
+  "description": "React application",
+  "repository": "https://github.com/Oted/loldozer",
   "main": "js/app.js",
   "dependencies": {
     "flux": "^2.0.1",
@@ -30,7 +30,7 @@
     "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > js/bundle.min.js",
     "test": "lab test"
   },
-  "author": "Bill Fisher",
+  "author": "Oted",
   "browserify": {
     "transform": [
       "reactify",
