@@ -1,5 +1,5 @@
 var React           = require('react'),
-    YoutubeReact    = require('../../node_modules/react-youtube/dist/YouTube'),
+    YoutubeReact    = require('react-youtube'),
     options         = {
         height: '390',
         width: '640',
@@ -22,10 +22,6 @@ var Youtube = React.createClass({
                 />
             </div>
         );
-    },
-
-    _onPlay() {
-        console.log('PLAYING');
     }
 });
 

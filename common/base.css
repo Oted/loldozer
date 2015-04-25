@@ -35,7 +35,7 @@ footer {
   text-shadow: 1px 1px #A0A0A0;
   position: fixed;
   left: 0;
-  bottom:3px;
+  bottom:1rem;
   width: 100%;
   -moz-transition: top 0.25s;
   -o-transition: top 0.25s;

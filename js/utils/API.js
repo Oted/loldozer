@@ -43,7 +43,8 @@ module.exports.addItem = function(item) {
         console.log('no data provided');
         return null;
     }
-        
+       
+   console.log('itemeee', item); 
     $.ajax({
         method: 'POST',
         url:'http://188.166.45.196:3000/api/items',

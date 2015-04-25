@@ -184,21 +184,21 @@ AppDispatcher.register(function(action) {
             _interactions.novotes++; 
             Exp.calculateExperience(_interactions, '0');
             Api.noVote(_currentPerformer._hash);
-            break;
+        break;
 
         case LolConstants.LOL_UP_VOTE:
             console.log('+1 vote'); 
             _interactions.upvotes++; 
             Exp.calculateExperience(_interactions, '+1');
             Api.upVote(_currentPerformer._hash);
-            break;
+        break;
         
         case LolConstants.LOL_DOWN_VOTE:
             console.log('-1 vote'); 
             _interactions.downvotes++; 
             Exp.calculateExperience(_interactions, '-1');
             Api.downVote(_currentPerformer._hash);
-            break;
+        break;
         
         case LolConstants.LOL_OPEN_MODAL:
             _modals[action.modal] = true;
