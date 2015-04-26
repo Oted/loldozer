@@ -123,6 +123,13 @@ var LolStore = assign({}, EventEmitter.prototype, {
    /**
     * Get the current performer
     */
+    getLevel: function() {
+        return Exp.getLevel();
+    },
+ 
+   /**
+    * Get the current performer
+    */
     getExperience: function() {
         return Exp.getExperience();
     },

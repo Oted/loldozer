@@ -18,7 +18,8 @@ function getLolState() {
         current: LolStore.getCurrentPerformer(),
         experience: LolStore.getExperience(),
         all: LolStore.getAllPerformers(),
-        modals: LolStore.getModalStates()
+        modals: LolStore.getModalStates(),
+        level: LolStore.getLevel()
     };
 }
 
@@ -48,6 +49,7 @@ var LolApp = React.createClass({
                     modals={this.state.modals}
                 />
                 <Nav
+                    level={this.state.level}
                 />
                 <Info
                     current={this.state.current}

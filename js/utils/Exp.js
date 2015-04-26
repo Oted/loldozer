@@ -35,6 +35,13 @@ module.exports.getExperience = function() {
 };
 
 /**
+ *  Get level
+ */
+module.exports.getLevel = function() {
+    return currentLevel;
+};
+
+/**
  *  Helper for level up.
  */
 var levelUp = function() {

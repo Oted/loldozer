@@ -63,7 +63,15 @@ var Nav = React.createClass({
                         className={'fa fa-plus'}>
                     </a>
                 </li>
-            </ul>
+                <li
+                    className={'level'}>
+                    <a
+                        id={'level'}
+                        href={'#'}>
+                        {this.props.level}
+                    </a>
+                </li>
+           </ul>
         );
     },
 

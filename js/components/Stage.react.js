@@ -33,6 +33,9 @@ var Stage = React.createClass({
 
   	    return (
             <div id={'stage'}>
+                <a
+                    className={'fa fa-angle-left arrow-button fa-5'}>
+                </a>
                 <Soundcloud
                     current = {this.props.current}
                 />
@@ -51,6 +54,9 @@ var Stage = React.createClass({
                 <Video
                     current = {this.props.current}
                 />
+                <a
+                    className={'fa fa-angle-right arrow-button fa-5'}>
+                </a>
             </div>
   	    );
     },

@@ -32,17 +32,19 @@ header.hidden {
 
 footer {
   font: -webkit-small-control;
-  text-shadow: 1px 1px #A0A0A0;
   position: fixed;
   left: 0;
-  bottom:1rem;
+  bottom:0.5rem;
   width: 100%;
   -moz-transition: top 0.25s;
   -o-transition: top 0.25s;
   transition: top 0.25s;
   text-align: center;
-  padding: .5rem 0;
-  height: 1rem;
+}
+
+footer p {
+  font: -webkit-small-control;
+  text-shadow: 1px 1px #A0A0A0;
 }
 
 #nav {
@@ -83,11 +85,6 @@ footer {
 }
 
 #nav li:hover ul { 
-  -webkit-transition: all .25s ease;
-  -moz-transition: all .25s ease;
-  -ms-transition: all .25s ease;
-  -o-transition: all .25s ease;
-  transition: all .25s ease; 
   left:-1rem;
 }
 
@@ -115,6 +112,30 @@ footer {
   transition: color 0.25s;
   cursor: pointer; 
   cursor: hand;
+}
+
+#level {
+  position:absolute;
+  display: inline-block;
+  top:0.5rem;
+  right : 1rem;
+  text-decoration: none;
+  font-size: 2.5rem;
+  padding: 0 0.5rem;
+  transition: color 0.25s;
+  letter-spacing: 0.25rem;
+  color: #f0f0f0;
+  cursor: pointer; 
+  cursor: hand;
+}
+
+#level:hover {
+  color: #EFFF02;
+}
+.adjective {
+  position:absolute;
+  display: inline-block;
+  top:0.5rem;
 }
 
 .fa-list:hover {
@@ -215,6 +236,18 @@ img {
   cursor: hand;
 }
 
+.arrow-button {
+  margin-top:3rem;
+  color: #0f0f0f;
+  text-decoration: none;
+  padding: 0 2.5rem;
+  -webkit-transition: color 0.25s;
+  -moz-transition: color 0.25s;
+  -o-transition: color 0.25s;
+  transition: color 0.25s;
+  cursor: pointer;
+  cursor: hand;
+}
 .disabled {
   display: none;
 }
@@ -257,6 +290,7 @@ img {
 }
 
 #next-button:hover {
+  letter-spacing: 0.4rem;
   color: #BDBEFF;
 }
 
@@ -289,6 +323,7 @@ img {
 }
 
 #stage {
+  font-size: 5rem;
   margin-top: 2rem;
   display: -webkit-box;
   display: -moz-box;
