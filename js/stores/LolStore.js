@@ -63,7 +63,7 @@ function createPerformer(obj) {
  *  Change the current performer to a new one,
  *  moves the current to unseen
  */
-function changeCurrentPerformer(_hash) {
+function nextPerformer() {
     var lastPerformer = _currentPerformer;
   
     //add old to seen and then remove from performers
@@ -71,9 +71,7 @@ function changeCurrentPerformer(_hash) {
         _performers = Utils.destroyPerformer(_performers, lastPerformer._hash);
     }
 
-    //pass it through the middleware 
-    _currentPerformer = Utils.getPerformer(_performers, _hash);
-    Utils.middleware(_currentPerformer);
+    _currentPerformer = Utils.getPerformer(_performers);
     
     //add the last performer if there is any
     if (lastPerformer) {
@@ -82,7 +80,30 @@ function changeCurrentPerformer(_hash) {
     }
  
     // console.log('last',lastPerformer); 
-    console.log('new current ',_currentPerformer);
+    console.log('new next ',_currentPerformer);
+    // console.log('performers',_performers);
+    // console.log('seen',_seen);
+}
+
+/**
+ *  Change the current performer to the previous one,
+ *  moves the first in seen to performers and press next
+ */
+function previousPerformer() {
+    var lastPerformer = _seen.pop();
+  
+    if (!lastPerformer) {
+        return;
+    }
+
+    //remove from seen
+    delete _seen_hash[lastPerformer._hash];
+    _performers.unshift(lastPerformer);
+
+    _currentPerformer = Utils.getPerformer(_performers);
+    
+    // console.log('last',lastPerformer); 
+    console.log('new previous ',_currentPerformer);
     // console.log('performers',_performers);
     // console.log('seen',_seen);
 }
@@ -110,8 +131,15 @@ var LolStore = assign({}, EventEmitter.prototype, {
    /**
     * Get the entire collection of performers 
     */
-    getAllPerformers: function() {
+    getPerformers: function() {
         return _performers;
+    },
+
+   /**
+    * Get the entire collection of seen performers
+    */
+    getSeenPerformers: function() {
+        return _seen;
     },
 
    /**
@@ -169,17 +197,19 @@ AppDispatcher.register(function(action) {
         //10 at a time
         case LolConstants.LOL_CREATE:
             createPerformer(action.obj);
-       break;
+        break;
 
-        //10 at a time
+        //reports from items
         case LolConstants.LOL_API:
-            if (!_currentPerformer) {
-                _currentPerformer = Utils.getPerformer(_performers);
+            if (action.type === 'items') {
+                //if api is done fetching items, check if there is no current
+                if (!_currentPerformer) {
+                    _currentPerformer = Utils.getPerformer(_performers);
+                }
             }
 
             LolStore.emitChange();
         break;
-
 
         case LolConstants.LOL_NEXT:
             //check if we need to fetch new stuff, hereeee???
@@ -188,7 +218,12 @@ AppDispatcher.register(function(action) {
                 Api.getItems();
             }
 
-            changeCurrentPerformer();
+            nextPerformer();
+            LolStore.emitChange();
+        break;
+
+        case LolConstants.LOL_PREVIOUS:
+            previousPerformer();
             LolStore.emitChange();
         break;
 

@@ -27,11 +27,12 @@ module.exports.getItems = function() {
         url:'http://188.166.45.196:3000/api/items',
         data: data,
         success: function(data) {
-            console.log('response', data);
+            console.log('got items!', data);
             for (var i = 0; i < data.length; i++) {
                 LolActions.create(data[i]);
             }
 
+            //send a notification that we have fetched out data
             LolActions.api('items');
         }
     });

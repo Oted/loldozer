@@ -45,7 +45,7 @@ var Nav = React.createClass({
                     onClick={this._onVoteDown}
                     className={'vote-button'}>
                     <a 
-                        className={'fa fa-minus'}>
+                        className={'fa fa-thumbs-down'}>
                     </a>
                 </li>
                 <li
@@ -60,7 +60,7 @@ var Nav = React.createClass({
                     onClick={this._onVoteUp}
                     className={'vote-button'}>
                     <a 
-                        className={'fa fa-plus'}>
+                        className={'fa fa-thumbs-up'}>
                     </a>
                 </li>
                 <li

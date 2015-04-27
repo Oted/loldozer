@@ -60,6 +60,15 @@ var LolActions = {
             actionType: LolConstants.LOL_NEXT
         });
     },
+ 
+    /**
+     * When user press previous
+     */
+    previous: function() {
+        AppDispatcher.dispatch({
+            actionType: LolConstants.LOL_PREVIOUS
+        });
+    },
     
     /**
      * Open modal

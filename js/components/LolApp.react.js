@@ -17,7 +17,8 @@ function getLolState() {
     return {
         current: LolStore.getCurrentPerformer(),
         experience: LolStore.getExperience(),
-        all: LolStore.getAllPerformers(),
+        performers: LolStore.getPerformers(),
+        seen: LolStore.getSeenPerformers(),
         modals: LolStore.getModalStates(),
         level: LolStore.getLevel()
     };
@@ -56,7 +57,8 @@ var LolApp = React.createClass({
                     experience={this.state.experience}
                 />
                 <Stage
-                    all={this.state.all}
+                    performers={this.state.perfomers}
+                    seen={this.state.seen}
                     current={this.state.current}
                 />
                 <Footer

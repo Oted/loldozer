@@ -25,16 +25,17 @@ var Stage = React.createClass({
         if (!this.props.current || !this.props.current.type) {
             console.log('No current...');
             return (
-                <div id={'stage'}></div>
+                <div id='stage'></div>
             );
         }
             
         var type = this.props.current.type;
 
   	    return (
-            <div id={'stage'}>
+            <div id='stage'>
                 <a
-                    className={'fa fa-angle-left arrow-button fa-5'}>
+                    onClick={this._onPrevious}
+                    className={this.props.seen.length > 0 ? 'fa fa-angle-left arrow-button fa-5' : 'hidden'}>
                 </a>
                 <Soundcloud
                     current = {this.props.current}
@@ -55,10 +56,22 @@ var Stage = React.createClass({
                     current = {this.props.current}
                 />
                 <a
-                    className={'fa fa-angle-right arrow-button fa-5'}>
+                    onClick={this._onNext}
+                    className={this.props.seen.length > 0 ? 'fa fa-angle-right arrow-button fa-5' : 'hidden'}>
                 </a>
             </div>
   	    );
+    },
+
+    /**
+     *  Next arrow was clicked.
+     */
+    _onNext: function() {
+        LolActions.next();
+    },
+
+    _onPrevious: function() {
+        LolActions.previous();
     },
 
     /**

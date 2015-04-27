@@ -211,13 +211,11 @@ img {
   width:100%
 }
 
-.fa-plus:hover, .fa-minus:hover {
-  -webkit-transform: rotate(180deg);
-  -moz-transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
-  -o-transform: rotate(180deg);
-  transform: rotate(180deg);
-  -webkit-transition: -webkit-transform 1s ease-in;
+.fa-thumbs-up:hover, .fa-thumbs-down:hover {
+  -webkit-transform: scale(1.5,1.5);
+  -ms-transform: scale(1.5,1.5); /* IE 9 */
+  -webkit-transform: scale(1.5,1.5); /* Safari */
+  transform: scale(1.5,1.5); 
 }
 
 .vote-button {
