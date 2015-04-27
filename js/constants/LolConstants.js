@@ -9,6 +9,7 @@ module.exports = keyMirror({
     LOL_UP_VOTE: null,
     LOL_DOWN_VOTE: null,
     LOL_CREATE: null,
+    LOL_API: null,
     LOL_SEEN: null,
     LOL_UNDO_SEEN: null,
     LOL_DESTROY: null,

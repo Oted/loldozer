@@ -16,17 +16,12 @@ var LolActions = {
     },
 
     /**
-     * Toggle the seen state of an object
+     * The api has finnished!
      */
-    toggleSeen: function(obj) {
-        var hash = todo.hash;
-        var actionType = todo.seen ?
-            LolConstants.LOL_UNDO_SEEN :
-            LolConstants.LOL_SEEN;
-
+    api: function(type) {
         AppDispatcher.dispatch({
-            actionType: actionType,
-            obj: obj
+            actionType: LolConstants.LOL_API,
+            type: type
         });
     },
 

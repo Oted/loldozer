@@ -54,7 +54,8 @@ function createPerformer(obj) {
         console.log(obj, 'has already been seen');
         return null;
     }
-
+    
+    Utils.middleware(obj);
     _performers.push(obj);
 };
 
@@ -164,19 +165,24 @@ var LolStore = assign({}, EventEmitter.prototype, {
 AppDispatcher.register(function(action) {
     var text;
 
-    switch(action.actionType) {
+    switch (action.actionType) {
+        //10 at a time
         case LolConstants.LOL_CREATE:
             createPerformer(action.obj);
-            
+       break;
+
+        //10 at a time
+        case LolConstants.LOL_API:
             if (!_currentPerformer) {
-                changeCurrentPerformer();
+                _currentPerformer = Utils.getPerformer(_performers);
             }
 
             LolStore.emitChange();
         break;
 
+
         case LolConstants.LOL_NEXT:
-            //check if we need to fetch new stuff
+            //check if we need to fetch new stuff, hereeee???
             if (_performers.length < Math.floor(Api.getAmount() / 2) && _currentPerformer) {
                 Storage.updateSession(_seen.concat(_performers));
                 Api.getItems();

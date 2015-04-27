@@ -15,7 +15,8 @@ module.exports.getPerformer = function(performers, _hash) {
             return performers[i];
         }
     }
-
+    
+    console.log('could not get performer!');
     return null;
 }
 
@@ -55,7 +56,7 @@ module.exports.clone = function(object) {
  *  Sort to timestamp
  */
 module.exports.time = function(sort) {
-    return (new Date(sort).toString()).split(" ").slice(-3,-2);
+    return (new Date(sort).toString()).split(" ").slice(-3,-2).toString();
 }
 
 /**

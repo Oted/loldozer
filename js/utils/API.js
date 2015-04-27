@@ -17,7 +17,7 @@ module.exports.getItems = function() {
         var first = Array.isArray(seenStorage.all) ? seenStorage.all[0].first : seenStorage.all.first; 
         var last = Array.isArray(seenStorage.all) ? seenStorage.all[0].last : seenStorage.all.last; 
         console.log('fetching first ', first, Utils.time(first));
-        console.log('fetching first ', last, Utils.time(last));
+        console.log('fetching last ', last, Utils.time(last));
         data.first = first;
         data.last = last;
     }
@@ -31,6 +31,8 @@ module.exports.getItems = function() {
             for (var i = 0; i < data.length; i++) {
                 LolActions.create(data[i]);
             }
+
+            LolActions.api('items');
         }
     });
 };
@@ -44,7 +46,7 @@ module.exports.addItem = function(item) {
         return null;
     }
        
-   console.log('itemeee', item); 
+    console.log('itemeee', item); 
     $.ajax({
         method: 'POST',
         url:'http://188.166.45.196:3000/api/items',
