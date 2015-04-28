@@ -18,10 +18,11 @@ var LolActions = {
     /**
      * The api has finnished!
      */
-    api: function(type) {
+    api: function(type, status) {
         AppDispatcher.dispatch({
             actionType: LolConstants.LOL_API,
-            type: type
+            type: type,
+            status : status
         });
     },
 

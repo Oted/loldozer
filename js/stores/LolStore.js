@@ -13,18 +13,22 @@ var AppDispatcher   = require('../dispatcher/AppDispatcher'),
 
 var CHANGE_EVENT = 'change';
 
-var level = 0;
+//describes the status of requests
+var _statuses = {};
 
+//states of modals
 var _modals = {
     add : false
 };
 
+//interactions
 var _interactions = {
     'novotes' : 0,
     'upvotes' : 0,
     'downvotes' : 0
 };
 
+//state of stage
 var _performers         = [],
     _seen               = [],
     _seen_hash          = {},
@@ -79,10 +83,7 @@ function nextPerformer() {
         _seen_hash[lastPerformer._hash] = true;
     }
  
-    // console.log('last',lastPerformer); 
     console.log('new next ',_currentPerformer);
-    // console.log('performers',_performers);
-    // console.log('seen',_seen);
 }
 
 /**
@@ -99,13 +100,9 @@ function previousPerformer() {
     //remove from seen
     delete _seen_hash[lastPerformer._hash];
     _performers.unshift(lastPerformer);
-
     _currentPerformer = Utils.getPerformer(_performers);
     
-    // console.log('last',lastPerformer); 
     console.log('new previous ',_currentPerformer);
-    // console.log('performers',_performers);
-    // console.log('seen',_seen);
 }
 
 /**
@@ -170,6 +167,13 @@ var LolStore = assign({}, EventEmitter.prototype, {
         return _modals;
     },
 
+    /**
+     * Get api states
+     */
+    getStatuses: function () {
+        return _statuses;
+    },
+
     emitChange: function() {
         this.emit(CHANGE_EVENT);
     },
@@ -201,13 +205,16 @@ AppDispatcher.register(function(action) {
 
         //reports from items
         case LolConstants.LOL_API:
+            
             if (action.type === 'items') {
                 //if api is done fetching items, check if there is no current
                 if (!_currentPerformer) {
                     _currentPerformer = Utils.getPerformer(_performers);
                 }
             }
-
+            console.log(action);
+            //add the status
+            _statuses[action.type] = action.status;
             LolStore.emitChange();
         break;
 
@@ -259,7 +266,6 @@ AppDispatcher.register(function(action) {
         break;
 
         case LolConstants.LOL_LEVEL_UP:
-            _level = action.level;
             console.log('Wow! level ' + action.level + ' now. Nice! (something cool should happen)');
             alert('Wow! level ' + action.level + ' now. Nice! (something cool should happen)');
         break;

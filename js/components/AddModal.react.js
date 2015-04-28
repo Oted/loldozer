@@ -14,7 +14,7 @@ var AddModal = React.createClass({
         var style = {
             display : this.props.modals.add ? '' : 'none'
         };
-        
+        console.log('got statuses', this.props.status);
         return (
             <div
                 onClick={this._closeModal}
@@ -26,7 +26,7 @@ var AddModal = React.createClass({
                     style={style}
                     id={'add-modal'}>
                     <h1 style={{'color' : 'white'}}>
-                        Add your own item and see what people think of it!
+                        Share your favorite links, win the internet.
                     </h1>
                     <input
                         type={'text'}
@@ -44,7 +44,7 @@ var AddModal = React.createClass({
                         className={'text-button add-item'}
                         onClick={this._addItemClick}
                         href={'#'}>
-                            ADD ITEM
+                            GIVE
                     </a>
                 </div>
             </div>
@@ -67,7 +67,7 @@ var AddModal = React.createClass({
         }
 
         LolActions.addItem({title : title, url : url});
-        LolActions.closeModal('add');
+        //LolActions.closeModal('add');
     },
 
     /**

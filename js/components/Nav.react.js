@@ -20,50 +20,34 @@ var Nav = React.createClass({
                                 className={'text-button'}
                                 onClick={this._openAddModal}
                                 href={'#'}>
-                                ADD ITEM
+                                GIVE SOME INTERNET
                             </a>
                         </li>
                         <li>
                             <a
                                 className={'text-button'}
                                 href={'#'}>
-                                HIGHSCORES
+                                THE BEST INTERNET
                             </a>
                         </li>
                         <li>
                             <a
                                 className={'text-button'}
                                 href={'#'}>
-                                FILTER
+                                FILTER INTERNET
                             </a>
                         </li>
 
                     </ul>
                 </li>
-                <li
-                    id={'downvote-button'}
-                    onClick={this._onVoteDown}
-                    className={'vote-button'}>
-                    <a 
-                        className={'fa fa-thumbs-down'}>
-                    </a>
-                </li>
-                <li
+               <li
                     id={'next-button'}>
                     <a 
                         onClick={this._onNext}>
-                        NEXT
+                        GET SOME INTERNET
                     </a>
                 </li>
-                <li
-                    id={'upvote-button'} 
-                    onClick={this._onVoteUp}
-                    className={'vote-button'}>
-                    <a 
-                        className={'fa fa-thumbs-up'}>
-                    </a>
-                </li>
-                <li
+               <li
                     className={'level'}>
                     <a
                         id={'level'}

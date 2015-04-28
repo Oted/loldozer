@@ -48,12 +48,13 @@ footer p {
 }
 
 #nav {
+  left:1rem;
+  right:1rem;
   list-style:none;
   padding-left:0rem;
   margin-top:0rem;
   box-shadow:0px 10px 32px rgba(0,0,0,0.5);
   position : fixed;
-  width: 99%;
   background: #0f0f0f;
   text-align: center;
   height: 4rem;
@@ -75,7 +76,7 @@ footer p {
   margin-bottom:1rem;
   left:-1rem;
   text-align:left;
-  width:15rem;
+  width:18rem;
   padding-top:1px; 
   float:none;
 }
@@ -218,14 +219,16 @@ img {
   transform: scale(1.5,1.5); 
 }
 
+.fa-angle-right:before, .fa-angle-left:before {
+  font-size:3rem;
+}
+
 .vote-button {
-  width: 2%;
   color: #f0f0f0;
   display: inline-block;
   text-decoration: none;
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: 300;
-  padding: 0 0.5rem;
   -webkit-transition: color 0.25s;
   -moz-transition: color 0.25s;
   -o-transition: color 0.25s;
@@ -293,9 +296,8 @@ img {
 }
 
 #upvote-button {
-  position: relative;
-  top: -0.15rem;
-  padding-right: 0.5rem;
+  float:right;
+  margin-right:40%;
 }
 
 #upvote-button:hover {
@@ -307,9 +309,8 @@ img {
 }
 
 #downvote-button {
-  padding-right: 1.0rem;
-  position: relative;
-  top: -0.15rem;
+  float:left;
+  margin-left:40%;
 }
 
 #downvote-button:hover {
@@ -321,7 +322,7 @@ img {
 }
 
 #stage {
-  font-size: 5rem;
+  margin-bottom:4rem;
   margin-top: 2rem;
   display: -webkit-box;
   display: -moz-box;
@@ -333,6 +334,19 @@ img {
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
+}
+
+#stage-controls {
+  padding-bottom:1rem;
+  padding-top:1rem; 
+  left:5rem;
+  right:5rem;
+  bottom:1rem;
+  list-style:none;
+  box-shadow:0px 10px 32px rgba(0,0,0,0.5);
+  position : fixed;
+  background: rgba(0,0,0,0.6);
+  float:left; /* Clear floats */
 }
 
 #stage .hidden {

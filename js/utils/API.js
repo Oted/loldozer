@@ -26,14 +26,14 @@ module.exports.getItems = function() {
         method: 'GET',
         url:'http://188.166.45.196:3000/api/items',
         data: data,
-        success: function(data) {
+        success: function(data, msg) {
             console.log('got items!', data);
             for (var i = 0; i < data.length; i++) {
                 LolActions.create(data[i]);
             }
 
             //send a notification that we have fetched out data
-            LolActions.api('items');
+            LolActions.api('items', msg);
         }
     });
 };
@@ -51,14 +51,21 @@ module.exports.addItem = function(item) {
     $.ajax({
         method: 'POST',
         url:'http://188.166.45.196:3000/api/items',
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        dataType: "json",
         data : {
-            data : item.url,
-            title : item.title,
-            scraped : false
-        },
-        success: function(data, status) {
-            console.log('response', data, status);
+            "data" : item.url,
+            "title" : item.title,
+            "scraped" : false
         }
+    }).done(function(xhr, msg, error) {
+        console.log('here');
+        LolActions.api('add', msg);
+    }).fail(function(data, msg) {
+        console.log('here');
+        console.log('response', data, msg);
+        LolActions.api('add', msg);
     });
 };
 
@@ -70,8 +77,8 @@ module.exports.noVote = function(hash) {
     $.ajax({
         method: 'POST',
         url:'http://188.166.45.196:3000/api/novote/' + hash,
-        success: function(data) {
-            console.log('response', data);
+        success: function(data, msg) {
+            LolActions.api('vote', msg);
         }
     });
 };
@@ -84,8 +91,8 @@ module.exports.upVote = function(hash) {
     $.ajax({
         method: 'POST',
         url:'http://188.166.45.196:3000/api/upvote/' + hash,
-        success: function(data) {
-            console.log('response', data);
+        success: function(data, msg) {
+            LolActions.api('vote', msg);
         }
     });
 };
@@ -97,8 +104,8 @@ module.exports.downVote = function(hash) {
     $.ajax({
         method: 'POST',
         url:'http://188.166.45.196:3000/api/downvote/' + hash,
-        success: function(data) {
-            console.log('response', data);
+        success: function(data, msg) {
+            LolActions.api('vote', msg);
         }
     });
 };

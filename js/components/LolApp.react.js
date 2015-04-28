@@ -15,12 +15,13 @@ var React       = require('react'),
  */
 function getLolState() {
     return {
-        current: LolStore.getCurrentPerformer(),
-        experience: LolStore.getExperience(),
-        performers: LolStore.getPerformers(),
-        seen: LolStore.getSeenPerformers(),
-        modals: LolStore.getModalStates(),
-        level: LolStore.getLevel()
+        current     : LolStore.getCurrentPerformer(),
+        experience  : LolStore.getExperience(),
+        performers  : LolStore.getPerformers(),
+        seen        : LolStore.getSeenPerformers(),
+        modals      : LolStore.getModalStates(),
+        statuses    : LolStore.getStatuses(),
+        level       : LolStore.getLevel()
     };
 }
 
@@ -47,6 +48,7 @@ var LolApp = React.createClass({
   	    return (
             <div>
                 <AddModal
+                    status={this.state.statuses.add}
                     modals={this.state.modals}
                 />
                 <Nav
