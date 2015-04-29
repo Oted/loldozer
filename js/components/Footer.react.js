@@ -4,44 +4,70 @@ var React       = require('react'),
 /**
  * The navigation
  */
-var Nav = React.createClass({
+var Footer = React.createClass({
     render: function() {
         return (
             <div
                 id='stage-controls'>
                 <div
-                    id={'downvote-button'}
-                    onClick={this._onVoteDown}
-                    className={'vote-button'}>
-                    <a 
-                        className={'fa fa-thumbs-down'}>
-                    </a>
+                    className='negatives'>
+                    <div
+                        onClick={this._onVoteDown}
+                        className='vote-button'>
+                        <a>
+                            {this.props.adjectives.negatives[0]}
+                        </a>
+                    </div>
+                    
+                    <div
+                        onClick={this._onVoteDown}
+                        className='vote-button'>
+                        <a 
+                            className='fa fa-thumbs-down'>
+                        </a>
+                    </div>
                 </div>
+ 
                 <div
-                    id={'upvote-button'} 
-                    onClick={this._onVoteUp}
-                    className={'vote-button'}>
-                    <a 
-                        className={'fa fa-thumbs-up'}>
-                    </a>
+                    className='positives'>
+                    <div
+                        id=''
+                        onClick={this._onVoteUp}
+                        className='vote-button'>
+                        <a 
+                            className='fa fa-thumbs-up'>
+                        </a>
+                    </div>
+                    
+                    <div
+                        id='' 
+                        onClick={this._onVoteUp}
+                        className='vote-button positives'>
+                        <a 
+                            className=''>
+                            {this.props.adjectives.positives[0]}
+                        </a>
+                    </div>
                 </div>
             </div>
         );
     },
 
-    _onVoteUp: function(text) {
-        console.log('up');
-        LolActions.upVote();
+    _onVoteUp: function(e) {
+        var adjective = e.currentTarget.children[0].innerText;
+        
+        console.log('up with ', adjective);
+        LolActions.upVote(adjective || null);
         LolActions.next();
     },
 
-    _onVoteDown: function(text) {
-        console.log('down');
-        LolActions.downVote();
+    _onVoteDown: function(e) {
+        var adjective = e.currentTarget.children[0].innerText;
+
+        console.log('down with ', adjective);
+        LolActions.downVote(adjective || null);
         LolActions.next();
-    },
-
-
+    }
 });
 
-module.exports = Nav;
+module.exports = Footer;

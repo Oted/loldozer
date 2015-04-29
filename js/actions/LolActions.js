@@ -8,9 +8,21 @@ var LolActions = {
     /**
      * Creates a new obj and add it to the performers
      */
-    create: function(obj) {
+    createPerformer: function(obj) {
         AppDispatcher.dispatch({
             actionType: LolConstants.LOL_CREATE,
+            type : 'performer',
+            obj: obj
+        });
+    },
+
+    /**
+     * Creates new adjectives
+     */
+    createAdjectives: function(obj) {
+        AppDispatcher.dispatch({
+            actionType: LolConstants.LOL_CREATE,
+            type : 'adjectives',
             obj: obj
         });
     },
@@ -38,18 +50,20 @@ var LolActions = {
     /**
      * When user press next
      */
-    upVote: function() {
+    upVote: function(adjective) {
         AppDispatcher.dispatch({
-            actionType: LolConstants.LOL_UP_VOTE
+            actionType: LolConstants.LOL_UP_VOTE,
+            adjective: adjective
         });
     },
     
     /**
      * When user press next
      */
-    downVote: function() {
+    downVote: function(adjective) {
         AppDispatcher.dispatch({
-            actionType: LolConstants.LOL_DOWN_VOTE
+            actionType: LolConstants.LOL_DOWN_VOTE,
+            adjective : adjective
         });
     },
     

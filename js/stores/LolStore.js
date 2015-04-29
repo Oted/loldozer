@@ -13,6 +13,16 @@ var AppDispatcher   = require('../dispatcher/AppDispatcher'),
 
 var CHANGE_EVENT = 'change';
 
+//the current adjectives
+var _adjectives ={
+    "positives": [
+        "good"
+    ],
+    "negatives": [
+        "bad"
+    ]
+};
+
 //describes the status of requests
 var _statuses = {};
 
@@ -83,7 +93,7 @@ function nextPerformer() {
         _seen_hash[lastPerformer._hash] = true;
     }
  
-    console.log('new next ',_currentPerformer);
+    console.log('new next ', _currentPerformer);
 }
 
 /**
@@ -104,6 +114,43 @@ function previousPerformer() {
     
     console.log('new previous ',_currentPerformer);
 }
+
+/**
+ *  Update adjectives, fetch new if nessecary.
+ */
+function updateAdjectives(adjective) {
+    if (!adjective) {
+        console.log('No adjective provided');
+        return;
+    }
+
+    console.log('here!')
+
+    //check if this adjective is in the positives
+    for (var p = _adjectives.positives.length - 1; p >=0; p--) {
+        if (_adjectives.positives[p] === adjective) {
+            _adjectives.positives.splice(p,1);
+            break;
+        }
+    }
+
+    //check if this adjective is in the negatives
+    for (var n = _adjectives.negatives.length - 1; n >=0; n--) {
+        if (_adjectives.negatives[n] === adjective) {
+            _adjectives.negatives.splice(n,1);
+            break;
+        }
+    }
+
+
+    //if were out of adjectives on either side, fetch new
+    if (_adjectives.positives.length < 1 || _adjectives.negatives.length < 1) {
+        console.log('out of adjectives', _adjectives);
+        Api.getAdjectives();
+    }
+
+    return;
+};
 
 /**
  * Delete an item.
@@ -163,6 +210,13 @@ var LolStore = assign({}, EventEmitter.prototype, {
     /**
      * Get modal states
      */
+    getAdjectives: function () {
+        return _adjectives;
+    },
+
+    /**
+     * Get modal states
+     */
     getModalStates: function () {
         return _modals;
     },
@@ -200,12 +254,17 @@ AppDispatcher.register(function(action) {
     switch (action.actionType) {
         //10 at a time
         case LolConstants.LOL_CREATE:
-            createPerformer(action.obj);
+            if (action.type === 'performer') { 
+                createPerformer(action.obj);
+            }
+
+            if (action.type === 'adjectives') {
+                _adjectives = action.obj;
+            }
         break;
 
         //reports from items
         case LolConstants.LOL_API:
-            
             if (action.type === 'items') {
                 //if api is done fetching items, check if there is no current
                 if (!_currentPerformer) {
@@ -235,24 +294,26 @@ AppDispatcher.register(function(action) {
         break;
 
         case LolConstants.LOL_NO_VOTE:
-            console.log('no vote');
             _interactions.novotes++; 
             Exp.calculateExperience(_interactions, '0');
             Api.noVote(_currentPerformer._hash);
+            LolStore.emitChange();
         break;
 
         case LolConstants.LOL_UP_VOTE:
-            console.log('+1 vote'); 
-            _interactions.upvotes++; 
+            _interactions.upvotes++;
             Exp.calculateExperience(_interactions, '+1');
-            Api.upVote(_currentPerformer._hash);
+            Api.upVote(_currentPerformer._hash, action.adjective);
+            updateAdjectives(action.adjective);
+            LolStore.emitChange();
         break;
         
         case LolConstants.LOL_DOWN_VOTE:
-            console.log('-1 vote'); 
             _interactions.downvotes++; 
             Exp.calculateExperience(_interactions, '-1');
-            Api.downVote(_currentPerformer._hash);
+            Api.downVote(_currentPerformer._hash, action.adjective);
+            updateAdjectives(action.adjective);
+            LolStore.emitChange();
         break;
         
         case LolConstants.LOL_OPEN_MODAL:

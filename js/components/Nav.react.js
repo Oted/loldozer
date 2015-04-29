@@ -65,18 +65,6 @@ var Nav = React.createClass({
         LolActions.next();
     },
 
-    _onVoteUp: function(text) {
-        console.log('up');
-        LolActions.upVote();
-        LolActions.next();
-    },
-
-    _onVoteDown: function(text) {
-        console.log('down');
-        LolActions.downVote();
-        LolActions.next();
-    },
-
     _openAddModal: function(text) {
         console.log('add');
         LolActions.openModal('add');

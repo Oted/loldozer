@@ -19,6 +19,7 @@ function getLolState() {
         experience  : LolStore.getExperience(),
         performers  : LolStore.getPerformers(),
         seen        : LolStore.getSeenPerformers(),
+        adjectives  : LolStore.getAdjectives(),
         modals      : LolStore.getModalStates(),
         statuses    : LolStore.getStatuses(),
         level       : LolStore.getLevel()
@@ -65,6 +66,7 @@ var LolApp = React.createClass({
                 />
                 <Footer
                     current={this.state.current}
+                    adjectives={this.state.adjectives}
                 />
             </div>
   	    );
