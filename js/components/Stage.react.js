@@ -6,6 +6,8 @@ var Youtube         = require('../components/Youtube.react'),
     Soundcloud      = require('../components/Soundcloud.react'),
     Image           = require('../components/Image.react'),
     Vimeo           = require('../components/Vimeo.react'),
+    Twitch          = require('../components/Twitch.react'),
+    Ted             = require('../components/Ted.react'),
     Video           = require('../components/Video.react'),
     Gif             = require('../components/Gif.react');
 
@@ -68,7 +70,10 @@ var Stage = React.createClass({
                 <Image
                     current = {this.props.current}
                 />
-                <Video
+                <Twitch
+                    current = {this.props.current}
+                />
+                <Ted
                     current = {this.props.current}
                 />
                 <a

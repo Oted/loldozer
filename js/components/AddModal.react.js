@@ -1,7 +1,8 @@
 var React       = require('react'),
     LolActions  = require('../actions/LolActions'),
     validator   = require('validator'),
-    modalClick  = false;
+    modalClick  = false,
+    addClick    = false;
  
 /**
  * Modal for showing the add item
@@ -10,11 +11,12 @@ var AddModal = React.createClass({
     getInitialState: function() {
         return {};
     }, 
+
     render: function() {
         var style = {
             display : this.props.modals.add ? '' : 'none'
         };
-        console.log('got statuses', this.props.status);
+
         return (
             <div
                 onClick={this._closeModal}
@@ -25,27 +27,54 @@ var AddModal = React.createClass({
                     className={'modal'}
                     style={style}
                     id={'add-modal'}>
-                    <h1 style={{'color' : 'white'}}>
-                        Share your favorite links, win the internet.
-                    </h1>
-                    <input
-                        type={'text'}
-                        id={'add-title'}
-                        placeholder={'a title'}
-                        className={'text-button add-item add-text'}>
-                    </input>
-                    <input
-                        type={'text'}
-                        id={'add-url'}
-                        placeholder={'the url'}
-                        className={'text-button add-item add-text'}>
-                    </input>
-                    <a
-                        className={'text-button add-item'}
-                        onClick={this._addItemClick}
-                        href={'#'}>
-                            GIVE
-                    </a>
+                    <div
+                        style={addClick ? {display : 'none'} : {}}>
+                        <h1 style={{'color' : 'white'}}>
+                            Share your favorite links, win the internet.
+                        </h1>
+                        <input
+                            type={'text'}
+                            id={'add-title'}
+                            placeholder={'a title'}
+                            className={'text-button add-item add-text'}>
+                        </input>
+                        <input
+                            type={'text'}
+                            id={'add-url'}
+                            placeholder={'the url'}
+                            className={'text-button add-item add-text'}>
+                        </input>
+                        <a
+                            className={'text-button add-item'}
+                            onClick={this._addItemClick}
+                            href={'#'}>
+                                GIVE
+                        </a>
+                    </div>
+                    <div
+                        style={!addClick ? {display : 'none'} : {}}>
+                        <a
+                            className={'add-status'}
+                            onClick={this._reset}
+                            style={this.props.status === 422 ? {color: 'red'} : {display : 'none'}}>
+                            <i
+                                className={'fa fa-close fa-3x'}>
+                            </i>
+                            <p>
+                                The item already exists!
+                            </p>
+                        </a>
+                        <a
+                            className={'add-status'}
+                            style={this.props.status === 200 ? {color: 'green'} : {display : 'none'}}>
+                            <i
+                                className={'fa fa-check fa-3x'}>
+                            </i>
+                            <p>
+                                Item added!
+                            </p>
+                        </a>
+                    </div>
                 </div>
             </div>
         );
@@ -60,34 +89,35 @@ var AddModal = React.createClass({
 
         if (!title || title.length < 3) {
             alert('no title provided');
+            return;
         }
         
         if (!validator.isURL(url)) {
             alert('no (real) url provided');
+            return;
         }
-
+        
+        addClick = true;
         LolActions.addItem({title : title, url : url});
-        //LolActions.closeModal('add');
     },
 
     /**
      *  Prevent overlay from being clicked when modal is clicked
      */
-    _modalClick : function() {
-        modalClick = true;
-        setTimeout(function(){
-            modalClick = false;
-        }, 100);
+    _modalClick : function(e) {
+        e.stopPropagation();
     },
 
     /**
      * Close modal
      */
     _closeModal: function() {
-        if (!modalClick) {
-            console.log('close add')
-            LolActions.closeModal('add');
-        }
+        document.querySelector('#add-title').value = '';
+        document.querySelector('#add-url').value = '';
+        addClick = false; 
+        this.props.status = null;
+        console.log('close add')
+        LolActions.closeModal('add');
     }
 });
 

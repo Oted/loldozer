@@ -123,9 +123,12 @@ module.exports.mergeAndUpdateStorage = function() {
     
     //assign current storage if its undefined
     currentStorage = currentStorage || {};
-
     //iterate over all the keys in the session
     for (var key in currentSession) {
+        if (!currentSession[key]) {
+            delete currentSession[key];
+            continue;
+        }
 
         //if they cant be found in the add it t o a new array
         if (!currentStorage[key]) {
@@ -161,11 +164,17 @@ var checkForOverlaps = function() {
     //this is the heart of the ISP,
     //compare lasts with firsts etc
     for (var key in currentStorage) {
+        //if there is just one span check and compare
+        if (currentStorage[key].length === 1 && expired(currentStorage[key][0].last)) {
+            delete currentStorage[key];
+            continue;
+        }
+        
         //sort on first
         currentStorage[key].sort(function(a,b) { 
             return b.first - a.first
         });
-        
+
         for (var i = currentStorage[key].length - 2; i >= 0; i--) {
             var prev = currentStorage[key][i + 1],
                 curr = currentStorage[key][i],
@@ -179,13 +188,13 @@ var checkForOverlaps = function() {
                 continue;
             }
 
-            if (expired(curr.first)) {
+            if (expired(curr.last)) {
                 console.log('case1');
                 currentStorage[key].splice(i, 1);
                 continue;
             }
 
-            if (expired(prev.first)) {
+            if (expired(prev.last)) {
                 console.log('case2');
                 currentStorage[key].splice(i, 1);
                 continue;
@@ -209,9 +218,7 @@ var checkForOverlaps = function() {
                 console.log('case4');
                 obj.first = Math.max(prev.first, curr.first);
                 obj.last = curr.last;
-           } else {
-                console.log('found no overlap');
-            }
+           } 
 
             if (obj["first"] && obj["last"]) { 
                 //we now have a new object that contains a merge of previously
@@ -269,7 +276,11 @@ module.exports.destroySession = function() {
  *  returns an object for each type with suggested queries for last and 
  *  first.
  */
-module.exports.getSuggestedQuery = function() {
+module.exports.getSuggestedQuery = function(type) {
+    if (currentStorage && Array.isArray(currentStorage[type]) && currentStorage[type].length < 1) {
+        return null;
+    }
+
     //if this is true, then nothing have been seen 
     if (Object.keys(currentSession).length < 1) {
         if (currentStorage) {

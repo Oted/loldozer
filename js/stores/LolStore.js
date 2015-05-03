@@ -271,6 +271,7 @@ AppDispatcher.register(function(action) {
                     _currentPerformer = Utils.getPerformer(_performers);
                 }
             }
+
             console.log(action);
             //add the status
             _statuses[action.type] = action.status;

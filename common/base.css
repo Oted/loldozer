@@ -410,6 +410,20 @@ img {
   transition: none;
 }
 
+.add-status {
+  display:inline-block;
+  text-decoration: none;
+  font-size: 2.5rem;
+  font-weight: 300;
+  margin-top:1rem;
+  padding: 0 0.5rem;
+  -webkit-transition: color 0.25s;
+  -moz-transition: color 0.25s;
+  -o-transition: color 0.25s;
+  transition: color 0.25s;
+  cursor: pointer; 
+  cursor: hand;
+}
 
 #title {
   display: inline-block;

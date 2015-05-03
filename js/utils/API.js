@@ -8,14 +8,21 @@ var LolActions  = require('../actions/LolActions'),
  *  Fetches new items from the server.
  */
 module.exports.getItems = function() {
-    var seenStorage = Storage.getSuggestedQuery(),
+    var type = 'all',
+        seenStorage = Storage.getSuggestedQuery(type),
         data = {
             "amount" : amount
         };
 
-    if (seenStorage) {
-        var first = Array.isArray(seenStorage.all) ? seenStorage.all[0].first : seenStorage.all.first; 
-        var last = Array.isArray(seenStorage.all) ? seenStorage.all[0].last : seenStorage.all.last; 
+    if (seenStorage && seenStorage[type]) {
+        var first = Array.isArray(seenStorage[type]) ?
+            seenStorage[type][0].first :
+            seenStorage[type].first;
+
+        var last = Array.isArray(seenStorage[type]) ?
+            seenStorage[type][0].last : 
+            seenStorage[type].last; 
+
         console.log('fetching first ', first, Utils.time(first));
         console.log('fetching last ', last, Utils.time(last));
         data.first = first;
@@ -70,23 +77,20 @@ module.exports.addItem = function(item) {
        
     console.log('itemeee', item); 
     $.ajax({
-        method: 'POST',
+        method : "POST",
         url:'http://188.166.45.196:3000/api/items',
-        contentType: "application/json; charset=utf-8",
-        async: false,
-        dataType: "json",
-        data : {
-            "data" : item.url,
+        data: {
             "title" : item.title,
+            "data" : item.url,
             "scraped" : false
+        },
+        error: function(res, msg, err) {
+            LolActions.api('add', res.status);
+        },
+        success : function(data, msg) {
+            console.log(msg, data);
+            LolActions.api('add', 200);
         }
-    }).done(function(xhr, msg, error) {
-        console.log('here');
-        LolActions.api('add', msg);
-    }).fail(function(data, msg) {
-        console.log('here');
-        console.log('response', data, msg);
-        LolActions.api('add', msg);
     });
 };
 
