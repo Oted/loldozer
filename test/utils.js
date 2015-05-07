@@ -29,10 +29,9 @@ describe('utils', function () {
     });
 
     it('test some expired times', function (done) {
-        expect(Utils.hasExpired(1429471038521)).to.equals(false);
-        expect(Utils.hasExpired(1420946523121)).to.equals(true);
+        expect(Utils.hasExpired(1429471038521)).to.equals(true);
+        expect(Utils.hasExpired(new Date() - 1)).to.equals(false);
         expect(Utils.hasExpired(new Date("April 17, 2015"))).to.equals(true);
-        expect(Utils.hasExpired(1429471091010)).to.equals(false);
         done();
     });
 });

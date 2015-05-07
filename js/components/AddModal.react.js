@@ -1,7 +1,6 @@
 var React       = require('react'),
     LolActions  = require('../actions/LolActions'),
     validator   = require('validator'),
-    modalClick  = false,
     addClick    = false;
  
 /**
@@ -14,7 +13,7 @@ var AddModal = React.createClass({
 
     render: function() {
         var style = {
-            display : this.props.modals.add ? '' : 'none'
+            display : this.props.modal ? '' : 'none'
         };
 
         return (

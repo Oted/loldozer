@@ -106,10 +106,10 @@ module.exports.updateSession = function(performers) {
         }
     }
 
-    console.log('update session', JSON.stringify(currentSession));
-    
     //update and merge for now
     module.exports.mergeAndUpdateStorage(); 
+    
+    console.log('update session', JSON.stringify(currentSession));
 };
 
 /**
@@ -120,9 +120,10 @@ module.exports.mergeAndUpdateStorage = function() {
         console.log('no current session, this is crazy');
         return;
     }
-    
+
     //assign current storage if its undefined
     currentStorage = currentStorage || {};
+
     //iterate over all the keys in the session
     for (var key in currentSession) {
         if (!currentSession[key]) {
@@ -145,7 +146,7 @@ module.exports.mergeAndUpdateStorage = function() {
     try {
         localStorage.setItem("seen", JSON.stringify(currentStorage));
     } catch (err) {
-    
+        console.log('err when update storage', err); 
     }
 };
 
@@ -180,9 +181,9 @@ var checkForOverlaps = function() {
                 curr = currentStorage[key][i],
                 obj  = {};
         
-            //console.log('curr', time(curr.first), time(curr.last));
-            //console.log('prev', time(prev.first), time(prev.last));
-           if (prev.first === curr.first && prev.last === curr.last) {
+            // console.log('curr', time(curr.first), time(curr.last));
+            // console.log('prev', time(prev.first), time(prev.last));
+            if (prev.first === curr.first && prev.last === curr.last) {
                 console.log('case0');
                 currentStorage[key].splice(i, 1);
                 continue;
@@ -196,26 +197,26 @@ var checkForOverlaps = function() {
 
             if (expired(prev.last)) {
                 console.log('case2');
-                currentStorage[key].splice(i, 1);
+                currentStorage[key].splice(i + 1, 1);
                 continue;
             }
 
             //if the previous first date is larger or eq to the
-            //currents first then these should be merged
+            //currents first then these should be merge
             if (prev.first >= curr.last) {
-                console.log('case2');
+                console.log('case3');
                 obj.first = curr.first;
                 obj.last = prev.last;
             } 
             
             if (prev.first >= curr.first) {
-                console.log('case3');
+                console.log('case4');
                 obj.first = prev.first;
                 obj.last = Math.min(prev.last, curr.last);
             } 
             
             if (curr.last <= prev.last) {
-                console.log('case4');
+                console.log('case5');
                 obj.first = Math.max(prev.first, curr.first);
                 obj.last = curr.last;
            } 

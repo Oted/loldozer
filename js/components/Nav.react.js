@@ -26,8 +26,9 @@ var Nav = React.createClass({
                         <li>
                             <a
                                 className={'text-button'}
+                                onClick={this._openStatsModal}
                                 href={'#'}>
-                                THE BEST INTERNET
+                                THE BEST INTERNETS
                             </a>
                         </li>
                         <li>
@@ -59,15 +60,20 @@ var Nav = React.createClass({
         );
     },
 
-    _onNext: function(text) {
+    _onNext: function() {
         console.log('next');
         LolActions.noVote();
         LolActions.next();
     },
 
-    _openAddModal: function(text) {
+    _openAddModal: function() {
         console.log('add');
         LolActions.openModal('add');
+    },
+
+    _openStatsModal: function() {
+        console.log('stats');
+        LolActions.openModal('stats');
     }
 });
 
