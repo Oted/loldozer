@@ -23,6 +23,7 @@ function getLolState() {
         adjectives  : LolStore.getAdjectives(),
         modals      : LolStore.getModalStates(),
         statuses    : LolStore.getStatuses(),
+        stats_views : LolStore.getStatsViews(),
         level       : LolStore.getLevel()
     };
 }
@@ -51,6 +52,7 @@ var LolApp = React.createClass({
             <div>
                 <StatsModal
                     modal={this.state.modals.stats}
+                    data={this.state.stats_views}
                 />
                 <AddModal
                     status={this.state.statuses.add}

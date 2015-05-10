@@ -171,6 +171,7 @@ img {
 #stats-modal {
   position: relative;   
   margin-top:3rem;
+  padding-bottom:6rem;
   width:90%;
   height:80%;
 }
@@ -316,6 +317,15 @@ img {
   color: #89e5b0;
 }
 
+.neutrals {
+  margin-left:2rem;
+  display:inline-block;
+}
+
+.neutrals a:hover {
+  color: #BDBEFF;
+}
+
 .negatives {
   float:left;
   margin-left:4rem;
@@ -345,6 +355,7 @@ img {
 }
 
 #stage-controls {
+  text-align:center;
   padding-bottom:1rem;
   padding-top:1rem; 
   left:5rem;

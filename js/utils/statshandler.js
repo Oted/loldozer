@@ -17,76 +17,89 @@
             }]
         }
     }
-    
-        chart js entety format
- 
-    label: "My Second dataset",
-    fillColor: "rgba(151,187,205,0.2)",
-    strokeColor: "rgba(151,187,205,1)",
-    pointColor: "rgba(151,187,205,1)",
-    pointStrokeColor: "#fff",
-    pointHighlightFill: "#fff",
-    pointHighlightStroke: "rgba(151,187,205,1)",
-    data: [28, 48, 40, 19, 86, 27, 90]
-
-
-    data : {
-        labels : ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-        datasets : [{
-            label: "My First dataset",
-            fillColor: "rgba(220,220,220,0.2)",
-            strokeColor: "rgba(220,220,220,1)",
-            pointColor: "rgba(220,220,220,1)",
-            pointStrokeColor: "#fff",
-            pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(220,220,220,1)",
-            data: [65, 59, 80, 81, 56, 55, 40]
-        }]
-    }
  */
 
 var Utils       = require('./utils.js');
 
-var steps       = 8,                            //steps(#labels)
-    distance    = 3,                            //hours for each step
-    frequency   = distance * 60 * 60 * 1000,    //frequency interval of data in 
-    data        = {};                           //the actual data
+var steps       = 8,    //steps(#labels)
+    //set these variables to override
+    distance    = 0,    //hours for each step
+    frequency   = 0,    //frequency interval of data in 
+    data        = {
+        'charts'  : [],
+        'labels' : []    
+    };
 
 /**
- *  Receives a set of rating's and converts them to the correct format.
- *  Data is an array of an array of ratings [[rating]]
+ *  Receives an array of rating's and converts them to the correct format
+ *  that chart.js expect, a list of values is returned.
+ *
+ *  This alg is basically place rating dates values into the right date 'bucket'.
  */
 module.exports.transformRatingsToChart = function(ratingData) {
-    var now         = new Date(),
-        tempDates   = [];
+    if (!Array.isArray(ratingData) || ratingData.length < 1) {
+        return data; 
+    }
 
+    //sort on created times
+    ratingData = ratingData.sort(function(a, b) {
+        return new Date(a.created) - new Date(b.created);
+    });
+   
+    var result      = [],
+        tempDates   = [],
+        min         = new Date(ratingData[0].created),
+        max         = new Date(ratingData[ratingData.length - 1].created),
+        distance    = distance ? distance : max - min,
+        frequency   = frequency ? frequency : Math.floor(distance / steps);
+
+    //console.log(min, max, distance, frequency);
     //iterate over the steps and create the array
     for (var i = 0; i < steps; i++) {
-        tempDates[i] = now - (frequency * (steps - (i + 1)));
-        console.log(Utils.time(tempDates[i]));
+        tempDates[i] = +(min) + frequency * i;
     }
 
-    console.log(ratingData);
-    //iterate over the given data
-    for (var i = 0; i < ratingData.length; i++) {
-        data[ratingData[i][0]] = 'dunno what to put here lol';
+    //loop over all label dates
+    for (var i = 0; i < tempDates.length; i++) {
+
+        //iterate over the given data
+        for (var j = 0; j < ratingData.length; j++) {
+      
+            // if cond then add it to the interval
+            if (new Date(ratingData[j].created) <= new Date(tempDates[i]) && new Date(ratingData[j].created) >= new Date(tempDates[i] - frequency)) {
+                result[i] = result[i] ? result[i] + ratingData[j].value : ratingData[j].value;
+            }
+        }
+
+        //if there is not result, add it
+        if (!result[i]) {
+            result[i] = 0;
+        }
+
+        //this should be a line chart so add previous value to the next
+        if (i > 0) {
+            result[i] += result[i-1];
+        }
     }
+
+    data.charts.push(result);
+    data.labels = tempDates.map(function(d){return Utils.time(d)});
+    return data;
 };
 
 /**
- *  Takes one single rating and put it into the right spot
+ *  Get the current data state
  */
-var transformSingleRating = function() {
-
-
-
+module.exports.getData = function() {
+    return data;
 };
 
 /**
- *
+ *Reset the data variable
  */
-var generateLabels = function() {
-    
-
-
+module.exports.resetData = function() {
+    data = {
+        'charts'  : [],
+        'labels' : []    
+    };
 };

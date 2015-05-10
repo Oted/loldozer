@@ -84,43 +84,4 @@ describe('storage', function () {
         expect(Storage.getStorage()["all"][1].last).to.equal(d6);
         done();
     });
-    
-    it('should update the storage once more', function (done) {
-        var testPerformers1 = [
-            {
-                'type' : "all",
-                '_sort' : 1420918888461
-            },
-            {
-                "type"  : 'all',
-                "_sort" : 1420919134954
-            }
-        ];
-
-        var testPerformers2 = [
-            {
-                'type' : "all",
-                '_sort' : 1429471038521
-            },
-            {
-                "type"  : 'all',
-                "_sort" : 1429470999062
-            },
-            {
-                "type" : 'all',
-                "_sort" : 1429470965649
-            }
-        ];
-        
-        Storage.destroySession();
-
-        Storage.updateSession(testPerformers1);
-        Storage.mergeAndUpdateStorage();
-        Storage.updateSession(testPerformers2);
-        Storage.mergeAndUpdateStorage();
-        expect(Storage.getStorage()["all"].length).to.equal(0);
-        expect(Storage.getSession()["all"][0].first).to.equal(1429471038521);
-
-        done();
-    });
 });

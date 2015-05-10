@@ -116,6 +116,27 @@ var LolActions = {
     },
 
     /**
+     * Requests a new view
+     */
+    viewRatings: function(type) {
+        AppDispatcher.dispatch({
+            actionType: LolConstants.LOL_VIEW_RATINGS,
+            type : type
+        });
+    },
+
+    /**
+     * Adds a new rating to the set
+     */
+    setRatings: function(ratings, hash) {
+        AppDispatcher.dispatch({
+            actionType: LolConstants.LOL_SET_RATINGS,
+            ratings: ratings,
+            hash : hash
+        });
+    },
+
+    /**
      *  Adds a new item to the database
      */
     levelUp: function(level) {

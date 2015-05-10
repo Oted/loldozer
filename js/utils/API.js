@@ -44,6 +44,27 @@ module.exports.getItems = function() {
         }
     });
 };
+/**
+ *  Fetches new items from the server.
+ */
+module.exports.getRatings = function(hash) {
+    hash = '9c7f8f1b2c992c9b5e9a904828aafa81';
+    
+    $.ajax({
+        method: 'GET',
+        url:'http://188.166.45.196:3000/api/ratings',
+        data : {
+            'hash' : hash
+        },
+        success: function(data, msg) {
+            console.log('got ratings!', msg, data);
+            LolActions.setRatings(data, hash);
+
+            //send a notification that we have fetched out data
+            LolActions.api('ratings', msg);
+        }
+    });
+};
 
 /**
  *  Fetches new adjectives from the server.

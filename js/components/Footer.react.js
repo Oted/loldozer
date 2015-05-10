@@ -27,11 +27,22 @@ var Footer = React.createClass({
                         </a>
                     </div>
                 </div>
- 
+
+                <div
+                    className='neutrals'>
+                    <div
+                        id='eye'
+                        onClick={this._onViewStats}
+                        className='vote-button'>
+                        <a 
+                            className='fa fa-eye'>
+                        </a>
+                    </div>
+                </div>
+
                 <div
                     className='positives'>
                     <div
-                        id=''
                         onClick={this._onVoteUp}
                         className='vote-button'>
                         <a 
@@ -40,7 +51,6 @@ var Footer = React.createClass({
                     </div>
                     
                     <div
-                        id='' 
                         onClick={this._onVoteUp}
                         className='vote-button positives'>
                         <a 
@@ -51,6 +61,14 @@ var Footer = React.createClass({
                 </div>
             </div>
         );
+    },
+
+    _onViewStats: function(e) {
+        var adjective = e.currentTarget.children[0].innerText;
+        
+        console.log('view'); 
+        LolActions.viewRatings('current');
+        LolActions.openModal('stats');
     },
 
     _onVoteUp: function(e) {

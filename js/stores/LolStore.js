@@ -4,6 +4,7 @@
 var AppDispatcher   = require('../dispatcher/AppDispatcher'),
     EventEmitter    = require('events').EventEmitter,
     LolConstants    = require('../constants/LolConstants'),
+    StatsHandler    = require('../utils/statshandler.js'),
     Utils           = require('../utils/utils'),
     Storage         = require('../utils/localstorage'),
     Exp             = require('../utils/Exp')
@@ -28,7 +29,8 @@ var _statuses = {};
 
 //states of modals
 var _modals = {
-    add : false
+    add : false,
+    stats : false
 };
 
 //interactions
@@ -217,6 +219,13 @@ var LolStore = assign({}, EventEmitter.prototype, {
     /**
      * Get modal states
      */
+    getStatsViews: function () {
+        return StatsHandler.getData();
+    },
+
+    /**
+     * Get modal states
+     */
     getModalStates: function () {
         return _modals;
     },
@@ -330,6 +339,20 @@ AppDispatcher.register(function(action) {
         case LolConstants.LOL_LEVEL_UP:
             console.log('Wow! level ' + action.level + ' now. Nice! (something cool should happen)');
             alert('Wow! level ' + action.level + ' now. Nice! (something cool should happen)');
+        break;
+
+        case LolConstants.LOL_VIEW_RATINGS:
+            if (action.type === 'current') {
+                Api.getRatings(_currentPerformer._hash);
+            } else {
+                console.log('no such thinggg');
+            }
+
+        break;
+
+        case LolConstants.LOL_SET_RATINGS:
+            StatsHandler.transformRatingsToChart(action.ratings);
+            LolStore.emitChange();
         break;
 
         case LolConstants.LOL_ADD_ITEM:
