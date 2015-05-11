@@ -1,10 +1,10 @@
 var React       = require('react'),
     LineChart   = require("react-chartjs").Line,
-    LolActions  = require('../actions/LolActions')
+    LolActions  = require('../actions/LolActions'),
     options = {
         animationEasing: 'easeOutSine',
         responsive : true
-    };
+   };
 
 //9c7f8f1b2c992c9b5e9a904828aafa81
 
@@ -48,6 +48,8 @@ var StatsModal = React.createClass({
             );
         }
 
+        this._calculateSteps();
+
         return (
             <div
                 onClick={this._closeModal}
@@ -76,6 +78,13 @@ var StatsModal = React.createClass({
     },
 
     /**
+     *  Prevent overlay from being clicked when modal is clicked
+     */
+    _modalClick : function(e) {
+        e.stopPropagation();
+    },
+
+    /**
      *  Converts data given from statshandler to the format needed
      */
     _wrapData : function() {
@@ -100,6 +109,26 @@ var StatsModal = React.createClass({
         }
 
         return data;
+    },
+
+    /**
+     *  Calculates the right stepps and max/min
+     */
+    _calculateSteps : function() {
+        var maxValue = Math.max.apply(Math, this.props.data.charts[0]),
+            minValue = Math.min.apply(Math, this.props.data.charts[0]),
+            step     = Math.abs(minValue) + Math.abs(maxValue);
+
+        // options.tooltipTemplate = function(valuesObject) {
+            // console.log(valuesObject);
+            // do different things here based on whatever you want;
+            // return "Just some text w";
+        // }
+
+        options.scaleOverride = true;
+        options.scaleSteps = step;
+        options.scaleStepWidth = 1;
+        options.scaleStartValue = minValue - 1;
     }
 });
 module.exports = StatsModal;

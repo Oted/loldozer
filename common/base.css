@@ -168,6 +168,14 @@ img {
   height:16rem;
 }
 
+#best-modal {
+  position: relative;   
+  margin-top:3rem;
+  padding-bottom:6rem;
+  width:90%;
+  height:80%;
+}
+
 #stats-modal {
   position: relative;   
   margin-top:3rem;
@@ -318,7 +326,7 @@ img {
 }
 
 .neutrals {
-  margin-left:2rem;
+  margin-left:1rem;
   display:inline-block;
 }
 

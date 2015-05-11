@@ -88,10 +88,11 @@ var LolActions = {
     /**
      * Open modal
      */
-    openModal: function(modal) {
+    openModal: function(modal, data) {
         AppDispatcher.dispatch({
             actionType: LolConstants.LOL_OPEN_MODAL,
-            modal: modal
+            modal: modal,
+            data : data
         });
     },
 
@@ -116,23 +117,24 @@ var LolActions = {
     },
 
     /**
-     * Requests a new view
+     * Adds a new rating to the set, 
+     * comes from the api and emits change 
      */
-    viewRatings: function(type) {
+    setBest: function(item) {
         AppDispatcher.dispatch({
-            actionType: LolConstants.LOL_VIEW_RATINGS,
-            type : type
+            actionType: LolConstants.LOL_SET_BEST,
+            item: item
         });
     },
 
     /**
-     * Adds a new rating to the set
+     * Adds a new rating to the set, 
+     * comes from the api and emits change 
      */
     setRatings: function(ratings, hash) {
         AppDispatcher.dispatch({
             actionType: LolConstants.LOL_SET_RATINGS,
-            ratings: ratings,
-            hash : hash
+            ratings: ratings
         });
     },
 

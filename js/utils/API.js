@@ -1,8 +1,9 @@
-var LolActions  = require('../actions/LolActions'),
-    Storage     = require('./localstorage'),
-    $           = require('../../common/jquery.min'),
-    Utils       = require('./utils.js'),
-    amount      = 10;
+var LolActions      = require('../actions/LolActions'),
+    Storage         = require('./localstorage'),
+    StatsHandler    = require('./statshandler.js'),
+    $               = require('../../common/jquery.min'),
+    Utils           = require('./utils.js'),
+    amount          = 10;
 
 /**
  *  Fetches new items from the server.
@@ -44,11 +45,56 @@ module.exports.getItems = function() {
         }
     });
 };
+
 /**
  *  Fetches new items from the server.
  */
+module.exports.getBest = function() {
+    $.ajax({
+        method: 'GET',
+        url:'http://188.166.45.196:3000/api/bestratings',
+        data : {
+            'amount' : 10
+        },
+        success: function(data, msg) {
+            console.log('got best ratings!', msg, data);
+
+            for (var i = 0; i < data.length; i++) {
+                module.exports.getItem(data[i]._hash);
+            }
+
+            //send a notification that we have fetched out data
+            LolActions.api('best', msg);
+        }
+    });
+};
+
+/**
+ *  Fetches all the ratings for one given hash.
+ */
+module.exports.getItem = function(hash, callback) {
+    $.ajax({
+        method: 'GET',
+        url:'http://188.166.45.196:3000/api/item',
+        data : {
+            'hash' : hash
+        },
+        success: function(data, msg) {
+            console.log('got item!', msg, data);
+            
+            LolActions.setBest(data);
+
+            //send a notification that we have fetched out data
+            LolActions.api('item', msg);
+        }
+    });
+};
+
+/**
+ *  Fetches all the ratings for one given hash.
+ */
 module.exports.getRatings = function(hash) {
-    hash = '9c7f8f1b2c992c9b5e9a904828aafa81';
+    //hash = 'bff5943986488341a555a8a82e855ae8';
     
     $.ajax({
         method: 'GET',

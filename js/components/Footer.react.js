@@ -64,11 +64,8 @@ var Footer = React.createClass({
     },
 
     _onViewStats: function(e) {
-        var adjective = e.currentTarget.children[0].innerText;
-        
         console.log('view'); 
-        LolActions.viewRatings('current');
-        LolActions.openModal('stats');
+        LolActions.openModal('stats', {type : "current"});
     },
 
     _onVoteUp: function(e) {

@@ -37,7 +37,7 @@ var steps       = 8,    //steps(#labels)
  *  This alg is basically place rating dates values into the right date 'bucket'.
  */
 module.exports.transformRatingsToChart = function(ratingData) {
-    if (!Array.isArray(ratingData) || ratingData.length < 1) {
+    if (!Array.isArray(ratingData) || ratingData.length < 2) {
         return data; 
     }
 
@@ -97,7 +97,7 @@ module.exports.getData = function() {
 /**
  *Reset the data variable
  */
-module.exports.resetData = function() {
+module.exports.clearData = function() {
     data = {
         'charts'  : [],
         'labels' : []    

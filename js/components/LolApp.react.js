@@ -8,6 +8,7 @@ var React       = require('react'),
     Stage       = require('./Stage.react'),
     Footer      = require('./Footer.react'),
     AddModal    = require('./AddModal.react'),
+    BestModal   = require('./BestModal.react'),
     StatsModal  = require('./StatsModal.react'),
     LolStore    = require('../stores/LolStore');
 
@@ -23,6 +24,7 @@ function getLolState() {
         adjectives  : LolStore.getAdjectives(),
         modals      : LolStore.getModalStates(),
         statuses    : LolStore.getStatuses(),
+        best        : LolStore.getBestPerformers(),
         stats_views : LolStore.getStatsViews(),
         level       : LolStore.getLevel()
     };
@@ -50,6 +52,10 @@ var LolApp = React.createClass({
     render: function() {
   	    return (
             <div>
+                <BestModal
+                    modal={this.state.modals.best}
+                    data={this.state.best}
+                />
                 <StatsModal
                     modal={this.state.modals.stats}
                     data={this.state.stats_views}

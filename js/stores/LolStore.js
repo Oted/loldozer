@@ -24,13 +24,17 @@ var _adjectives ={
     ]
 };
 
+//current best performers
+var _best = [];
+
 //describes the status of requests
 var _statuses = {};
 
 //states of modals
 var _modals = {
     add : false,
-    stats : false
+    stats : false,
+    best : false
 };
 
 //interactions
@@ -210,17 +214,24 @@ var LolStore = assign({}, EventEmitter.prototype, {
     },
     
     /**
-     * Get modal states
+     * Get adjectives
      */
     getAdjectives: function () {
         return _adjectives;
     },
 
     /**
-     * Get modal states
+     * Get the data from the statshandler
      */
     getStatsViews: function () {
         return StatsHandler.getData();
+    },
+
+    /**
+     * Get data for current best internetz
+     */
+    getBestPerformers: function () {
+        return _best;
     },
 
     /**
@@ -261,7 +272,6 @@ AppDispatcher.register(function(action) {
     var text;
 
     switch (action.actionType) {
-        //10 at a time
         case LolConstants.LOL_CREATE:
             if (action.type === 'performer') { 
                 createPerformer(action.obj);
@@ -272,23 +282,19 @@ AppDispatcher.register(function(action) {
             }
         break;
 
-        //reports from items
         case LolConstants.LOL_API:
             if (action.type === 'items') {
-                //if api is done fetching items, check if there is no current
                 if (!_currentPerformer) {
                     _currentPerformer = Utils.getPerformer(_performers);
                 }
             }
 
             console.log(action);
-            //add the status
             _statuses[action.type] = action.status;
             LolStore.emitChange();
         break;
 
         case LolConstants.LOL_NEXT:
-            //check if we need to fetch new stuff, hereeee???
             if (_performers.length < Math.floor(Api.getAmount() / 2) && _currentPerformer) {
                 Storage.updateSession(_seen.concat(_performers));
                 Api.getItems();
@@ -328,6 +334,24 @@ AppDispatcher.register(function(action) {
         
         case LolConstants.LOL_OPEN_MODAL:
             _modals[action.modal] = true;
+            
+            if (action.modal === "best") {
+                _best = [];
+                Api.getBest();
+            }
+
+            if (action.modal === "stats") {
+                StatsHandler.clearData();
+                
+                if (action.data.type === 'current') {
+                    Api.getRatings(_currentPerformer._hash);
+                } else if (action.data._hash) {
+                    Api.getRatings(action.data._hash);
+                } else {
+                    console.log('Cannot view an unknown item');
+                }
+            }
+
             LolStore.emitChange();
         break;
 
@@ -341,13 +365,9 @@ AppDispatcher.register(function(action) {
             alert('Wow! level ' + action.level + ' now. Nice! (something cool should happen)');
         break;
 
-        case LolConstants.LOL_VIEW_RATINGS:
-            if (action.type === 'current') {
-                Api.getRatings(_currentPerformer._hash);
-            } else {
-                console.log('no such thinggg');
-            }
-
+        case LolConstants.LOL_SET_BEST:
+            _best.push(action.item); 
+            LolStore.emitChange();
         break;
 
         case LolConstants.LOL_SET_RATINGS:
