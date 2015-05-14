@@ -366,7 +366,7 @@ AppDispatcher.register(function(action) {
         break;
 
         case LolConstants.LOL_SET_BEST:
-            _best.push(action.item); 
+            _best = action.items.sort(function(a,b){return b.item.score - a.item.score}); 
             LolStore.emitChange();
         break;
 

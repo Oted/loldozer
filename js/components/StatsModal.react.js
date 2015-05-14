@@ -6,8 +6,6 @@ var React       = require('react'),
         responsive : true
    };
 
-//9c7f8f1b2c992c9b5e9a904828aafa81
-
 /**
  * Modal for showing the add item
  */

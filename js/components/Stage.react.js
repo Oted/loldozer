@@ -46,7 +46,7 @@ var Stage = React.createClass({
                 <div id='stage'></div>
             );
         }
-            
+
         var type = this.props.current.type;
 
   	    return (

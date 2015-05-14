@@ -1,6 +1,7 @@
 var LolActions      = require('../actions/LolActions'),
     Storage         = require('./localstorage'),
     StatsHandler    = require('./statshandler.js'),
+    Async           = require('async'),
     $               = require('../../common/jquery.min'),
     Utils           = require('./utils.js'),
     amount          = 10;
@@ -59,12 +60,19 @@ module.exports.getBest = function() {
         success: function(data, msg) {
             console.log('got best ratings!', msg, data);
 
-            for (var i = 0; i < data.length; i++) {
-                module.exports.getItem(data[i]._hash);
-            }
+            Async.mapSeries(data, function(item, callback) {
+                module.exports.getItem(item._hash, callback);
+            }, function(err, res) {
+                console.log('here!', msg, data);
+                if (err) {
+                    return LolActions.api('best', err);
+                }
+
+                LolActions.setBest(res);
+                LolActions.api('best', msg);
+            });
 
             //send a notification that we have fetched out data
-            LolActions.api('best', msg);
         }
     });
 };
@@ -80,12 +88,9 @@ module.exports.getItem = function(hash, callback) {
             'hash' : hash
         },
         success: function(data, msg) {
-            console.log('got item!', msg, data);
-            
-            LolActions.setBest(data);
-
             //send a notification that we have fetched out data
             LolActions.api('item', msg);
+            return callback(null, data);
         }
     });
 };

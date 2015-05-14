@@ -120,10 +120,10 @@ var LolActions = {
      * Adds a new rating to the set, 
      * comes from the api and emits change 
      */
-    setBest: function(item) {
+    setBest: function(items) {
         AppDispatcher.dispatch({
             actionType: LolConstants.LOL_SET_BEST,
-            item: item
+            items: items
         });
     },
 

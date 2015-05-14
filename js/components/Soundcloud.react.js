@@ -39,10 +39,6 @@ var Soundcloud = React.createClass({
                 />
             </div>
         );
-    },
-
-    _onPlay() {
-        console.log('PLAYING');
     }
 });
 

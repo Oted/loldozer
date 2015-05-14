@@ -8,33 +8,33 @@ var Nav = React.createClass({
     render: function() {
         return (
             <ul 
-                id={'nav'}>
+                id='nav'>
                 <li
-                    id={'list-button'}>
+                    id='list-button'>
                     <a
-                        className={'fa fa-list'}>
+                        className='fa fa-list'>
                     </a>
                     <ul>
                         <li>
                             <a
-                                className={'text-button'}
+                                className='text-button'
                                 onClick={this._openAddModal}
-                                href={'#'}>
+                                href='#'>
                                 GIVE SOME INTERNET
                             </a>
                         </li>
                         <li>
                             <a
-                                className={'text-button'}
+                                className='text-button'
                                 onClick={this._openBestModal}
-                                href={'#'}>
+                                href='#'>
                                 THE BEST INTERNETS
                             </a>
                         </li>
                         <li>
                             <a
-                                className={'text-button'}
-                                href={'#'}>
+                                className='text-button'
+                                href='#'>
                                 FILTER INTERNET
                             </a>
                         </li>
@@ -42,17 +42,17 @@ var Nav = React.createClass({
                     </ul>
                 </li>
                <li
-                    id={'next-button'}>
+                    id='next-button'>
                     <a 
                         onClick={this._onNext}>
                         GET SOME INTERNET
                     </a>
                 </li>
                <li
-                    className={'level'}>
+                    className='level'>
                     <a
-                        id={'level'}
-                        href={'#'}>
+                        id='level'
+                        href='#'>
                         {this.props.level}
                     </a>
                 </li>
