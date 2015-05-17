@@ -19,8 +19,6 @@ module.exports.getItems = function(types) {
             "types" : types
         };
 
-    console.log(data);
-
     if (seenStorage && seenStorage[type]) {
         var first = Array.isArray(seenStorage[type]) ?
             seenStorage[type][0].first :

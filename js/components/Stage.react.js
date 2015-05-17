@@ -8,6 +8,7 @@ var Youtube         = require('../components/Youtube.react'),
     Vimeo           = require('../components/Vimeo.react'),
     Twitch          = require('../components/Twitch.react'),
     Ted             = require('../components/Ted.react'),
+    Vine            = require('../components/Vine.rect.js'),
     Video           = require('../components/Video.react'),
     Gif             = require('../components/Gif.react');
 
@@ -58,6 +59,9 @@ var Stage = React.createClass({
                 <Soundcloud
                     current = {this.props.current}
                 />
+                <Vine 
+                    current = {this.props.current}
+                />
                 <Youtube
                     current = {this.props.current}
                 />
@@ -74,6 +78,9 @@ var Stage = React.createClass({
                     current = {this.props.current}
                 />
                 <Ted
+                    current = {this.props.current}
+                />
+                <Video
                     current = {this.props.current}
                 />
                 <a
