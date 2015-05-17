@@ -9,12 +9,17 @@ var LolActions      = require('../actions/LolActions'),
 /**
  *  Fetches new items from the server.
  */
-module.exports.getItems = function() {
+module.exports.getItems = function(types) {
+    types = JSON.stringify(types || []);
+
     var type = 'all',
         seenStorage = Storage.getSuggestedQuery(type),
         data = {
-            "amount" : amount
+            "amount" : amount,
+            "types" : types
         };
+
+    console.log(data);
 
     if (seenStorage && seenStorage[type]) {
         var first = Array.isArray(seenStorage[type]) ?
@@ -25,8 +30,6 @@ module.exports.getItems = function() {
             seenStorage[type][0].last : 
             seenStorage[type].last; 
 
-        console.log('fetching first ', first, Utils.time(first));
-        console.log('fetching last ', last, Utils.time(last));
         data.first = first;
         data.last = last;
     }
@@ -96,11 +99,24 @@ module.exports.getItem = function(hash, callback) {
 };
 
 /**
+ * Get the info object
+ */
+module.exports.getInfo = function() {
+    $.ajax({
+        method: 'GET',
+        url:'http://188.166.45.196:3000/api/info',
+        success: function(data, msg) {
+            //send a notification that we have fetched out data
+            LolActions.api('info', msg);
+            LolActions.setInfo(data);
+        }
+    });
+};
+
+/**
  *  Fetches all the ratings for one given hash.
  */
 module.exports.getRatings = function(hash) {
-    //hash = 'bff5943986488341a555a8a82e855ae8';
-    
     $.ajax({
         method: 'GET',
         url:'http://188.166.45.196:3000/api/ratings',

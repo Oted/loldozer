@@ -10,6 +10,7 @@ var React       = require('react'),
 Storage.loadStorage();
 
 Api.getItems();
+Api.getInfo();
 
 React.render(
   <LolApp />,

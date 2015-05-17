@@ -117,13 +117,41 @@ var LolActions = {
     },
 
     /**
-     * Adds a new rating to the set, 
-     * comes from the api and emits change 
+     * Sets the info object
      */
+    setInfo: function(info) {
+        AppDispatcher.dispatch({
+            actionType: LolConstants.LOL_SET_INFO,
+            info: info
+        });
+    },
+
+   /**
+    * Sets the data of highscores best
+    */
     setBest: function(items) {
         AppDispatcher.dispatch({
             actionType: LolConstants.LOL_SET_BEST,
             items: items
+        });
+    },
+
+    /**
+     *  Refreshes the page and fetch new stuff
+     */
+    refresh: function() {
+        AppDispatcher.dispatch({
+            actionType: LolConstants.LOL_REFRESH
+        });
+    },
+
+    /**
+     *  Update the filres list
+     */
+    updateFilters: function(target) {
+        AppDispatcher.dispatch({
+            actionType: LolConstants.LOL_UPDATE_FILTERS,
+            target: target
         });
     },
 

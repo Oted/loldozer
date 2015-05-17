@@ -9,6 +9,7 @@ var React       = require('react'),
     Footer      = require('./Footer.react'),
     AddModal    = require('./AddModal.react'),
     BestModal   = require('./BestModal.react'),
+    FilterModal = require('./FilterModal.react'),
     StatsModal  = require('./StatsModal.react'),
     LolStore    = require('../stores/LolStore');
 
@@ -26,7 +27,9 @@ function getLolState() {
         statuses    : LolStore.getStatuses(),
         best        : LolStore.getBestPerformers(),
         stats_views : LolStore.getStatsViews(),
-        level       : LolStore.getLevel()
+        level       : LolStore.getLevel(),
+        info        : LolStore.getInfo(),
+        filters     : LolStore.getFilters()
     };
 }
 
@@ -63,6 +66,12 @@ var LolApp = React.createClass({
                 <AddModal
                     status={this.state.statuses.add}
                     modal={this.state.modals.add}
+                />
+                <FilterModal
+                    status={this.state.statuses.filter}
+                    info={this.state.info}
+                    filters={this.state.filters}
+                    modal={this.state.modals.filter}
                 />
                 <Nav
                     level={this.state.level}

@@ -38,17 +38,7 @@ var BestModal = React.createClass({
                         <ul id='best-nav'>
                             <li className='title'> 
                                 <a>
-                                    lol
-                                </a>
-                            </li> 
-                            <li className='title'> 
-                                <a>
-                                    lol
-                                </a>
-                            </li> 
-                            <li className='title'> 
-                                <a>
-                                    lol
+                                    One day there will be highscores for types and adjectives here.
                                 </a>
                             </li> 
                         </ul>

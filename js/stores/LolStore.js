@@ -27,14 +27,21 @@ var _adjectives ={
 //current best performers
 var _best = [];
 
+//info object of the state of backend
+var _info = {};
+
 //describes the status of requests
 var _statuses = {};
+
+//what to filter on
+var _filters = [];
 
 //states of modals
 var _modals = {
     add : false,
     stats : false,
-    best : false
+    best : false,
+    filter : false
 };
 
 //interactions
@@ -235,6 +242,20 @@ var LolStore = assign({}, EventEmitter.prototype, {
     },
 
     /**
+     * Get the info object
+     */
+    getInfo: function () {
+        return _info;
+    },
+
+    /**
+     * Get the filters
+     */
+    getFilters: function () {
+        return _filters;
+    },
+
+    /**
      * Get modal states
      */
     getModalStates: function () {
@@ -272,6 +293,39 @@ AppDispatcher.register(function(action) {
     var text;
 
     switch (action.actionType) {
+        case LolConstants.LOL_SET_INFO:
+            _info = action.info;
+
+            if (_filters.length < 1) {
+                _filters = _info.counts.filter(function(item){
+                    return item.count > 10}
+                ).map(function(item){
+                    return item._id
+                });
+            }
+        break;
+
+        case LolConstants.LOL_UPDATE_FILTERS:
+            var target = action.target;
+           
+            //basically toggles an item in or out from the array 
+            if (_filters.indexOf(target) > -1) {
+                _filters = _filters.filter(function(f){return f !== target});
+            } else {
+                _filters.push(target);
+            }
+
+            LolStore.emitChange();
+        break;
+
+        case LolConstants.LOL_REFRESH:
+            Storage.updateSession(_seen.concat(_performers));
+            _performers = [];
+            Api.getItems(_filters);
+            nextPerformer();
+            LolStore.emitChange();
+        break;
+        
         case LolConstants.LOL_CREATE:
             if (action.type === 'performer') { 
                 createPerformer(action.obj);
@@ -289,7 +343,6 @@ AppDispatcher.register(function(action) {
                 }
             }
 
-            console.log(action);
             _statuses[action.type] = action.status;
             LolStore.emitChange();
         break;
@@ -297,7 +350,7 @@ AppDispatcher.register(function(action) {
         case LolConstants.LOL_NEXT:
             if (_performers.length < Math.floor(Api.getAmount() / 2) && _currentPerformer) {
                 Storage.updateSession(_seen.concat(_performers));
-                Api.getItems();
+                Api.getItems(_filters);
             }
 
             nextPerformer();

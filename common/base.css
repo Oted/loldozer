@@ -450,6 +450,33 @@ img {
   cursor: hand;
 }
 
+#filter-modal {
+  overflow:auto;
+  position: relative;   
+  margin-top:3rem;
+  color: #f0f0f0;
+}
+
+#filter-list {
+}
+
+.filter-item {
+  display:inline-block;
+  text-align: left;
+  margin-left:2rem;
+  padding-top:1rem;
+  margin-right:2rem;
+  text-decoration: none;
+  font-size: 2rem;
+  font-weight: 300;
+  text-align:left;
+  background-color : black;
+}
+
+.filter-item.active {
+  background-color : white;
+}
+
 #best-modal {
   overflow:auto;
   position: relative;   
@@ -470,7 +497,7 @@ img {
   display:flex;
   text-align: left;
   margin-left:2rem;
-  margin-top:1rem;
+  padding-top:1rem;
   margin-right:2rem;
   text-decoration: none;
   font-size: 2rem;
@@ -478,10 +505,13 @@ img {
   text-align:left;
 }
 
+.best-item:nth-child(odd) {
+  color : #DFDFDF;
+}
+
 .score {
   right: 1rem;
   position:absolute;
-  color:green;
 }
 
 #best-nav {
@@ -525,8 +555,5 @@ img {
 }
 
 .title:hover {
-  -webkit-transform: scale(1.02,1.02);
-  -ms-transform: scale(1.02,1.02); /* IE 9 */
-  -webkit-transform: scale(1.02,1.02); /* Safari */
-  transform: scale(1.02,1.02); 
+  color: #BDBEFF;
 }

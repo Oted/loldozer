@@ -34,6 +34,7 @@ var Nav = React.createClass({
                         <li>
                             <a
                                 className='text-button'
+                                onClick={this._openFilterModal}
                                 href='#'>
                                 FILTER INTERNET
                             </a>
@@ -74,6 +75,11 @@ var Nav = React.createClass({
     _openBestModal: function() {
         console.log('best');
         LolActions.openModal('best');
+    },
+
+    _openFilterModal: function() {
+        console.log('filter');
+        LolActions.openModal('filter');
     }
 });
 
