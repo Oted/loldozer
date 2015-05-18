@@ -51,8 +51,14 @@ var BestModal = React.createClass({
                     <div>
                         <ul id='best-nav'>
                             <li className='title'> 
+                                <div 
+                                    className='close'
+                                    style={{'right' : '-10px','top':'-10px'}}
+                                    onClick={this._closeModal}>
+                                    <i className='fa fa-times-circle fa'></i>
+                                </div>
                                 <a>
-                                    The best stuff right now, click to see.
+                                    The best stuff right now!
                                 </a>
                             </li> 
                         </ul>

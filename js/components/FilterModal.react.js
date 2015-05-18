@@ -34,6 +34,12 @@ var FilterModal = React.createClass({
                     className={'modal active'}
                     style={style}
                     id={'filter-modal'}>
+                    <div 
+                        className='close'
+                        style={{'right' : '10px','top':'5px'}}
+                        onClick={this._closeModal}>
+                        <i className='fa fa-times-circle fa-2'></i>
+                    </div>
                     <div>
                         <ItemTable selected={this.props.filters} all={this.props.info.counts} />
                     </div>

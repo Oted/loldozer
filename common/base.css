@@ -180,6 +180,7 @@ img {
 }
 
 .modal {
+  position:relative;
   overflow:auto;
   text-align:center;
   z-index:15;
@@ -535,6 +536,13 @@ img {
   text-decoration: none;
   font-size: 2rem;
   font-weight: 300;
+}
+
+.close {
+  float:right;
+  position:absolute;
+  z-index:20;
+  color:white;
 }
 
 .rank {

@@ -28,6 +28,12 @@ var AddModal = React.createClass({
                     id={'add-modal'}>
                     <div
                         style={addClick ? {display : 'none'} : {}}>
+                        <div 
+                            className='close'
+                            style={{'right' : '10px','top':'5px'}}
+                            onClick={this._closeModal}>
+                            <i className='fa fa-times-circle fa-2'></i>
+                        </div>
                         <h1 style={{'color' : 'white'}}>
                             Share your favorite links, win the internet.
                         </h1>
