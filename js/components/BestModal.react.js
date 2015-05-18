@@ -1,5 +1,6 @@
 var React       = require('react'),
     Stage       = require('./Stage.react.js'),
+    Loading     = require('./Loading.react'),
     LolActions  = require('../actions/LolActions');
 
 /**
@@ -15,11 +16,24 @@ var BestModal = React.createClass({
         };
 
         if (!this.props.modal) {
+            return (<div></div>);
+        }
+
+        if (!this.props.data || this.props.data.length < 1) {
             return (
                 <div
                     onClick={this._closeModal}
                     style={style}
                     className={'overlay'}>
+                    <div
+                        onClick={this._modalClick}
+                        className={'modal active'}
+                        style={style}
+                        id={'best-modal'}>
+                        <div style={{'margin-top' : '8rem'}}>
+                            <Loading />
+                        </div>
+                    </div>
                 </div>
             );
         }
@@ -38,7 +52,7 @@ var BestModal = React.createClass({
                         <ul id='best-nav'>
                             <li className='title'> 
                                 <a>
-                                    One day there will be highscores for types and adjectives here.
+                                    The best stuff right now, click to see.
                                 </a>
                             </li> 
                         </ul>
