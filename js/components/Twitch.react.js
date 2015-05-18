@@ -7,10 +7,14 @@ var React           = require('react'),
 var Twitch = React.createClass({
     render: function() {
         var isTwitch = this.props.current.type === 'twitch';
-          
+        
+        if (!isTwitch) {
+            return (<div></div>);
+        }  
+
         return (
             <div 
-                className={isTwitch ? 'container' : 'hidden'}>
+                className={'container'}>
                 
                 <iframe 
                     height={options.height} 
@@ -18,7 +22,7 @@ var Twitch = React.createClass({
                     frameborder="0" 
                     scrolling="no" 
                     autoplay
-                    src={isTwitch ? this.props.current.data : ''}>
+                    src={this.props.current.data}>
                 </iframe>          
             </div>
         );

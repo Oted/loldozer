@@ -1,5 +1,6 @@
 var React       = require('react'),
-    ImageLoader = require('react-imageloader');
+    ImageLoader = require('react-imageloader'),
+    Loading     = require('./loading.react');
 
 /**
  * The navigation
@@ -20,10 +21,7 @@ var Image = React.createClass({
     },
     _whileLoading : function() {
         return (
-            <img
-                className={'loading'}
-                src={'common/loading.gif'}>
-            </img>
+            <Loading />
         );
     }
 });

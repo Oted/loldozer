@@ -11,17 +11,20 @@ var React           = require('react'),
 var Youtube = React.createClass({
     render: function() {
         var isYoutube = this.props.current.type === 'youtube';
-        
-        return (
-            <div 
-                className={isYoutube ? 'container' : 'hidden'}>
-                <YoutubeReact 
-                    url={isYoutube ? 'https://www.youtube.com/watch?v=' + this.props.current.data : ''}
-                    opts = {options}
-                    onPlay={this._onPlay}
-                />
-            </div>
-        );
+        if (isYoutube) {
+            return (
+                <div 
+                    className='container'>
+                    <YoutubeReact 
+                        url={'https://www.youtube.com/watch?v=' + this.props.current.data}
+                        opts = {options}
+                        onPlay={this._onPlay}
+                    />
+                </div>
+            );
+        }
+
+        return (<div></div>);
     }
 });
 

@@ -171,8 +171,6 @@ img {
   height:16rem;
 }
 
-
-
 #stats-modal {
   position: relative;   
   margin-top:3rem;
@@ -182,6 +180,7 @@ img {
 }
 
 .modal {
+  overflow:auto;
   text-align:center;
   z-index:15;
   margin-left:auto;
@@ -453,7 +452,8 @@ img {
 #filter-modal {
   overflow:auto;
   position: relative;   
-  margin-top:3rem;
+  width:80%;
+  margin-top:6rem;
   color: #f0f0f0;
 }
 
@@ -463,23 +463,23 @@ img {
 .filter-item {
   display:inline-block;
   text-align: left;
-  margin-left:2rem;
-  padding-top:1rem;
-  margin-right:2rem;
+  margin-left:1rem;
+  margin-top:1rem;
+  margin-right:1rem;
   text-decoration: none;
   font-size: 2rem;
   font-weight: 300;
   text-align:left;
-  background-color : black;
+  cursor: pointer; 
+  cursor: hand;
 }
 
 .filter-item.active {
-  background-color : white;
+  background-color : rgba(79, 79, 79, 0.46);
 }
 
 #best-modal {
-  overflow:auto;
-  position: relative;   
+  position: relative;
   margin-top:3rem;
   width:90%;
   height:90%;

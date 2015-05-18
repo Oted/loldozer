@@ -298,7 +298,7 @@ AppDispatcher.register(function(action) {
 
             if (_filters.length < 1) {
                 _filters = _info.counts.filter(function(item){
-                    return item.count > 10}
+                    return item.count > 0}
                 ).map(function(item){
                     return item._id
                 });

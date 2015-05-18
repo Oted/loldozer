@@ -15,7 +15,7 @@ var Gif = React.createClass({
 
         if (isGif) {
             gifCount++;
-        }
+        } 
 
         return (
             <div 

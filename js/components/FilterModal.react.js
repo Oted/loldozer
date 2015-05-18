@@ -70,14 +70,19 @@ var FilterModal = React.createClass({
  */
 var ItemRow = React.createClass({
     render: function() {
+        var isSelected = this.props.selected.indexOf(this.props.object._id) > -1; 
         return (
-            <li onClick={this._clickTitle} className={this.props.selected.indexOf(this.props.object._id) > -1 ? 'filter-item active' : 'filter-item'}>
+            <li onClick={this._clickTitle} className={isSelected ? 'filter-item active' : 'filter-item'}>
                 <div className='title'>
-                    {this.props.object._id}
+                    {this.props.object._id} ({this.props.object.count})
                 </div>
                 <a className='count'>
-                    {this.props.object.count}
+                    
                 </a>
+                <i
+                    style={isSelected ? {color : "green", float : "right"} : {color : "red", float : "right"}}
+                    className={isSelected ? 'fa fa-check' : 'fa fa-close'}>
+                </i>
             </li>
         );
     },
