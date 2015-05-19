@@ -1,55 +1,73 @@
-var LolActions      = require('../actions/LolActions.js'),
-    currentExp      = 0,
-    currentLevel    = 1;
+var LolActions      = require('../actions/LolActions.js');
+var internals = {};
+
+/**
+ *  Constructor for experience and level handler
+ */
+function Exp(interactions, level, experience) {
+    this.interactions   = interactions;
+    this.lvl            = level;
+    this.exp            = experience;
+}
 
 /**
  * Calculates the exp given the interactions.
  */
-module.exports.calculateExperience = function(interactions, vote) {
-    //currentExp = (interactions.upvotes + interactions.downvotes + interactions.novotes) * (5 / currentLevel));
+Exp.prototype.calculateExperience = function(vote) {
     switch (vote) {
         case "+1" :
-            currentExp+= 5 / (currentLevel * 0.5);
+            this.exp= 5 / (this.lvl * 0.5);
+            this.interactions.upvotes++;
         break;
         case "0" :
-            currentExp+= 2 / (currentLevel * 0.5);
+            this.exp+= 2 / (this.lvl * 0.5);
+            this.interactions.novotes++;
         break;
         case "-1" :
-            currentExp+= 4 / (currentLevel * 0.5);
+            this.exp+= 4 / (this.lvl * 0.5);
+            this.interactions.downvotes++;
         break;
     }
 
-    if (currentExp > 100) {
-        levelUp();
+    if (this.exp > 100) {
+        this.levelUp();
     }
     
-    console.log(currentExp);
-    return currentExp;
+    return this.exp;
+};
+
+/**
+ *  Get interactions
+ */
+Exp.prototype.getInteractions = function() {
+    return this.interactions;
 };
 
 /**
  *  Get experience
  */
-module.exports.getExperience = function() {
-    return currentExp;
+Exp.prototype.getExperience = function() {
+    return this.exp;
 };
 
 /**
  *  Get level
  */
-module.exports.getLevel = function() {
-    return currentLevel;
+Exp.prototype.getLevel = function() {
+    return this.lvl;
 };
 
 /**
  *  Helper for level up.
  */
-var levelUp = function() {
-    currentLevel++;
-    currentExp = 0;
+Exp.prototype.levelUp = function() {
+    var level = ++this.lvl;
+    this.exp = 0;
    
     //set timout for now, not a valid solution 
     setTimeout(function() {
-        LolActions.levelUp(currentLevel);
+        LolActions.levelUp(level);
     },10);
-}
+};
+
+module.exports = Exp;

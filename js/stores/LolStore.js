@@ -14,6 +14,35 @@ var AppDispatcher   = require('../dispatcher/AppDispatcher'),
 
 var CHANGE_EVENT = 'change';
 
+Storage.loadSeenStorage();
+
+//the states that needs to be saved goes in here
+var _saved_state = Storage.loadStateStorage();
+
+//if it does not exists, this is a first timer, defin the root state
+if (!_saved_state) {
+    _saved_state = {
+        _seen_info : {
+            'welcome' : false
+        },
+        _filters : [],
+        interactions : {
+            'novotes' : 0,
+            'upvotes' : 0,
+            'downvotes' : 0
+        },
+        experience : 0,
+        level : 0
+    }
+}
+
+//get first batch of items
+Api.getItems(_saved_state._filters);
+Api.getInfo();
+
+//set the Exp class
+Exp = new Exp(_saved_state.interactions, _saved_state.level, _saved_state.experience);
+
 //the current adjectives
 var _adjectives ={
     "positives": [
@@ -33,9 +62,6 @@ var _info = {};
 //describes the status of requests
 var _statuses = {};
 
-//what to filter on
-var _filters = [];
-
 //states of modals
 var _modals = {
     add : false,
@@ -44,29 +70,27 @@ var _modals = {
     filter : false
 };
 
-//interactions
-var _interactions = {
-    'novotes' : 0,
-    'upvotes' : 0,
-    'downvotes' : 0
-};
-
 //state of stage
 var _performers         = [],
     _seen               = [],
     _seen_hash          = {},
     _currentPerformer   = null;
 
-
 //make sure things are saved before close
-window.onbeforeunload = function () {
-    Storage.updateSession(_seen.concat(_performers));
-};
+$(window).unload(updateStorage);
 
-//make sure things are saved before close
-$(window).unload(function() {
-    Storage.updateSession(_seen.concat(_performers));
-});
+/**
+ *  Updates the storage
+ */
+function updateStorage() {
+    Storage.updateSeenSession(_seen.concat(_performers));
+    
+    _saved_state.interactions   = Exp.getInteractions();
+    _saved_state.experience     = Exp.getExperience();
+    _saved_state.level          = Exp.getLevel();
+    
+    Storage.updateStateStorage(_saved_state);
+}
 
 /**
  *  Creates a performer
@@ -252,7 +276,7 @@ var LolStore = assign({}, EventEmitter.prototype, {
      * Get the filters
      */
     getFilters: function () {
-        return _filters;
+        return _saved_state._filters;
     },
 
     /**
@@ -296,8 +320,8 @@ AppDispatcher.register(function(action) {
         case LolConstants.LOL_SET_INFO:
             _info = action.info;
 
-            if (_filters.length < 1) {
-                _filters = _info.counts.filter(function(item){
+            if (_saved_state._filters.length < 1) {
+                _saved_state._filters = _info.counts.filter(function(item){
                     return item.count > 0}
                 ).map(function(item){
                     return item._id
@@ -309,19 +333,19 @@ AppDispatcher.register(function(action) {
             var target = action.target;
            
             //basically toggles an item in or out from the array 
-            if (_filters.indexOf(target) > -1) {
-                _filters = _filters.filter(function(f){return f !== target});
+            if (_saved_state._filters.indexOf(target) > -1) {
+                _saved_state._filters = _saved_state._filters.filter(function(f){return f !== target});
             } else {
-                _filters.push(target);
+                _saved_state._filters.push(target);
             }
 
             LolStore.emitChange();
         break;
 
         case LolConstants.LOL_REFRESH:
-            Storage.updateSession(_seen.concat(_performers));
+            updateStorage();
             _performers = [];
-            Api.getItems(_filters);
+            Api.getItems(_saved_state._filters);
             nextPerformer();
             LolStore.emitChange();
         break;
@@ -349,8 +373,8 @@ AppDispatcher.register(function(action) {
 
         case LolConstants.LOL_NEXT:
             if (_performers.length < Math.floor(Api.getAmount() / 2) && _currentPerformer) {
-                Storage.updateSession(_seen.concat(_performers));
-                Api.getItems(_filters);
+                updateStorage();
+                Api.getItems(_saved_state._filters);
             }
 
             nextPerformer();
@@ -363,23 +387,20 @@ AppDispatcher.register(function(action) {
         break;
 
         case LolConstants.LOL_NO_VOTE:
-            _interactions.novotes++; 
-            Exp.calculateExperience(_interactions, '0');
+            Exp.calculateExperience('0');
             Api.noVote(_currentPerformer._hash);
             LolStore.emitChange();
         break;
 
         case LolConstants.LOL_UP_VOTE:
-            _interactions.upvotes++;
-            Exp.calculateExperience(_interactions, '+1');
+            Exp.calculateExperience('+1');
             Api.upVote(_currentPerformer._hash, action.adjective);
             updateAdjectives(action.adjective);
             LolStore.emitChange();
         break;
         
         case LolConstants.LOL_DOWN_VOTE:
-            _interactions.downvotes++; 
-            Exp.calculateExperience(_interactions, '-1');
+            Exp.calculateExperience('-1');
             Api.downVote(_currentPerformer._hash, action.adjective);
             updateAdjectives(action.adjective);
             LolStore.emitChange();
@@ -414,6 +435,7 @@ AppDispatcher.register(function(action) {
         break;
 
         case LolConstants.LOL_LEVEL_UP:
+            updateStorage();
             console.log('Wow! level ' + action.level + ' now. Nice! (something cool should happen)');
             alert('Wow! level ' + action.level + ' now. Nice! (something cool should happen)');
         break;

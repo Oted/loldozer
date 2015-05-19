@@ -5,50 +5,18 @@
  *  and how is not obvious. Below is an explenation of how its meant to work
  */
 
-/**
-storage['seen'] = {
-    all : [
-        {
-            'first' : 4, 
-            'last' : 3
-        },
-        {
-            'first' : 2,
-            'last' : 1
-        }
-        .
-        .
-        .
-        //the first object represents the current session, 
-        //the second object is the fetched from the storage and represents the session before this 
-        //once last(of 1st) < first(of 2nd) then merge 1st and last
-        //to 
-        {
-            'first' : 4,
-            'last' : 1
-        }
-    ],
-    youtube : {
-        -----||-----
-    }
-    .
-    .
-    .
-}
-*/
+var clone   = require('./utils').clone,
+    time    = require('./utils').time,
+    expired = require('./utils').hasExpired;
 
-//get utils 
-var clone = require('./utils').clone;
-var time = require('./utils').time;
-var expired = require('./utils').hasExpired;
-
-var currentStorage = null,
-    currentSession = {};
+var stateStorage = null,
+    seenStorage = null,
+    seenSession = {};
 
 /**
- *  Gets the current localstorage
+ *  Gets the current seen storage
  */
-module.exports.loadStorage = function() {
+module.exports.loadSeenStorage = function() {
     var currStorage = localStorage.getItem("seen");
 
     try {
@@ -62,9 +30,9 @@ module.exports.loadStorage = function() {
         return null;
     }
 
-    currentStorage = currStorage;
+    seenStorage = currStorage;
     console.log('got storage', currStorage);
-    return currentStorage;
+    return seenStorage;
 };
 
 /*
@@ -73,7 +41,7 @@ module.exports.loadStorage = function() {
  *
  * Performers here represents seen and fetched together.
  */
-module.exports.updateSession = function(performers) {
+module.exports.updateSeenSession = function(performers) {
     var p, key, value;
 
     if (!performers) {
@@ -85,21 +53,21 @@ module.exports.updateSession = function(performers) {
         key     = performers[i].type,
         value   = parseInt(performers[i]._sort);
         
-        if (!currentSession["all"]) {
-            currentSession["all"] = {
+        if (!seenSession["all"]) {
+            seenSession["all"] = {
                 "first" : value,
                 "last" : value
             };
         } else {
-            currentSession["all"].first   = parseInt(currentSession["all"].first) < value ? value : currentSession["all"].first;  
-            currentSession["all"].last    = parseInt(currentSession["all"].last) > value ? value : currentSession["all"].last;  
+            seenSession["all"].first   = parseInt(seenSession["all"].first) < value ? value : seenSession["all"].first;  
+            seenSession["all"].last    = parseInt(seenSession["all"].last) > value ? value : seenSession["all"].last;  
         }
 
-        if (currentSession[key]) {
-            currentSession[key].first   = parseInt(currentSession[key].first) < value ? value : currentSession[key].first;  
-            currentSession[key].last    = parseInt(currentSession[key].last) > value ? value : currentSession[key].last;  
+        if (seenSession[key]) {
+            seenSession[key].first   = parseInt(seenSession[key].first) < value ? value : seenSession[key].first;  
+            seenSession[key].last    = parseInt(seenSession[key].last) > value ? value : seenSession[key].last;  
         } else {
-            currentSession[key] = {
+            seenSession[key] = {
                 "first" : value,
                 "last" : value
             }
@@ -109,42 +77,77 @@ module.exports.updateSession = function(performers) {
     //update and merge for now
     module.exports.mergeAndUpdateStorage(); 
     
-    console.log('update session', JSON.stringify(currentSession));
+    console.log('update session', JSON.stringify(seenSession));
 };
+
+/**
+ *  Gets the current 
+ */
+module.exports.loadStateStorage = function() {
+    var sStorage = localStorage.getItem("state");
+
+    try {
+        sStorage = JSON.parse(sStorage);
+    } catch (err) {
+        console.log(err);
+    }
+
+    if (!sStorage) {
+        return null;
+    }
+
+    stateStorage = sStorage;
+
+    console.log('got state storage', stateStorage);
+    return stateStorage;
+};
+
+/**
+ *  Saves the current state
+ */
+module.exports.updateStateStorage = function(state) {
+   try {
+        localStorage.setItem("state", JSON.stringify(state));
+    } catch (err) {
+        return console.log('err when update storage', err); 
+    }
+
+   console.log('update state', JSON.stringify(state));
+}
 
 /**
  * Merge session with storage and update the storage.
  */
 module.exports.mergeAndUpdateStorage = function() {
-    if (!currentSession) {
+    if (!seenSession) {
         console.log('no current session, this is crazy');
         return;
     }
 
     //assign current storage if its undefined
-    currentStorage = currentStorage || {};
+    seenStorage = seenStorage || {};
 
     //iterate over all the keys in the session
-    for (var key in currentSession) {
-        if (!currentSession[key]) {
-            delete currentSession[key];
+    for (var key in seenSession) {
+        if (!seenSession[key]) {
+            delete seenSession[key];
             continue;
         }
 
         //if they cant be found in the add it t o a new array
-        if (!currentStorage[key]) {
-            currentStorage[key] = clone([currentSession[key]]);
+        if (!seenStorage[key]) {
+            seenStorage[key] = clone([seenSession[key]]);
         } else {
             //else push it to the front
-            currentStorage[key].push(clone(currentSession[key]));
+            seenStorage[key].push(clone(seenSession[key]));
         }
     }
 
     checkForOverlaps();
-    console.log('update storage', JSON.stringify(currentStorage));
+    console.log('update storage', JSON.stringify(seenStorage));
     
     try {
-        localStorage.setItem("seen", JSON.stringify(currentStorage));
+        localStorage.setItem("seen", JSON.stringify(seenStorage));
     } catch (err) {
         console.log('err when update storage', err); 
     }
@@ -154,50 +157,50 @@ module.exports.mergeAndUpdateStorage = function() {
  *  Helper function to check for overlaps.
  */
 var checkForOverlaps = function() {
-    if (!currentStorage) {
+    if (!seenStorage) {
         console.log('no current storage, crazy times awaits...');
         return;
     }
    
-    //console.log('in merge overlaps',currentStorage); 
+    //console.log('in merge overlaps',seenStorage); 
     
     //iterate the keys
     //this is the heart of the ISP,
     //compare lasts with firsts etc
-    for (var key in currentStorage) {
+    for (var key in seenStorage) {
         //if there is just one span check and compare
-        if (currentStorage[key].length === 1 && expired(currentStorage[key][0].last)) {
-            delete currentStorage[key];
+        if (seenStorage[key].length === 1 && expired(seenStorage[key][0].last)) {
+            delete seenStorage[key];
             continue;
         }
         
         //sort on first
-        currentStorage[key].sort(function(a,b) { 
+        seenStorage[key].sort(function(a,b) { 
             return b.first - a.first
         });
 
-        for (var i = currentStorage[key].length - 2; i >= 0; i--) {
-            var prev = currentStorage[key][i + 1],
-                curr = currentStorage[key][i],
+        for (var i = seenStorage[key].length - 2; i >= 0; i--) {
+            var prev = seenStorage[key][i + 1],
+                curr = seenStorage[key][i],
                 obj  = {};
         
             // console.log('curr', time(curr.first), time(curr.last));
             // console.log('prev', time(prev.first), time(prev.last));
             if (prev.first === curr.first && prev.last === curr.last) {
                 console.log('case0');
-                currentStorage[key].splice(i, 1);
+                seenStorage[key].splice(i, 1);
                 continue;
             }
 
             if (expired(curr.last)) {
                 console.log('case1');
-                currentStorage[key].splice(i, 1);
+                seenStorage[key].splice(i, 1);
                 continue;
             }
 
             if (expired(prev.last)) {
                 console.log('case2');
-                currentStorage[key].splice(i + 1, 1);
+                seenStorage[key].splice(i + 1, 1);
                 continue;
             }
 
@@ -225,21 +228,21 @@ var checkForOverlaps = function() {
                 //we now have a new object that contains a merge of previously
                 //two intervals, delete the prev and replace the curr
                 //console.log('overlap', time(obj.first), time(obj.last));
-                currentStorage[key].splice(i, 2, obj);
+                seenStorage[key].splice(i, 2, obj);
             }
         }
 
         //if there are more intervals than 2, 
         //this means that the api could not find anything inbetween or over
         //so the first two must be merged
-        // if (currentStorage[key].length > 2) {
+        // if (seenStorage[key].length > 2) {
             // var obj = {};
-            // obj.first =  currentStorage[key][0].first;
-            // obj.last =  currentStorage[key][1].last;
-            // currentStorage[key].splice(0, 2, obj);
+            // obj.first =  seenStorage[key][0].first;
+            // obj.last =  seenStorage[key][1].last;
+            // seenStorage[key].splice(0, 2, obj);
         // }
        
-        currentSession[key] = currentStorage[key][0];
+        seenSession[key] = seenStorage[key][0];
     }
 };
 
@@ -247,29 +250,32 @@ var checkForOverlaps = function() {
  *  Returns the session
  */
 module.exports.getSession = function() {
-    return currentSession;
+    return seenSession;
 }
 
 /**
  *  Returns the storage
  */
 module.exports.getStorage = function() {
-    return currentStorage;
+    return seenStorage;
 }
 
 /*
  *  Delete from local storage
  */
-module.exports.destroyStorage = function() {
-    localStorage.removeItem("seen");
-    currentStorage = null;
+module.exports.destroyStorage = function(key) {
+    localStorage.removeItem(key);
+    
+    if (key === "seen") {
+        seenStorage = null;
+    }
 }
 
 /*
  *  Delete from local session
  */
 module.exports.destroySession = function() {
-    currentSession = {};
+    seenSession = {};
 }
 
 /**
@@ -278,18 +284,18 @@ module.exports.destroySession = function() {
  *  first.
  */
 module.exports.getSuggestedQuery = function(type) {
-    if (currentStorage && Array.isArray(currentStorage[type]) && currentStorage[type].length < 1) {
+    if (seenStorage && Array.isArray(seenStorage[type]) && seenStorage[type].length < 1) {
         return null;
     }
 
     //if this is true, then nothing have been seen 
-    if (Object.keys(currentSession).length < 1) {
-        if (currentStorage) {
-            return currentStorage;
+    if (Object.keys(seenSession).length < 1) {
+        if (seenStorage) {
+            return seenStorage;
         }
      
         return null;
     }
     
-    return currentSession;
+    return seenSession;
 };
