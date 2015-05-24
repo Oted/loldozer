@@ -12,12 +12,12 @@ var Nav = React.createClass({
                 <li
                     id='list-button'>
                     <a
-                        className='fa fa-list'>
+                        className={this.props.level > 1 ? 'fa fa-list' : 'disabled'}>
                     </a>
                     <ul>
                         <li>
                             <a
-                                className='text-button'
+                                className={this.props.level > 2 ? 'text-button' : 'disabled'}>
                                 onClick={this._openAddModal}
                                 href='#'>
                                 GIVE SOME INTERNET
@@ -25,7 +25,7 @@ var Nav = React.createClass({
                         </li>
                         <li>
                             <a
-                                className='text-button'
+                                className={this.props.level > 1 ? 'text-button' : 'disabled'}
                                 onClick={this._openBestModal}
                                 href='#'>
                                 THE BEST INTERNETS
@@ -33,7 +33,7 @@ var Nav = React.createClass({
                         </li>
                         <li>
                             <a
-                                className='text-button'
+                                className={this.props.level > 3 ? 'text-button' : 'disabled'}>
                                 onClick={this._openFilterModal}
                                 href='#'>
                                 FILTER INTERNET
@@ -42,14 +42,7 @@ var Nav = React.createClass({
 
                     </ul>
                 </li>
-               <li
-                    id='next-button'>
-                    <a 
-                        onClick={this._onNext}>
-                        GET SOME INTERNET
-                    </a>
-                </li>
-               <li
+                <li
                     className='level'>
                     <a
                         id='level'
@@ -59,12 +52,6 @@ var Nav = React.createClass({
                 </li>
            </ul>
         );
-    },
-
-    _onNext: function() {
-        console.log('next');
-        LolActions.noVote();
-        LolActions.next();
     },
 
     _openAddModal: function() {

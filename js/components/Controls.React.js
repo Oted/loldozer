@@ -4,7 +4,7 @@ var React       = require('react'),
 /**
  * The navigation
  */
-var Footer = React.createClass({
+var Controls = React.createClass({
     render: function() {
         return (
             <div
@@ -12,8 +12,7 @@ var Footer = React.createClass({
                 <div
                     className='negatives'>
                     <div
-                        onClick={this._onVoteDown}
-                        className='vote-button'>
+                        className={this.props.level > 4 ? 'vote-button' : 'disabled'}>
                         <a>
                             {this.props.adjectives.negatives[0]}
                         </a>
@@ -21,40 +20,35 @@ var Footer = React.createClass({
                     
                     <div
                         onClick={this._onVoteDown}
-                        className='vote-button'>
+                        className={this.props.level > 0 ? 'vote-button' : 'disabled'}>
                         <a 
                             className='fa fa-thumbs-down'>
                         </a>
                     </div>
                 </div>
-
                 <div
                     className='neutrals'>
                     <div
-                        id='eye'
-                        onClick={this._onViewStats}
-                        className='vote-button'>
+                        id='next-button'>
                         <a 
-                            className='fa fa-eye'>
+                            onClick={this._onNext}>
+                            GET SOME INTERNET
                         </a>
                     </div>
                 </div>
-
                 <div
                     className='positives'>
                     <div
                         onClick={this._onVoteUp}
-                        className='vote-button'>
+                        className={this.props.level > 0 ? 'vote-button' : 'disabled'}>
                         <a 
                             className='fa fa-thumbs-up'>
                         </a>
                     </div>
-                    
                     <div
                         onClick={this._onVoteUp}
-                        className='vote-button positives'>
-                        <a 
-                            className=''>
+                        className={this.props.level > 4 ? 'vote-button' : 'disabled'}>
+                        <a> 
                             {this.props.adjectives.positives[0]}
                         </a>
                     </div>
@@ -76,6 +70,12 @@ var Footer = React.createClass({
         LolActions.next();
     },
 
+    _onNext: function() {
+        console.log('next');
+        LolActions.noVote();
+        LolActions.next();
+    },
+
     _onVoteDown: function(e) {
         var adjective = e.currentTarget.children[0].innerText;
 
@@ -85,4 +85,4 @@ var Footer = React.createClass({
     }
 });
 
-module.exports = Footer;
+module.exports = Controls;

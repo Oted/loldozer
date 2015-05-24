@@ -6,10 +6,11 @@ var React       = require('react'),
     Nav         = require('./Nav.react'),
     Info        = require('./Info.react'),
     Stage       = require('./Stage.react'),
-    Footer      = require('./Footer.react'),
+    Controls    = require('./Controls.react'),
     AddModal    = require('./AddModal.react'),
     BestModal   = require('./BestModal.react'),
     FilterModal = require('./FilterModal.react'),
+    LevelModal  = require('./LevelModal.react'),
     StatsModal  = require('./StatsModal.react'),
     LolStore    = require('../stores/LolStore');
 
@@ -67,6 +68,10 @@ var LolApp = React.createClass({
                     status={this.state.statuses.add}
                     modal={this.state.modals.add}
                 />
+                <LevelModal
+                    level={this.state.level}
+                    modal={this.state.modals.level}
+                />
                 <FilterModal
                     status={this.state.statuses.filter}
                     info={this.state.info}
@@ -85,9 +90,10 @@ var LolApp = React.createClass({
                     seen={this.state.seen}
                     current={this.state.current}
                 />
-                <Footer
+                <Controls
                     current={this.state.current}
                     adjectives={this.state.adjectives}
+                    level={this.state.level}
                 />
             </div>
   	    );

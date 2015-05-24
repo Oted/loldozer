@@ -16,7 +16,7 @@ function Exp(interactions, level, experience) {
 Exp.prototype.calculateExperience = function(vote) {
     switch (vote) {
         case "+1" :
-            this.exp= 5 / (this.lvl * 0.5);
+            this.exp+= 5 / (this.lvl * 0.5);
             this.interactions.upvotes++;
         break;
         case "0" :

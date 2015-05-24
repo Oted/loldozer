@@ -14,12 +14,14 @@ var AppDispatcher   = require('../dispatcher/AppDispatcher'),
 
 var CHANGE_EVENT = 'change';
 
+Storage.destroyStorage("state");
+
 Storage.loadSeenStorage();
 
 //the states that needs to be saved goes in here
 var _saved_state = Storage.loadStateStorage();
 
-//if it does not exists, this is a first timer, defin the root state
+//if it does not exists, this is a first timer, define the root state
 if (!_saved_state) {
     _saved_state = {
         _seen_info : {
@@ -67,7 +69,8 @@ var _modals = {
     add : false,
     stats : false,
     best : false,
-    filter : false
+    filter : false,
+    level : false
 };
 
 //state of stage
@@ -437,7 +440,8 @@ AppDispatcher.register(function(action) {
         case LolConstants.LOL_LEVEL_UP:
             updateStorage();
             console.log('Wow! level ' + action.level + ' now. Nice! (something cool should happen)');
-            alert('Wow! level ' + action.level + ' now. Nice! (something cool should happen)');
+            _modals["level"] = true;
+            LolStore.emitChange();
         break;
 
         case LolConstants.LOL_SET_BEST:

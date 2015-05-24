@@ -1,0 +1,138 @@
+.container {
+  margin-bottom: 2rem;
+  box-shadow: 0 20px 80px rgba(35, 0, 120, 0.4); 
+  background : black;
+  border-style: solid;
+  border-width: 3px;
+  border-color: grey;
+}
+
+.arrow-button {
+  margin-top:3rem;
+  color: #0f0f0f;
+  text-decoration: none;
+  padding: 0 2.5rem;
+  -webkit-transition: color 0.25s;
+  -moz-transition: color 0.25s;
+  -o-transition: color 0.25s;
+  transition: color 0.25s;
+  cursor: pointer;
+  cursor: hand;
+}
+
+.fa-angle-right:before, .fa-angle-left:before {
+  font-size:3rem;
+}
+
+.vote-button {
+  margin-left:2rem;
+  margin-right:2rem;
+  color: #f0f0f0;
+  display: inline-block;
+  text-decoration: none;
+  font-size: 2rem;
+  font-weight: 300;
+  -webkit-transition: color 0.25s;
+  -moz-transition: color 0.25s;
+  -o-transition: color 0.25s;
+  transition: color 0.25s;
+  cursor: pointer; 
+  cursor: hand;
+}
+
+
+.vote-button:hover {
+  -webkit-transform: scale(1.5,1.5);
+  -ms-transform: scale(1.5,1.5); /* IE 9 */
+  -webkit-transform: scale(1.5,1.5); /* Safari */
+  transform: scale(1.5,1.5); 
+}
+
+#next-button {
+  display: inline-block;
+  text-decoration: none;
+  font-size: 2rem;
+  font-weight: 300;
+  padding: 0 0.5rem;
+  transition: color 0.25s;
+  letter-spacing: 0.25rem;
+  color: #f0f0f0;
+  cursor: pointer; 
+  cursor: hand;
+}   
+
+#next-button:active {
+  color: #8a8a8a;
+}
+
+#next-button:hover {
+  letter-spacing: 0.4rem;
+  color: #BDBEFF;
+}
+
+.positives {
+  float:right;
+  margin-right:4rem;
+}
+
+.positives a:hover {
+  color: #89e5b0;
+}
+
+.neutrals {
+  margin-left:1rem;
+  display:inline-block;
+}
+
+.neutrals a:hover {
+  color: #BDBEFF;
+}
+
+.negatives {
+  float:left;
+  margin-left:4rem;
+}
+
+.negatives a:hover {
+  color: #e9a39b;
+}
+
+#downvote-button:active {
+  color: #c0392b;
+}
+
+#stage {
+  margin-bottom:4rem;
+  margin-top: 2rem;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+#stage-controls {
+  text-align:center;
+  padding-bottom:1rem;
+  padding-top:1rem; 
+  left:5rem;
+  right:5rem;
+  bottom:1rem;
+  list-style:none;
+  box-shadow:0px 10px 32px rgba(0,0,0,0.5);
+  position : fixed;
+  background: rgba(0,0,0,0.6);
+  float:left; /* Clear floats */
+}
+
+#stage .hidden {
+  /* display: none causes flash errors in FF */
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+}
