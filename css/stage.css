@@ -61,13 +61,8 @@
   cursor: hand;
 }   
 
-#next-button:active {
-  color: #8a8a8a;
-}
-
 #next-button:hover {
   letter-spacing: 0.4rem;
-  color: #BDBEFF;
 }
 
 .positives {
@@ -85,7 +80,7 @@
 }
 
 .neutrals a:hover {
-  color: #BDBEFF;
+  color: #686AFF;
 }
 
 .negatives {

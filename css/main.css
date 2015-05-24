@@ -67,7 +67,7 @@ p {
 }
 
 .info {
-  rgb(50, 181, 56);
+  color : rgb(50, 181, 56);
   padding-top:5rem;
   display : block;
   text-align: center;
@@ -146,5 +146,5 @@ p {
 }
 
 .title:hover {
-  color: #BDBEFF;
+  color: #686AFF;
 }

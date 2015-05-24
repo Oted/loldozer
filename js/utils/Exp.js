@@ -1,5 +1,4 @@
 var LolActions      = require('../actions/LolActions.js');
-var internals = {};
 
 /**
  *  Constructor for experience and level handler
@@ -7,7 +6,7 @@ var internals = {};
 function Exp(interactions, level, experience) {
     this.interactions   = interactions;
     this.lvl            = level;
-    this.exp            = experience;
+    this.exp            = 0;
 }
 
 /**
@@ -20,7 +19,7 @@ Exp.prototype.calculateExperience = function(vote) {
             this.interactions.upvotes++;
         break;
         case "0" :
-            this.exp+= 2 / (this.lvl * 0.5);
+            this.exp+= this.lvl > 0 ? 2 / (this.lvl * 0.5) : 33;
             this.interactions.novotes++;
         break;
         case "-1" :

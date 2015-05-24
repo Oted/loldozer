@@ -17,7 +17,7 @@ var Nav = React.createClass({
                     <ul>
                         <li>
                             <a
-                                className={this.props.level > 2 ? 'text-button' : 'disabled'}>
+                                className={this.props.level >= 4 ? 'text-button' : 'disabled'}
                                 onClick={this._openAddModal}
                                 href='#'>
                                 GIVE SOME INTERNET
@@ -25,7 +25,7 @@ var Nav = React.createClass({
                         </li>
                         <li>
                             <a
-                                className={this.props.level > 1 ? 'text-button' : 'disabled'}
+                                className={this.props.level >= 2 ? 'text-button' : 'disabled'}
                                 onClick={this._openBestModal}
                                 href='#'>
                                 THE BEST INTERNETS
@@ -33,7 +33,7 @@ var Nav = React.createClass({
                         </li>
                         <li>
                             <a
-                                className={this.props.level > 3 ? 'text-button' : 'disabled'}>
+                                className={this.props.level >= 3 ? 'text-button' : 'disabled'}
                                 onClick={this._openFilterModal}
                                 href='#'>
                                 FILTER INTERNET

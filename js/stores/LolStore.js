@@ -14,8 +14,7 @@ var AppDispatcher   = require('../dispatcher/AppDispatcher'),
 
 var CHANGE_EVENT = 'change';
 
-Storage.destroyStorage("state");
-
+//Storage.destroyStorage("state");
 Storage.loadSeenStorage();
 
 //the states that needs to be saved goes in here

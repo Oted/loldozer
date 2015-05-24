@@ -17,9 +17,8 @@ var Vine = React.createClass({
                     preload='auto' 
                     autoPlay
                     frameBorder="0" 
-                    src={isVine ? this.props.current.data + '/embed/simple?audio=1&auto=1&autoplay=1' : ''}>
+                    src={isVine ? this.props.current.data + '/card?audio=1' : ''}>
                 </iframe>
-                <script src="https://platform.vine.co/static/scripts/embed.js"></script>
             </div>
         );
     }

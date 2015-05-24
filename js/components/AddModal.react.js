@@ -7,14 +7,14 @@ var React       = require('react'),
  * Modal for showing the add item
  */
 var AddModal = React.createClass({
-    getInitialState: function() {
-        return {};
-    }, 
-
     render: function() {
         var style = {
             display : this.props.modal ? '' : 'none'
         };
+
+        if (!this.props.modal) {
+            return (<div></div>);
+        }
 
         return (
             <div
