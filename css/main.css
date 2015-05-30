@@ -1,5 +1,14 @@
+body {
+ background: #636363 url('../common/rsz_2background7.jpg');
+}
+
+@media screen and (max-width: 640px) {
+ body {
+  background: #636363;
+ }
+} 
+
 html,body {
-  background-image: url('../common/background7.jpg');
   background-repeat: no-repeat;  
   background-attachment: scroll;  
   background-position: 0% 0%;
