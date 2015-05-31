@@ -11,6 +11,14 @@ var React           = require('react'),
 var Youtube = React.createClass({
     render: function() {
         var isYoutube = this.props.current.type === 'youtube';
+        
+        if (!isYoutube) { 
+            return (
+                <div
+                    className={isYoutube ? 'container' : 'hidden'}>
+                </div>);
+        }
+        
         if (isYoutube) {
             return (
                 <div 
@@ -24,7 +32,6 @@ var Youtube = React.createClass({
             );
         }
 
-        return (<div></div>);
     }
 });
 

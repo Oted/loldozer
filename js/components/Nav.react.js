@@ -42,6 +42,9 @@ var Nav = React.createClass({
 
                     </ul>
                 </li>
+                <li> 
+                    <img id="logo-top" src='./common/logo_transp.png'></img>
+                </li>
                 <li
                     className='level'>
                     <a

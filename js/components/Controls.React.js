@@ -32,7 +32,7 @@ var Controls = React.createClass({
                         id='next-button'>
                         <a 
                             onClick={this._onNext}>
-                            GET SOME INTERNET
+                            {this.props.isMobile ? 'G S I' : 'GET SOME INTERNET'}
                         </a>
                     </div>
                 </div>

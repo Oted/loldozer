@@ -1,18 +1,15 @@
+/*
+ *  light-green : #67c401
+ *  dark-blue : #27515f
+ *  blak : #0b1b1a
+ *  dark-green : 1b3937
+ */
+
 body {
- background: #636363 url('../common/rsz_2background7.jpg');
+  background-color: #0b1b1a;
 }
 
-@media screen and (max-width: 640px) {
- body {
-  background: #636363;
- }
-} 
-
 html,body {
-  background-repeat: no-repeat;  
-  background-attachment: scroll;  
-  background-position: 0% 0%;
-  background-size: cover;
   font-size: 17px;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -43,22 +40,9 @@ header {
   transition: top 0.25s;
 }
 
-footer {
-  font: -webkit-small-control;
-  position: fixed;
-  left: 0;
-  bottom:0.5rem;
-  width: 100%;
-  -moz-transition: top 0.25s;
-  -o-transition: top 0.25s;
-  transition: top 0.25s;
-  text-align: center;
-}
-
 img {
   height:auto; 
   width:auto; 
-  max-width:800px; 
 }
 
 p {
@@ -71,13 +55,13 @@ p {
 }
 
 .loading {
+  vertical-align:auto;
   width : 100px; 
   height : 100px; 
 }
 
 .info {
-  color : rgb(50, 181, 56);
-  padding-top:5rem;
+  color: #67C401;
   display : block;
   text-align: center;
   width:100%
@@ -157,3 +141,20 @@ p {
 .title:hover {
   color: #686AFF;
 }
+
+#corner-image {
+  bottom : 0px;
+  right : 0px;
+  z-index : -20;
+  position : fixed;
+  width : 600px;
+  -ms-transform: rotate(90deg); /* IE 9 */
+  -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+  transform: rotate(90deg);
+}
+
+@media screen and (max-width: 960px) {
+  #corner-image {
+    width : 100%;
+  }
+} 

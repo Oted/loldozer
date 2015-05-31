@@ -21,22 +21,6 @@ var Stage = React.createClass({
         current: ReactPropTypes.object.isRequired
     },
 
-    getInitialState: function() {
-        return { windowWidth: window.innerWidth };
-    },
-
-    handleResize: function(e) {
-        this.setState({ windowWidth: window.innerWidth });
-    },
-  
-    componentDidMount: function() {
-        window.addEventListener('resize', this.handleResize);
-    },
-
-    componentWillUnmount: function() {
-        window.removeEventListener('resize', this.handleResize);
-    },
-
     /**
     * @return {object}
     */
@@ -54,7 +38,7 @@ var Stage = React.createClass({
             <div id='stage'>
                 <a
                     onClick={this._onPrevious}
-                    className={this.props.seen.length > 0 && this.state.windowWidth > 999 ? 'fa fa-angle-left arrow-button fa-5' : 'hidden'}>
+                    className={this.props.seen.length > 0 && !this.props.isMobile ? 'fa fa-angle-left arrow-button fa-5' : 'hidden'}>
                 </a>
                 <Soundcloud
                     current = {this.props.current}
@@ -63,9 +47,11 @@ var Stage = React.createClass({
                     current = {this.props.current}
                 />
                 <Youtube
+                    isMobile= {this.props.isMobile}
                     current = {this.props.current}
                 />
                 <Vimeo
+                    isMobile= {this.props.isMobile}
                     current = {this.props.current}
                 />
                 <Gif
@@ -85,7 +71,7 @@ var Stage = React.createClass({
                 />
                 <a
                     onClick={this._onNext}
-                    className={this.props.seen.length > 0 && this.state.windowWidth > 999 ? 'fa fa-angle-right arrow-button fa-5' : 'hidden'}>
+                    className={this.props.seen.length > 0 && !this.props.isMobile ? 'fa fa-angle-right arrow-button fa-5' : 'hidden'}>
                 </a>
             </div>
   	    );

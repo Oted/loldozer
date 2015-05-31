@@ -1,22 +1,30 @@
 #nav {
+  margin-bottom:3rem;
   left:1rem;
   right:1rem;
   list-style:none;
   padding-left:0rem;
   margin-top:0rem;
-  box-shadow:0px 0px 20px rgba(0,70,0,1);
-  position : fixed;
-  background: #0f0f0f;
+  background: #0b1b1a;
   text-align: center;
-  height: 4rem;
-  float:left; /* Clear floats */
+  height: 5rem;
+}
+
+#logo-top {
+ vertical-align:middle;
+ width : 150px;
+ position:absolute;
+ top:0.5rem;
+ cursor: pointer; 
+ cursor: hand;
+ margin-left:-75px;
 }
 
 /*--- DROPDOWN ---*/
 #nav ul{
   padding-left:1rem;
   padding-top:1rem;
-  background: #0f0f0f;
+  background: #0b1b1a;
   position:absolute;
   left:-9999px; 
 }
@@ -24,9 +32,9 @@
 #nav ul li {
   margin-right:1rem;
   margin-bottom:1rem;
-  left:-1rem;
+  left:1rem;
   text-align:left;
-  width:18rem;
+  width:20rem;
   padding-top:1px; 
   float:none;
 }
@@ -36,7 +44,7 @@
 }
 
 #nav li:hover ul { 
-  left:-1rem;
+  left:-0.5rem;
 }
 
 #nav li:hover ul a { 
@@ -50,7 +58,7 @@
 #list-button {
   left:1rem;
   position:absolute;
-  color: #f0f0f0;
+  color: #67C401;
   display: inline-block;
   text-decoration: none;
   font-size: 2.5rem;
@@ -75,7 +83,7 @@
   padding: 0 0.5rem;
   transition: color 0.25s;
   letter-spacing: 0.25rem;
-  color: #f0f0f0;
+  color: #67C401;
   cursor: pointer; 
   cursor: hand;
 }
@@ -94,7 +102,7 @@
   padding: 0 0.5rem;
   transition: color 0.25s;
   letter-spacing: 0.25rem;
-  color: #f0f0f0;
+  color: #67C401;
   cursor: pointer; 
   cursor: hand;
 }

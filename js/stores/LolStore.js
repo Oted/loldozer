@@ -7,7 +7,8 @@ var AppDispatcher   = require('../dispatcher/AppDispatcher'),
     StatsHandler    = require('../utils/statshandler.js'),
     Utils           = require('../utils/utils'),
     Storage         = require('../utils/localstorage'),
-    Exp             = require('../utils/Exp')
+    Exp             = require('../utils/Exp'),
+    Abuse           = require('../utils/abuse'),
     Api             = require('../utils/API'),
     $               = require('../../common/jquery.min'),
     assign          = require('object-assign');
@@ -26,7 +27,7 @@ if (!_saved_state) {
         _seen_info : {
             'welcome' : false
         },
-        _filters : [],
+        _filters : window.innerWidth > 960 ? [] : ['img','gif','gifv'],
         interactions : {
             'novotes' : 0,
             'upvotes' : 0,
@@ -163,8 +164,6 @@ function updateAdjectives(adjective) {
         return;
     }
 
-    console.log('here!')
-
     //check if this adjective is in the positives
     for (var p = _adjectives.positives.length - 1; p >=0; p--) {
         if (_adjectives.positives[p] === adjective) {
@@ -230,6 +229,13 @@ var LolStore = assign({}, EventEmitter.prototype, {
     */
     getCurrentPerformer: function() {
         return _currentPerformer;
+    },
+
+    /**
+     *  Return if mobild or not.
+     */
+    isMobile: function() {
+        return window.innerWidth <= 960;
     },
 
    /**
@@ -379,6 +385,7 @@ AppDispatcher.register(function(action) {
                 Api.getItems(_saved_state._filters);
             }
 
+            Abuse();
             nextPerformer();
             LolStore.emitChange();
         break;

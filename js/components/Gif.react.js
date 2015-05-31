@@ -20,7 +20,8 @@ var Gif = React.createClass({
         return (
             <div 
                 className={isGif ? 'container' : 'hidden'}>
-                <img 
+                <img
+                    style={{'width' : '100%'}} 
                     src={isGif && gifCount % 2 === 0 ? this.props.current.data : ''}
                     className={isGif && gifCount % 2 === 0 ? '' : 'hidden'}>
                 </img>

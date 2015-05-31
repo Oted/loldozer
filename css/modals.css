@@ -187,3 +187,12 @@
 .ok-item {
   width : 90%; 
 }
+
+@media screen and (max-width: 960px) {
+  .modal {
+    width : 100%;
+  }
+  #level-modal {
+    width : 75%;
+  }
+} 
