@@ -41,16 +41,19 @@ var Stage = React.createClass({
                     className={this.props.seen.length > 0 && !this.props.isMobile ? 'fa fa-angle-left arrow-button fa-5' : 'hidden'}>
                 </a>
                 <Soundcloud
+                    autoplay = {this.props.autoplay}
                     current = {this.props.current}
                 />
                 <Vine 
                     current = {this.props.current}
                 />
                 <Youtube
+                    autoplay = {this.props.autoplay}
                     isMobile= {this.props.isMobile}
                     current = {this.props.current}
                 />
                 <Vimeo
+                    autoplay = {this.props.autoplay}
                     isMobile= {this.props.isMobile}
                     current = {this.props.current}
                 />
@@ -73,6 +76,12 @@ var Stage = React.createClass({
                     onClick={this._onNext}
                     className={this.props.seen.length > 0 && !this.props.isMobile ? 'fa fa-angle-right arrow-button fa-5' : 'hidden'}>
                 </a>
+                <div className='bottom-nav'>
+                   <div className='auto-play'></div> 
+                   <div className='auto-play'></div> 
+                   <div className='auto-play'></div> 
+                   <div className='auto-play'></div> 
+                </div>
             </div>
   	    );
     },

@@ -55,6 +55,9 @@ var _adjectives ={
     ]
 };
 
+//autplay toggle
+var _autoplay = true;
+
 //current best performers
 var _best = [];
 
@@ -229,6 +232,13 @@ var LolStore = assign({}, EventEmitter.prototype, {
     */
     getCurrentPerformer: function() {
         return _currentPerformer;
+    },
+
+    /**
+     * return the autplay feautre
+     */
+    getAutoplay: function() {
+        return _autoplay;
     },
 
     /**

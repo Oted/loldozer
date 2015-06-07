@@ -6,7 +6,7 @@ var LolActions      = require('../actions/LolActions.js');
 function Exp(interactions, level, experience) {
     this.interactions   = interactions;
     this.lvl            = level;
-    this.exp            = 0;
+    this.exp            = experience;
 }
 
 /**

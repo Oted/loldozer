@@ -26,8 +26,7 @@ function checkKey(e) {
         
         switch (e.keyCode) {
             case (37) :
-                LolActions.downVote();
-                LolActions.next();
+                LolActions.previous();
             break;
             case (38) :
                 LolActions.upVote(null);
@@ -63,7 +62,8 @@ function getLolState() {
         level       : LolStore.getLevel(),
         info        : LolStore.getInfo(),
         filters     : LolStore.getFilters(),
-        isMobile    : LolStore.isMobile()
+        isMobile    : LolStore.isMobile(),
+        autoplay    : LolStore.getAutoplay()
     };
 }
 
@@ -122,6 +122,7 @@ var LolApp = React.createClass({
                     isMobile={this.state.isMobile}
                     performers={this.state.perfomers}
                     seen={this.state.seen}
+                    autoplay={this.state.autoplay}
                     current={this.state.current}
                 />
                 <Controls

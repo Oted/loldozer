@@ -1,4 +1,5 @@
 var React           = require('react'),
+    LolActions      = require('../actions/LolActions'),
     SoundcloudReact = require('react-soundcloud-widget'),
     options         = {
         auto_play : true,
@@ -30,10 +31,19 @@ var Soundcloud = React.createClass({
                 <SoundcloudReact
                     url={this.props.current.data}
                     opts = {options}               
-                    onPlay={this._onPlay}
+                    onEnd={this._onEnd}
                 />
             </div>
         );
+    },
+
+    /**
+     *  Fired when a song finnishes, if autoplay then play
+     */
+    _onEnd : function() {
+        if (this.props.autoplay) {
+            LolActions.next();
+        }
     }
 });
 

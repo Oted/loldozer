@@ -12,7 +12,7 @@ var Controls = React.createClass({
                 <div
                     className='negatives'>
                     <div
-                        className={this.props.level > 4 ? 'vote-button' : 'disabled'}>
+                        className={this.props.level > 999999 ? 'vote-button' : 'disabled'}>
                         <a>
                             {this.props.adjectives.negatives[0]}
                         </a>
@@ -47,7 +47,7 @@ var Controls = React.createClass({
                     </div>
                     <div
                         onClick={this._onVoteUp}
-                        className={this.props.level > 4 ? 'vote-button' : 'disabled'}>
+                        className={this.props.level > 9999999 ? 'vote-button' : 'disabled'}>
                         <a> 
                             {this.props.adjectives.positives[0]}
                         </a>

@@ -117,9 +117,8 @@
   right:5rem;
   bottom:1rem;
   list-style:none;
-  box-shadow:0px 10px 32px rgba(0,50,0,0.5);
   position : fixed;
-  background: rgba(0,0,0,0.6);
+  background: rgba(27,57,55,0.6);
   float:left; /* Clear floats */
 }
 

@@ -1,5 +1,6 @@
 var React           = require('react'),
     YoutubeReact    = require('react-youtube'),
+    LolActions      = require('../actions/LolActions'),
     options         = {
         height: '390',
         width: '640',
@@ -26,12 +27,20 @@ var Youtube = React.createClass({
                     <YoutubeReact 
                         url={'https://www.youtube.com/watch?v=' + this.props.current.data}
                         opts = {options}
-                        onPlay={this._onPlay}
+                        onEnd={this._onEnd}
                     />
                 </div>
             );
         }
+    },
 
+    /**
+     *  Fired when a song finnishes, if autoplay then play
+     */
+    _onEnd : function() {
+        if (this.props.autoplay) {
+            LolActions.next();
+        }
     }
 });
 
