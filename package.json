@@ -17,6 +17,7 @@
     "react-soundcloud-widget": "^2.0.1",
     "react-video": "^1.5.3",
     "react-youtube": "^3.1.0",
+    "uglify-js": "^2.4.23",
     "validator": "^3.39.0"
   },
   "devDependencies": {
@@ -26,12 +27,11 @@
     "jest-cli": "~0.1.17",
     "lab": "^5.5.1",
     "reactify": "^0.15.2",
-    "uglify-js": "~2.4.15",
-    "watchify": "^2.1.1"
+    "watchify": "^0.8.1"
   },
   "scripts": {
     "start": "watchify -o js/bundle.js -v -d js/app.js",
-    "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > js/bundle.min.js",
+    "build": "uglifyjs js/bundle.js -o js/bundle.min.js",
     "test": "lab test"
   },
   "author": "Oted",

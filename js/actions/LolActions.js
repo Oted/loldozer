@@ -174,6 +174,15 @@ var LolActions = {
             actionType: LolConstants.LOL_LEVEL_UP,
             level: level
         });
+    },
+
+    /**
+     * Toggle autoplay
+     */
+    toggleAutoplay: function() {
+        AppDispatcher.dispatch({
+            actionType: LolConstants.LOL_TOGGLE_AUTOPLAY
+        });
     }
 };
 

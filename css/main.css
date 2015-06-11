@@ -9,6 +9,11 @@ body {
   background-color: #0b1b1a;
 }
 
+a {
+  color:inherit;
+  text-decoration: none;
+}
+
 html,body {
   font-size: 17px;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -61,14 +66,40 @@ p {
 }
 
 .info {
-  color: #67C401;
+  color: #f0f0f0;
   display : block;
   text-align: center;
   width:100%
 }
 
+.info-controls {
+  padding : 0;
+  display : -webkit-inline-box;
+}
+
+.info-controls li {
+  margin-left:1rem;
+  margin-right:1rem;
+}
+
+.info-controls li:hover {
+
+}
+
+.fa-toggle-on {
+  color : #89e5b0;
+}
+
 .disabled {
   display: none;
+}
+
+#autoplay {
+  cursor : pointer;
+}
+
+#source:hover {
+  color: #89e5b0;
 }
 
 #exp-bar {
@@ -138,23 +169,93 @@ p {
   cursor: hand;
 }
 
-.title:hover {
-  color: #686AFF;
-}
-
-#corner-image {
+#right-corner-image {
   bottom : 0px;
   right : 0px;
   z-index : -20;
+  opacity : 0.4;
   position : fixed;
-  width : 600px;
-  -ms-transform: rotate(90deg); /* IE 9 */
-  -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
-  transform: rotate(90deg);
+  width : 30%;
+}
+
+#left-corner-image {
+  bottom : 0px;
+  left : 0px;
+  z-index : -20;
+  opacity : 0.4;
+  position : fixed;
+  width : 30%;
 }
 
 @media screen and (max-width: 960px) {
   #corner-image {
     width : 100%;
   }
-} 
+}
+
+
+/**
+ * Tooltip Styles
+ */
+/* Add this attribute to the element that needs a tooltip */
+[data-tooltip] {
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+}
+
+/* Hide the tooltip content by default */
+[data-tooltip]:before,
+[data-tooltip]:after {
+  visibility: hidden;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Position tooltip above the element */
+[data-tooltip]:before {
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  margin-bottom: 5px;
+  margin-left: -80px;
+  padding: 7px;
+  width: 160px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #000;
+  background-color: hsla(0, 0%, 20%, 0.9);
+  color: #fff;
+  content: attr(data-tooltip);
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+/* Triangle hack to make tooltip look like a speech bubble */
+[data-tooltip]:after {
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -5px;
+  width: 0;
+  border-top: 5px solid #000;
+  border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+  content: " ";
+  font-size: 0;
+  line-height: 0;
+}
+
+/* Show tooltip content on hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+  visibility: visible;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}

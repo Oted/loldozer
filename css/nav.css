@@ -15,8 +15,6 @@
  width : 150px;
  position:absolute;
  top:0.5rem;
- cursor: pointer; 
- cursor: hand;
  margin-left:-75px;
 }
 
@@ -26,29 +24,38 @@
   padding-top:1rem;
   background: #0b1b1a;
   position:absolute;
-  left:-9999px; 
+  left:-30rem; 
 }
 
 #nav ul li {
-  margin-right:1rem;
-  margin-bottom:1rem;
-  left:1rem;
   text-align:left;
-  width:20rem;
-  padding-top:1px; 
+  width:16rem;
+  padding:1rem;
   float:none;
+  background: rgba(27,57,55,0.4);
 }
 
 #nav ul a {
   white-space:nowrap; 
 }
 
-#nav li:hover ul { 
-  left:-0.5rem;
+#list-button:hover {
+  -webkit-transform: scale(1.2,1.2);
+  -ms-transform: scale(1.2,1.2); /* IE 9 */
+  -webkit-transform: scale(1.2,1.2); /* Safari */
+  transform: scale(1.2,1.2); 
 }
 
-#nav li:hover ul a { 
-  text-decoration:none;
+#nav li:hover ul { 
+  left:-1rem;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+  -webkit-transition-timing-function: ease;
+  -moz-transition-timing-function: ease;
+  -o-transition-timing-function: ease;
+  transition-timing-function: ease;
 }
 
 #nav li:hover ul li:hover { 
@@ -93,20 +100,20 @@
 }
 
 .text-button {
+  color: #f0f0f0;
   display: inline-block;
   text-decoration: none;
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: 300;
   line-height: 3rem;
   height: 3rem;
   padding: 0 0.5rem;
   transition: color 0.25s;
   letter-spacing: 0.25rem;
-  color: #67C401;
   cursor: pointer; 
   cursor: hand;
 }
 
 .text-button:hover {
-  color: #686AFF;
+  color: #67C401;
 }

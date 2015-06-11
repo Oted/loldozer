@@ -15,6 +15,8 @@ var AppDispatcher   = require('../dispatcher/AppDispatcher'),
 
 var CHANGE_EVENT = 'change';
 
+console.log('sdsdsdsd', window.orientation);
+
 //Storage.destroyStorage("state");
 Storage.loadSeenStorage();
 
@@ -27,7 +29,7 @@ if (!_saved_state) {
         _seen_info : {
             'welcome' : false
         },
-        _filters : window.innerWidth > 960 ? [] : ['img','gif','gifv'],
+        _filters : typeof window.orientation !== 'undefined' ? [] : ['img','gif','gifv'],
         interactions : {
             'novotes' : 0,
             'upvotes' : 0,
@@ -56,7 +58,7 @@ var _adjectives ={
 };
 
 //autplay toggle
-var _autoplay = true;
+var _autoplay = false;
 
 //current best performers
 var _best = [];
@@ -245,7 +247,7 @@ var LolStore = assign({}, EventEmitter.prototype, {
      *  Return if mobild or not.
      */
     isMobile: function() {
-        return window.innerWidth <= 960;
+        return typeof window.orientation !== 'undefined';
     },
 
    /**
@@ -347,6 +349,11 @@ AppDispatcher.register(function(action) {
             }
         break;
 
+        case LolConstants.LOL_TOGGLE_AUTOPLAY : 
+            _autoplay = !_autoplay;
+            LolStore.emitChange();
+        break;
+
         case LolConstants.LOL_UPDATE_FILTERS:
             var target = action.target;
            
@@ -414,6 +421,7 @@ AppDispatcher.register(function(action) {
         case LolConstants.LOL_UP_VOTE:
             Exp.calculateExperience('+1');
             Api.upVote(_currentPerformer._hash, action.adjective);
+            _currentPerformer.likes++;
             updateAdjectives(action.adjective);
             LolStore.emitChange();
         break;
@@ -422,6 +430,7 @@ AppDispatcher.register(function(action) {
             Exp.calculateExperience('-1');
             Api.downVote(_currentPerformer._hash, action.adjective);
             updateAdjectives(action.adjective);
+            _currentPerformer.dislikes++;
             LolStore.emitChange();
         break;
         

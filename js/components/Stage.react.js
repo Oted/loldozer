@@ -32,8 +32,6 @@ var Stage = React.createClass({
             );
         }
 
-        var type = this.props.current.type;
-
   	    return (
             <div id='stage'>
                 <a
@@ -76,12 +74,6 @@ var Stage = React.createClass({
                     onClick={this._onNext}
                     className={this.props.seen.length > 0 && !this.props.isMobile ? 'fa fa-angle-right arrow-button fa-5' : 'hidden'}>
                 </a>
-                <div className='bottom-nav'>
-                   <div className='auto-play'></div> 
-                   <div className='auto-play'></div> 
-                   <div className='auto-play'></div> 
-                   <div className='auto-play'></div> 
-                </div>
             </div>
   	    );
     },

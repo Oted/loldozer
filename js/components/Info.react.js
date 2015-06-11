@@ -6,6 +6,10 @@ var React       = require('react'),
  */
 var Info = React.createClass({
     render: function() {
+
+        if (!this.props.current) {
+            return(<div></div>);
+        }
         
         var style = {
             width : this.props.experience + '%',
@@ -22,11 +26,38 @@ var Info = React.createClass({
                 <h1>
                     {this.props.current ? this.props.current.title : ''}
                 </h1>
-                <small>
-                    {this.props.current ? this.props.current.score ? 'score : ' + this.props.current.score : '' : ''}
-                </small>
+                <ul
+                    className='info-controls'>
+                    <li style={{'color': '#e9a39b'}}>
+                        {this.props.current.dislikes || this.props.current.likes ? this.props.current.dislikes : ''}
+                    </li>
+                    {this.props.current.source ? 
+                    <li 
+                        id='source'>
+                        <a className='fa fa-external-link fa-2x' target='_blank' href={this.props.current.source}></a>
+                    </li>
+                    : <li></li>}
+                    <li
+                        data-tooltip='Toggle autoplay'
+                        onClick={this._toggleAutoplay}>
+                        {this.props.autoplay ? 
+                            <i className="fa fa-toggle-on fa-2x"></i> : 
+                            <i className="fa fa-toggle-off fa-2x"></i>
+                        }
+                    </li>
+                    <li style={{'color': '#89e5b0'}}>
+                        {this.props.current.likes || this.props.current.dislikes ? this.props.current.likes : ''}
+                    </li>
+                </ul>
             </div>
         );
+    },
+
+    /**
+     *  Toggles the autplay
+     */
+    _toggleAutoplay : function() {
+        LolActions.toggleAutoplay();
     }
 });
 

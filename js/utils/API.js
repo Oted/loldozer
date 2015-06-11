@@ -4,6 +4,8 @@ var LolActions      = require('../actions/LolActions'),
     Async           = require('async'),
     $               = require('../../common/jquery.min'),
     Utils           = require('./utils.js'),
+    prefix          = '',
+    prefix          = 'http://188.166.45.196',
     amount          = 10;
 
 /**
@@ -34,7 +36,9 @@ module.exports.getItems = function(types) {
 
     $.ajax({
         method: 'GET',
-        url:'http://188.166.45.196:3000/api/items',
+        dataType : 'json',
+        contentType: "application/json; charset=utf-8",
+        url: prefix + '/api/items',
         data: data,
         success: function(data, msg) {
             console.log('got items!', data);
@@ -54,7 +58,9 @@ module.exports.getItems = function(types) {
 module.exports.getBest = function() {
     $.ajax({
         method: 'GET',
-        url:'http://188.166.45.196:3000/api/bestratings',
+        dataType : 'json',
+        contentType: "application/json; charset=utf-8",
+        url: prefix + '/api/bestratings',
         data : {
             'amount' : 10
         },
@@ -84,7 +90,9 @@ module.exports.getBest = function() {
 module.exports.getItem = function(hash, callback) {
     $.ajax({
         method: 'GET',
-        url:'http://188.166.45.196:3000/api/item',
+        dataType : 'json',
+        contentType: "application/json; charset=utf-8",
+        url: prefix + '/api/item',
         data : {
             'hash' : hash
         },
@@ -102,7 +110,9 @@ module.exports.getItem = function(hash, callback) {
 module.exports.getInfo = function() {
     $.ajax({
         method: 'GET',
-        url:'http://188.166.45.196:3000/api/info',
+        dataType : 'json',
+        contentType: "application/json; charset=utf-8",
+        url: prefix + '/api/info',
         success: function(data, msg) {
             //send a notification that we have fetched out data
             LolActions.api('info', msg);
@@ -117,7 +127,9 @@ module.exports.getInfo = function() {
 module.exports.getRatings = function(hash) {
     $.ajax({
         method: 'GET',
-        url:'http://188.166.45.196:3000/api/ratings',
+        dataType : 'json',
+        contentType: "application/json; charset=utf-8",
+        url: prefix + '/api/ratings',
         data : {
             'hash' : hash
         },
@@ -137,7 +149,9 @@ module.exports.getRatings = function(hash) {
 module.exports.getAdjectives = function() {
     $.ajax({
         method: 'GET',
-        url:'http://188.166.45.196:3000/api/adjectives',
+        dataType : 'json',
+        contentType: "application/json; charset=utf-8",
+        url: prefix + '/api/adjectives',
         data: {
             "amount" : 3
         },
@@ -161,10 +175,9 @@ module.exports.addItem = function(item) {
         return null;
     }
        
-    console.log('itemeee', item); 
     $.ajax({
         method : "POST",
-        url:'http://188.166.45.196:3000/api/items',
+        url: prefix + '/api/items',
         data: {
             "title" : item.title,
             "data" : item.url,
@@ -187,7 +200,7 @@ module.exports.addItem = function(item) {
 module.exports.noVote = function(hash) {
     $.ajax({
         method: 'POST',
-        url:'http://188.166.45.196:3000/api/novote/' + hash,
+        url: prefix + '/api/novote/' + hash,
         success: function(data, msg) {
             LolActions.api('vote', msg);
         }
@@ -203,7 +216,7 @@ module.exports.upVote = function(hash, adjective) {
     
     $.ajax({
         method: 'POST',
-        url:'http://188.166.45.196:3000/api/upvote/' + hash,
+        url: prefix + '/api/upvote/' + hash,
         data : data,
         success: function(data, msg) {
             LolActions.api('vote', msg);
@@ -218,7 +231,7 @@ module.exports.downVote = function(hash, adjective) {
     var data = adjective ? {adjective : adjective} : {};
     $.ajax({
         method: 'POST',
-        url:'http://188.166.45.196:3000/api/downvote/' + hash,
+        url: prefix + '/api/downvote/' + hash,
         data : data,
         success: function(data, msg) {
             LolActions.api('vote', msg);

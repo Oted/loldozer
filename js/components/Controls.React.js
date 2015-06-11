@@ -20,6 +20,8 @@ var Controls = React.createClass({
                     
                     <div
                         onClick={this._onVoteDown}
+                        onMouseOver={this._onNegativeOver}
+                        onMouseOut={this._onNegativeOut}
                         className={this.props.level > 0 ? 'vote-button' : 'disabled'}>
                         <a 
                             className='fa fa-thumbs-down'>
@@ -40,6 +42,8 @@ var Controls = React.createClass({
                     className='positives'>
                     <div
                         onClick={this._onVoteUp}
+                        onMouseOver={this._onPositiveOver}
+                        onMouseOut={this._onPositiveOut}
                         className={this.props.level > 0 ? 'vote-button' : 'disabled'}>
                         <a 
                             className='fa fa-thumbs-up'>
@@ -63,11 +67,19 @@ var Controls = React.createClass({
     },
 
     _onVoteUp: function(e) {
+        if (this.lastvote === this.props.current._hash) {
+           return;
+        }
+        
         var adjective = e.currentTarget.children[0].innerText;
         
         console.log('up with ', adjective);
         LolActions.upVote(adjective || null);
-        LolActions.next();
+        this.lastvote = this.props.current._hash;
+        
+        setTimeout(function() {
+            LolActions.next();
+        }, 700);
     },
 
     _onNext: function() {
@@ -77,12 +89,37 @@ var Controls = React.createClass({
     },
 
     _onVoteDown: function(e) {
+        if (this.lastvote === this.props.current._hash) {
+           return;
+        }
+
         var adjective = e.currentTarget.children[0].innerText;
 
         console.log('down with ', adjective);
         LolActions.downVote(adjective || null);
-        LolActions.next();
+        this.lastvote = this.props.current._hash;
+        
+        setTimeout(function() {
+            LolActions.next();
+        }, 700);
+    },
+
+    _onNegativeOver : function(e) {
+        document.querySelector('#left-corner-image').style.opacity = 1;
+    },
+
+    _onNegativeOut : function(e) {
+        document.querySelector('#left-corner-image').style.opacity = 0.4;
+    },
+
+    _onPositiveOver : function(e) {
+        document.querySelector('#right-corner-image').style.opacity = 1;
+    },
+
+    _onPositiveOut : function(e) {
+        document.querySelector('#right-corner-image').style.opacity = 0.4;
     }
+
 });
 
 module.exports = Controls;

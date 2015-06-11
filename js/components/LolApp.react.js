@@ -115,6 +115,7 @@ var LolApp = React.createClass({
                     level={this.state.level}
                 />
                 <Info
+                    autoplay={this.state.autoplay}
                     current={this.state.current}
                     experience={this.state.experience}
                 />

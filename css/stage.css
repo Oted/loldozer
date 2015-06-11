@@ -1,6 +1,6 @@
 .container {
   margin-bottom: 2rem;
-  box-shadow: 0 20px 80px rgba(35, 0, 120, 0.4); 
+  box-shadow: 0 10px 80px rgba(100, 128, 69, 0.5); 
   background : black;
   border-style: solid;
   border-width: 3px;
@@ -26,7 +26,7 @@
 }
 
 .vote-button {
-  font-size:2rem;
+  font-size:3rem;
   margin-left:2rem;
   margin-right:2rem;
   color: #f0f0f0;
@@ -49,6 +49,7 @@
 
 #next-button {
   font-size:2rem;
+  margin-top: 1rem;
   display: inline-block;
   text-decoration: none;
   padding: 0 0.5rem;
@@ -78,7 +79,7 @@
 }
 
 .neutrals a:hover {
-  color: #686AFF;
+  color: #67C401;
 }
 
 .negatives {
@@ -95,8 +96,7 @@
 }
 
 #stage {
-  margin-bottom:4rem;
-  margin-top: 2rem;
+  margin-bottom:6rem;
   display: -webkit-box;
   display: -moz-box;
   display: -webkit-flex;
@@ -118,7 +118,7 @@
   bottom:1rem;
   list-style:none;
   position : fixed;
-  background: rgba(27,57,55,0.6);
+  background: rgba(27,57,55,0.4);
   float:left; /* Clear floats */
 }
 
