@@ -17,7 +17,9 @@ var CHANGE_EVENT = 'change';
 
 console.log('sdsdsdsd', window.orientation);
 
-//Storage.destroyStorage("state");
+Storage.destroyStorage("state");
+Storage.destroyStorage("seen");
+
 Storage.loadSeenStorage();
 
 //the states that needs to be saved goes in here
@@ -29,7 +31,7 @@ if (!_saved_state) {
         _seen_info : {
             'welcome' : false
         },
-        _filters : typeof window.orientation !== 'undefined' ? [] : ['img','gif','gifv'],
+        _filters : window.orientation ? ['img','gif'] : ['img', 'gif', 'video', 'youtube'],
         interactions : {
             'novotes' : 0,
             'upvotes' : 0,
@@ -397,6 +399,11 @@ AppDispatcher.register(function(action) {
         break;
 
         case LolConstants.LOL_NEXT:
+            var e = document.getElementById('logo-text-top');
+            e.rotation = e.rotation ? e.rotation + 360 : 360;
+            e.style.webkitTransform = 'rotate(' + e.rotation + 'deg)';
+            e.style.transform = 'rotate(' + e.rotation + 'deg)';
+
             if (_performers.length < Math.floor(Api.getAmount() / 2) && _currentPerformer) {
                 updateStorage();
                 Api.getItems(_saved_state._filters);

@@ -10,19 +10,36 @@
   height: 5rem;
 }
 
-#logo-top {
- vertical-align:middle;
- width : 150px;
- position:absolute;
- top:0.5rem;
- margin-left:-75px;
+.logo-top {
+  vertical-align:middle;
+  width : 100px;
+  position:absolute;
+  top:0.5rem;
+  margin-left:-50px;
+  z-index:1;
+  -webkit-transition: 1s ease-in-out;
+  -moz-transition: 1s ease-in-out;
+  -o-transition: 1s ease-in-out;
+  transition: 1s ease-in-out;
+}
+
+#logo-text-top {
+  top:-1rem;
+  vertical-align:middle;
+  width : 150px;
+  position:absolute;
+  margin-left:-75px;
+  z-index:2;
+  -webkit-transition: 1s ease-in-out;
+  -moz-transition: 1s ease-in-out;
+  -o-transition: 1s ease-in-out;
+  transition: 1s ease-in-out;
 }
 
 /*--- DROPDOWN ---*/
 #nav ul{
-  padding-left:1rem;
-  padding-top:1rem;
-  background: #0b1b1a;
+  padding:1rem;
+  background: rgba(27,57,55,0.4);
   position:absolute;
   left:-30rem; 
 }
@@ -32,7 +49,6 @@
   width:16rem;
   padding:1rem;
   float:none;
-  background: rgba(27,57,55,0.4);
 }
 
 #nav ul a {
@@ -59,7 +75,7 @@
 }
 
 #nav li:hover ul li:hover { 
-  background:#333;
+  background: rgba(27,57,55,1);
 }
 
 #list-button {

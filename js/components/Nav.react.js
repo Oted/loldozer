@@ -25,7 +25,7 @@ var Nav = React.createClass({
                         </li>
                         <li>
                             <a
-                                className={this.props.level >= 2 ? 'text-button' : 'disabled'}
+                                className={this.props.level >= 3 ? 'text-button' : 'disabled'}
                                 onClick={this._openBestModal}
                                 href='#'>
                                 THE BEST INTERNETS
@@ -33,17 +33,24 @@ var Nav = React.createClass({
                         </li>
                         <li>
                             <a
-                                className={this.props.level >= 3 ? 'text-button' : 'disabled'}
+                                className={this.props.level >= 2 ? 'text-button' : 'disabled'}
                                 onClick={this._openFilterModal}
                                 href='#'>
-                                FILTER INTERNET
+                                FILTER THE INTERNET
                             </a>
                         </li>
-
                     </ul>
                 </li>
                 <li> 
-                    <img id="logo-top" src='./common/logo_transp.png'></img>
+                    <img className='logo-top' src='./common/play_logo.png'></img>
+                    <img className='logo-top' src='./common/around_logo.png'></img>
+                    <img id="logo-text-top" src='./common/logo_text.png'></img>
+                </li>
+                <li
+                    className='contact'>
+                    <a
+                        className={this.props.level > 1 ? 'fa fa-list' : 'disabled'}>
+                    </a>
                 </li>
                 <li
                     className='level'>

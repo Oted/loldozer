@@ -34,10 +34,6 @@ var Stage = React.createClass({
 
   	    return (
             <div id='stage'>
-                <a
-                    onClick={this._onPrevious}
-                    className={this.props.seen.length > 0 && !this.props.isMobile ? 'fa fa-angle-left arrow-button fa-5' : 'hidden'}>
-                </a>
                 <Soundcloud
                     autoplay = {this.props.autoplay}
                     current = {this.props.current}
@@ -70,10 +66,6 @@ var Stage = React.createClass({
                 <Video
                     current = {this.props.current}
                 />
-                <a
-                    onClick={this._onNext}
-                    className={this.props.seen.length > 0 && !this.props.isMobile ? 'fa fa-angle-right arrow-button fa-5' : 'hidden'}>
-                </a>
             </div>
   	    );
     },

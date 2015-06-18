@@ -110,10 +110,10 @@ var LevelTwo = React.createClass({
     render: function() {
         return (
             <div>
-                <h1 className='title'> You are level two, NICE! </h1>
-                <p> Well done! You can now view the highscores section up in the left corner </p>
-                <p> The highscores show you the currently highest rated items, this list changes constantly because new items are added and old is removed at a fast rate. </p>
-                <p> You can view the items in the highscore list by clicking on them. </p>
+                <h1 className='title'> Level two! </h1>
+                <p> Well played sir, you can now filter items depending on what you prefer.</p>
+                <p> Check filters up to the left and try it out, the numbers beside the types are the number of current available items of that type. </p>
+                <p> Some types may be disabled by default so make sure choose what you prefer to see </p>
             </div>
         );
     }
@@ -126,10 +126,9 @@ var LevelThree = React.createClass({
     render: function() {
         return (
             <div>
-                <h1 className='title'> Woooop wooop, level three! </h1>
-                <p> Well played sir, you  are a true hero and can now filter items depending on what you prefer.</p>
-                <p> Check filters up to the left and try it out, the numbers beside the types are the number of current available items of that type. </p>
-                <p> Note that more types of content might appear here as you gain experience! </p>
+                <h1 className='title'> You are level three, NICE! </h1>
+                <p> You can now view the highscores section up in the left corner </p>
+                <p> The highscores show you the currently highest rated items, this list changes constantly when new items are added and old is removed at a fast rate. </p>
             </div>
         );
     }
