@@ -175,7 +175,9 @@ p {
   z-index : -20;
   opacity : 0.4;
   position : fixed;
-  width : 30%;
+  width : 0%;
+  -webkit-transition: width 2s, height 2s; /* Safari */
+  transition: width 2s, height 2s;
 }
 
 #left-corner-image {
@@ -184,7 +186,9 @@ p {
   z-index : -20;
   opacity : 0.4;
   position : fixed;
-  width : 30%;
+  width : 0%;
+  -webkit-transition: width 2s, height 2s; /* Safari */
+  transition: width 2s, height 2s;
 }
 
 @media screen and (max-width: 960px) {

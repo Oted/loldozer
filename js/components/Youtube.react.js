@@ -2,8 +2,6 @@ var React           = require('react'),
     YoutubeReact    = require('react-youtube'),
     LolActions      = require('../actions/LolActions'),
     options         = {
-        height: '390',
-        width: '640',
         playerVars: { // https://developers.google.com/youtube/player_parameters
             autoplay: 1
         }

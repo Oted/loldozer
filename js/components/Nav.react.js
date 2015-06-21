@@ -12,51 +12,49 @@ var Nav = React.createClass({
                 <li
                     id='list-button'>
                     <a
-                        className={this.props.level > 1 ? 'fa fa-list' : 'disabled'}>
+                        className={this.props.level >= 2 ? 'fa fa-list' : 'disabled'}>
                     </a>
                     <ul>
+                        {this.props.level >= 7 ? 
                         <li>
                             <a
-                                className={this.props.level >= 4 ? 'text-button' : 'disabled'}
+                                className='text-button'
                                 onClick={this._openAddModal}
                                 href='#'>
                                 GIVE SOME INTERNET
                             </a>
                         </li>
+                        :''}
+                        {this.props.level >= 3 ? 
+                            <li>
+                                <a
+                                    className='text-button'
+                                    onClick={this._openBestModal}
+                                    href='#'>
+                                    THE BEST INTERNETS
+                                </a>
+                            </li>
+                        :''}
+                        {this.props.level >= 2 ? 
                         <li>
                             <a
-                                className={this.props.level >= 3 ? 'text-button' : 'disabled'}
-                                onClick={this._openBestModal}
-                                href='#'>
-                                THE BEST INTERNETS
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                className={this.props.level >= 2 ? 'text-button' : 'disabled'}
+                                className='text-button'
                                 onClick={this._openFilterModal}
                                 href='#'>
                                 FILTER THE INTERNET
                             </a>
                         </li>
+                        :''}
                     </ul>
                 </li>
                 <li> 
                     <img className='logo-top' src='./common/play_logo.png'></img>
                     <img className='logo-top' src='./common/around_logo.png'></img>
-                    <img id="logo-text-top" src='./common/logo_text.png'></img>
+                    <img id="logo-bright-top" className='logo-top' src='./common/around_logo_bright.png'></img>
+                    <img id="logo-text-top" className='logo-top' src='./common/logo_text.png'></img>
                 </li>
-                <li
-                    className='contact'>
-                    <a
-                        className={this.props.level > 1 ? 'fa fa-list' : 'disabled'}>
-                    </a>
-                </li>
-                <li
-                    className='level'>
-                    <a
-                        id='level'
-                        href='#'>
+                <li>
+                    <a id='level' href='#'>
                         {this.props.level}
                     </a>
                 </li>

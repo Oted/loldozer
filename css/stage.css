@@ -6,6 +6,7 @@
   border-width: 3px;
   border-color: grey;
   font-weight: 300;
+  max-width:80%;
 }
 
 .arrow-button {

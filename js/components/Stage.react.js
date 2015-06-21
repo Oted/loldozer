@@ -7,7 +7,6 @@ var Youtube         = require('../components/Youtube.react'),
     Image           = require('../components/Image.react'),
     Vimeo           = require('../components/Vimeo.react'),
     Twitch          = require('../components/Twitch.react'),
-    Ted             = require('../components/Ted.react'),
     Vine            = require('../components/Vine.rect.js'),
     Video           = require('../components/Video.react'),
     Gif             = require('../components/Gif.react');
@@ -17,7 +16,6 @@ var Youtube         = require('../components/Youtube.react'),
  */
 var Stage = React.createClass({
     propTypes: {
-        all: ReactPropTypes.object.isRequired,
         current: ReactPropTypes.object.isRequired
     },
 
@@ -26,10 +24,7 @@ var Stage = React.createClass({
     */
     render: function() {
         if (!this.props.current || !this.props.current.type) {
-            console.log('No current...');
-            return (
-                <div id='stage'></div>
-            );
+            return (<div id='stage'></div>);
         }
 
   	    return (
@@ -58,9 +53,6 @@ var Stage = React.createClass({
                     current = {this.props.current}
                 />
                 <Twitch
-                    current = {this.props.current}
-                />
-                <Ted
                     current = {this.props.current}
                 />
                 <Video

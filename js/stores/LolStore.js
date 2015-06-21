@@ -8,6 +8,7 @@ var AppDispatcher   = require('../dispatcher/AppDispatcher'),
     Utils           = require('../utils/utils'),
     Storage         = require('../utils/localstorage'),
     Exp             = require('../utils/Exp'),
+    Effects         = require('../utils/effects'),
     Abuse           = require('../utils/abuse'),
     Api             = require('../utils/API'),
     $               = require('../../common/jquery.min'),
@@ -28,10 +29,7 @@ var _saved_state = Storage.loadStateStorage();
 //if it does not exists, this is a first timer, define the root state
 if (!_saved_state) {
     _saved_state = {
-        _seen_info : {
-            'welcome' : false
-        },
-        _filters : window.orientation ? ['img','gif'] : ['img', 'gif', 'video', 'youtube'],
+        _filters : window.orientation ? ['img','gif'] : ['img', 'gif', 'video', 'youtube', 'vine', 'soundcloud', 'vimeo'],
         interactions : {
             'novotes' : 0,
             'upvotes' : 0,
@@ -187,7 +185,6 @@ function updateAdjectives(adjective) {
         }
     }
 
-
     //if were out of adjectives on either side, fetch new
     if (_adjectives.positives.length < 1 || _adjectives.negatives.length < 1) {
         console.log('out of adjectives', _adjectives);
@@ -340,6 +337,7 @@ AppDispatcher.register(function(action) {
 
     switch (action.actionType) {
         case LolConstants.LOL_SET_INFO:
+            Effects.init();
             _info = action.info;
 
             if (_saved_state._filters.length < 1) {
@@ -399,10 +397,9 @@ AppDispatcher.register(function(action) {
         break;
 
         case LolConstants.LOL_NEXT:
-            var e = document.getElementById('logo-text-top');
-            e.rotation = e.rotation ? e.rotation + 360 : 360;
-            e.style.webkitTransform = 'rotate(' + e.rotation + 'deg)';
-            e.style.transform = 'rotate(' + e.rotation + 'deg)';
+            var e = document.getElementById('logo-bright-top');
+            e.style.opacity = 1;
+            setTimeout(function(){e.style.opacity = 0;}, 750);
 
             if (_performers.length < Math.floor(Api.getAmount() / 2) && _currentPerformer) {
                 updateStorage();
