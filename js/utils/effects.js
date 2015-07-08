@@ -7,6 +7,15 @@ module.exports.init = function() {
 };
 
 /**
+ *  Shine logo
+ */
+module.exports.shineLogo = function() {
+    var e = document.getElementById('logo-bright-top');
+    e.style.opacity = 1;
+    setTimeout(function(){e.style.opacity = 0;}, 750);
+}
+
+/**
  *  Spin the logo text.
  */
 module.exports.spinText = function(deg) {

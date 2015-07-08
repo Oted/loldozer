@@ -49,20 +49,16 @@ var BestModal = React.createClass({
                     style={style}
                     id={'best-modal'}>
                     <div>
-                        <ul id='best-nav'>
-                            <li className='title'> 
-                                <div 
-                                    className='close'
-                                    style={{'right' : '-10px','top':'-10px'}}
-                                    onClick={this._closeModal}>
-                                    <i className='fa fa-times-circle fa'></i>
-                                </div>
-                                <a>
-                                    The best stuff right now!
-                                </a>
-                            </li> 
-                        </ul>
-                        <Stage seen={[]} current={this.state.best} />
+                        <div 
+                            className='close'
+                            style={{'right' : '0px','top':'0px'}}
+                            onClick={this._closeModal}>
+                            <i className='fa fa-times-circle fa-2x'></i>
+                        </div>
+                        <Stage 
+                            style={{'margin-bottom' : '0'}}
+                            seen={[]} 
+                            current={this.state.best}/>
                     </div>
                     <ItemTable setPerformer={this._setPerformer} data={this.props.data} />
                 </div>
@@ -108,8 +104,8 @@ var ItemRow = React.createClass({
                 <a className='rank'>
                     {this.props.object.rank}.
                 </a>
-                <div className='title' onClick={this._clickTitle}>
-                    {this.props.object.item.title}
+                <div className='best-title' onClick={this._clickTitle}>
+                    {this.props.object.item.title || 'NO TITLE'}
                 </div>
                 <a className='score'>
                     {this.props.object.item.score}

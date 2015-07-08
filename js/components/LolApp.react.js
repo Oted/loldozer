@@ -2,18 +2,19 @@
  * This component operates as a "Controller-View".  It listens for changes in
  * the LolStore and passes the new data to its children.
  */
-var React       = require('react'),
-    Nav         = require('./Nav.react'),
-    Info        = require('./Info.react'),
-    Stage       = require('./Stage.react'),
-    Controls    = require('./Controls.react'),
-    AddModal    = require('./AddModal.react'),
-    BestModal   = require('./BestModal.react'),
-    LolActions  = require('../actions/LolActions'),
-    FilterModal = require('./FilterModal.react'),
-    LevelModal  = require('./LevelModal.react'),
-    StatsModal  = require('./StatsModal.react'),
-    LolStore    = require('../stores/LolStore');
+var React           = require('react'),
+    Nav             = require('./Nav.react'),
+    Info            = require('./Info.react'),
+    Stage           = require('./Stage.react'),
+    Controls        = require('./Controls.react'),
+    AddModal        = require('./AddModal.react'),
+    BestModal       = require('./BestModal.react'),
+    LolActions      = require('../actions/LolActions'),
+    FilterModal     = require('./FilterModal.react'),
+    FeedbackModal   = require('./FeedbackModal.react'),
+    LevelModal      = require('./LevelModal.react'),
+    StatsModal      = require('./StatsModal.react'),
+    LolStore        = require('../stores/LolStore');
 
 document.onkeydown = checkKey;
 
@@ -92,6 +93,9 @@ var LolApp = React.createClass({
                 <BestModal
                     modal={this.state.modals.best}
                     data={this.state.best}
+                />
+                <FeedbackModal
+                    modal={this.state.modals.feedback}
                 />
                 <StatsModal
                     modal={this.state.modals.stats}

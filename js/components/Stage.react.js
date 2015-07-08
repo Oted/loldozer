@@ -24,7 +24,7 @@ var Stage = React.createClass({
     */
     render: function() {
         if (!this.props.current || !this.props.current.type) {
-            return (<div id='stage'></div>);
+            return (<div></div>);
         }
 
   	    return (

@@ -10,19 +10,28 @@ var FilterModal = React.createClass({
         return {'filters' : this.props.filters}
     },
     render: function() {
-        var style = {
-            display : this.props.modal ? 'block' : 'none'
-        };
-
         if (!this.props.modal) {
-            return (
-                <div
-                    onClick={this._closeModal}
-                    style={style}
-                    className={'overlay'}>
-                </div>
-            );
+            return (<div></div>);
         }
+
+        var style = {
+                display : this.props.modal ? 'block' : 'none'
+            }, 
+            //store the filters
+            filters = this.props.filters,
+            
+            //reduce to the visible filters
+            available = this.props.info.counts.filter(function(i) {
+                if (filters[i._id] === 0) {
+                    return true;
+                }
+                
+                if (!filters[i._id] || filters[i._id] === -1) {
+                    return false;
+                }
+            
+                return true; 
+            });
 
         return (
             <div
@@ -38,10 +47,10 @@ var FilterModal = React.createClass({
                         className='close'
                         style={{'right' : '10px','top':'5px'}}
                         onClick={this._closeModal}>
-                        <i className='fa fa-times-circle fa-2'></i>
+                        <i className='fa fa-times-circle fa-2x'></i>
                     </div>
                     <div>
-                        <ItemTable selected={this.props.filters} all={this.props.info.counts} />
+                        <ItemTable selected={filters} available={available} unknowns={this.props.info.counts.length - available.length} />
                     </div>
                 </div>
             </div>
@@ -72,11 +81,51 @@ var FilterModal = React.createClass({
 });
 
 /**
+ *  Sub class for creating the list
+ */
+var ItemTable = React.createClass({
+    render: function() {
+        var rows = [];
+        
+        this.props.available.forEach(function(object) {
+            rows.push(<ItemRow key={object._id} selected={this.props.selected} object={object} />);
+        }.bind(this));
+
+        for (var i = 0; i < this.props.unknowns; i++) {
+            rows.push(<ItemRow key={i} />);
+        }
+
+        return (
+           <ul id='filter-list'>
+                {rows}
+           </ul>
+        );
+    }
+});
+
+/**
  *  Subclass for creating the item
  */
 var ItemRow = React.createClass({
     render: function() {
-        var isSelected = this.props.selected.indexOf(this.props.object._id) > -1; 
+        //if this is a unknown one
+        if (!this.props.object) {
+            return (
+                <li style={{"background-color" : "#151515"}}
+                    className='filter-item'>
+                    <div className='title'>
+                        unknown
+                    </div>
+                    <i
+                    style={{color : "#7f7f00", float : "right"}}
+                    className='fa fa-lock'>
+                    </i>
+                </li>
+            );
+        }
+
+        var isSelected = this.props.selected[this.props.object._id] === 1;
+
         return (
             <li onClick={this._clickTitle} className={isSelected ? 'filter-item active' : 'filter-item'}>
                 <div className='title'>
@@ -103,22 +152,6 @@ var ItemRow = React.createClass({
     }
 });
 
-/**
- *  Sub class for creating the list
- */
-var ItemTable = React.createClass({
-    render: function() {
-        var rows = [];
-        this.props.all.forEach(function(object) {
-            rows.push(<ItemRow key={object._id} selected={this.props.selected} object={object} />);
-        }.bind(this));
-        return (
-           <ul id='filter-list'>
-                {rows}
-           </ul>
-        );
-    }
-});
 
 
 module.exports = FilterModal;

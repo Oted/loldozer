@@ -48,10 +48,20 @@ header {
 img {
   height:auto; 
   width:auto; 
+  max-width:100%;
 }
 
 p {
   letter-spacing: 2px;
+  font-weight:100;
+}
+
+.click-link {
+  color : #517BFF;
+}
+
+.click-link:hover {
+  color : #b8c8ff;
 }
 
 .small-bottom {
@@ -99,7 +109,7 @@ p {
 }
 
 #source:hover {
-  color: #89e5b0;
+  color: #67c401;
 }
 
 #exp-bar {

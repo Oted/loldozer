@@ -32,7 +32,7 @@ var AddModal = React.createClass({
                             className='close'
                             style={{'right' : '10px','top':'5px'}}
                             onClick={this._closeModal}>
-                            <i className='fa fa-times-circle fa-2'></i>
+                            <i className='fa fa-times-circle fa-2x'></i>
                         </div>
                         <h1 style={{'color' : 'white'}}>
                             Share your favorite links, win the internet.

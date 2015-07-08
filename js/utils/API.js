@@ -11,8 +11,18 @@ var LolActions      = require('../actions/LolActions'),
 /**
  *  Fetches new items from the server.
  */
-module.exports.getItems = function(types) {
-    types = JSON.stringify(types || []);
+module.exports.getItems = function(filters) {
+    var types = [];
+
+    if (filters) {
+        for (var key in filters) {
+            if (filters[key] === 1) {
+                types.push(key);
+            }
+        }
+    }
+
+    types = JSON.stringify(types);
 
     var type = 'all',
         seenStorage = Storage.getSuggestedQuery(type),
@@ -189,6 +199,35 @@ module.exports.addItem = function(item) {
         success : function(data, msg) {
             console.log(msg, data);
             LolActions.api('add', 200);
+        }
+    });
+};
+
+
+/**
+ * Add a new item!
+ */
+module.exports.postFeedbackMessage = function(item) {
+    if (!item.message) {
+        console.log('no message provided');
+        return null;
+    }
+
+    console.log('item',item)
+
+    $.ajax({
+        method : "POST",
+        url: prefix + '/api/feedback',
+        data: {
+            "message" : item.message,
+            "email" : item.email
+        },
+        error: function(res, msg, err) {
+            LolActions.api('support', res.status);
+        },
+        success : function(data, msg) {
+            console.log(msg, data);
+            LolActions.api('support', 200);
         }
     });
 };

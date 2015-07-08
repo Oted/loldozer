@@ -102,31 +102,35 @@
 #contact {
   position:absolute;
   display: inline-block;
-  top:0.5rem;
-  right : 2rem;
+  top:1.4rem;
+  left : 5rem;
   text-decoration: none;
-  font-size: 2.5rem;
+  font-size: 2rem;
   padding: 0 0.5rem;
   transition: color 0.25s;
   letter-spacing: 0.25rem;
-  color: #67C401;
+  color: #f0f0f0;
+}
+
+#contact:hover {
+  color: #67c401;
 }
 
 #level {
   position:absolute;
   display: inline-block;
-  top:0.5rem;
+  top:1rem;
   right : 1rem;
   text-decoration: none;
   font-size: 2.5rem;
   padding: 0 0.5rem;
   transition: color 0.25s;
   letter-spacing: 0.25rem;
-  color: #67C401;
+  color: #f0f0f0;
 }
 
 #level:hover {
-  color: #EFFF02;
+  color: #67c401;
 }
 
 .text-button {

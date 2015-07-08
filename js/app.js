@@ -1,5 +1,5 @@
 /**
- * Init File
+ * Init
  */
 var React       = require('react'),
     LolApp      = require('./components/LolApp.react');

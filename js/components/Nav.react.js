@@ -15,7 +15,7 @@ var Nav = React.createClass({
                         className={this.props.level >= 2 ? 'fa fa-list' : 'disabled'}>
                     </a>
                     <ul>
-                        {this.props.level >= 7 ? 
+                        {this.props.level >= 1000 ? 
                         <li>
                             <a
                                 className='text-button'
@@ -25,7 +25,7 @@ var Nav = React.createClass({
                             </a>
                         </li>
                         :''}
-                        {this.props.level >= 3 ? 
+                        {this.props.level >= 6 ? 
                             <li>
                                 <a
                                     className='text-button'
@@ -45,6 +45,16 @@ var Nav = React.createClass({
                             </a>
                         </li>
                         :''}
+                        {this.props.level >= 2 ? 
+                            <li>
+                                <a
+                                    className='text-button'
+                                    onClick={this._openFeedbackModal}
+                                    href='#'>
+                                    HELP US IMPROVE
+                                </a>
+                            </li>
+                        :''}
                     </ul>
                 </li>
                 <li> 
@@ -54,12 +64,15 @@ var Nav = React.createClass({
                     <img id="logo-text-top" className='logo-top' src='./common/logo_text.png'></img>
                 </li>
                 <li>
-                    <a id='level' href='#'>
-                        {this.props.level}
-                    </a>
+                    <a id='level' href='#'>{this.props.level}</a>
                 </li>
            </ul>
         );
+    },
+
+    _openFeedbackModal: function() {
+        console.log('feedback');
+        LolActions.openModal('feedback');
     },
 
     _openAddModal: function() {

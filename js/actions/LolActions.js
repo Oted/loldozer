@@ -99,6 +99,16 @@ var LolActions = {
     /**
      * Open modal
      */
+    sendFeedbackMessage: function(item) {
+        AppDispatcher.dispatch({
+            actionType: LolConstants.LOL_POST_FEEDBACK,
+            item: item
+        });
+    },
+
+    /**
+     * Open modal
+     */
     closeModal: function(modal) {
         AppDispatcher.dispatch({
             actionType: LolConstants.LOL_CLOSE_MODAL,

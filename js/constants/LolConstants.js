@@ -12,6 +12,7 @@ module.exports = keyMirror({
     LOL_API: null,
     LOL_SEEN: null,
     LOL_UNDO_SEEN: null,
+    LOL_POST_FEEDBACK: null,
     LOL_DESTROY: null,
     LOL_DESTROY_SEEN:null,
     LOL_SET_INFO:null,

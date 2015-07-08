@@ -25,13 +25,13 @@ var Info = React.createClass({
                     <li style={{'color': '#e9a39b'}}>
                         {this.props.current.dislikes || this.props.current.likes ? this.props.current.dislikes : ''}
                     </li>
-                    {this.props.current.source && this.props.level >= 3 ? 
+                    {this.props.current.source && this.props.level >= 4 ? 
                         <li 
                             id='source'>
                             <a className={this._getSourceIcon()} target='_blank' href={this.props.current.source}></a>
                         </li>
                     :''}
-                    {this.props.current.source && this.props.level >= 5 ? 
+                    {this.props.current.source && this.props.level >= 10 ? 
                         <li data-tooltip='Toggle autoplay' onClick={this._toggleAutoplay}>
                             {this.props.autoplay ? 
                                 <i className="fa fa-toggle-on fa-2x"></i> : 

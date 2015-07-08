@@ -16,6 +16,8 @@
   overflow:auto;
   text-align:center;
   z-index:15;
+  max-height: 80%;
+  overflow-y: scroll;
   margin-left:auto;
   margin-right:auto;
   box-shadow: 0 20px 80px rgba(35, 0, 120, 0.4); 
@@ -30,6 +32,11 @@
   opacity:0;
 }
 
+.modal-title {
+  color : #67c401;
+  letter-spacing: 0.33rem;
+}
+
 .modal.active {
   opacity : 1;
   display : block;
@@ -42,10 +49,29 @@
   color:white;
 }
 
+.close:hover {
+  color: #e9a39b;
+}
+
+#stats-modal {
+  position: relative;   
+  margin-top:3rem;
+  padding-bottom:6rem;
+  width:90%;
+  height:80%;
+}
+
+/**
+ *  Add modal stuff
+ */
 #add-modal {
   margin-top:6rem;
   width:36rem;
   height:16rem;
+}
+
+.close{
+  cursor:pointer;
 }
 
 .add-item {
@@ -79,14 +105,9 @@
   cursor: hand;
 }
 
-#stats-modal {
-  position: relative;   
-  margin-top:3rem;
-  padding-bottom:6rem;
-  width:90%;
-  height:80%;
-}
-
+/**
+ *  Filter modal stuff
+ */
 #filter-modal {
   overflow:auto;
   position: relative;   
@@ -113,33 +134,42 @@
   background-color : rgba(79, 79, 79, 0.46);
 }
 
+/**
+ *  Best modal stuff
+ */
 #best-modal {
   position: relative;
   margin-top:3rem;
-  width:90%;
+  padding:2rem;
+  width:80%;
   height:90%;
   color: #f0f0f0;
 }
 
 #best-list {
-  margin-top: 4rem;
   padding-bottom :1rem
 }
 
 .best-item {
   display:flex;
   text-align: left;
-  margin-left:2rem;
   padding-top:1rem;
-  margin-right:2rem;
   text-decoration: none;
   font-size: 2rem;
   font-weight: 300;
   text-align:left;
 }
 
+.best-title {
+  cursor: pointer;
+}
+
+.best-title:hover {
+  color: green;
+}
+
 .best-item:nth-child(odd) {
-  color : #DFDFDF;
+  background-color : #181818;
 }
 
 .score {
@@ -173,19 +203,44 @@
 .rank {
   margin-right:2rem;
   float : left;
-} 
+}
 
+/**
+ *  Level modal stuff
+ */
 #level-modal {
   overflow:auto;
   position: relative;
   padding : 2rem;
-  width:40%;
+  width:60%;
   margin-top:6rem;
   color: #f0f0f0;
 }
 
 .ok-item {
   width : 90%; 
+}
+
+/**
+ *  Feedback modal stuff
+ */
+#feedback-modal {
+  overflow:auto;
+  position: relative;
+  padding : 2rem;
+  width:60%;
+  margin-top:6rem;
+  color: #f0f0f0;
+}
+
+#feedback-text {
+  font-size:22px;
+  width : 90%
+}
+
+#feedback-email {
+  font-size:22px;
+  width : 50%
 }
 
 @media screen and (max-width: 960px) {

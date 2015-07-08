@@ -127,7 +127,7 @@
   top: -9999px;
 }
 
-@media screen and (max-width: 960px) {
+@media all and (max-width: 960px) {
   .positives {
     margin-right:1rem;
   }
@@ -135,7 +135,7 @@
     margin-left:1rem;
   }
   .vote-button {
-    font-size:1.5rem;
+    font-size: 6rem;
     margin-left:1rem;
     margin-right:1rem;
   }
@@ -147,6 +147,6 @@
     font-size:1.5rem;
   }
   .container {
-    width : 100%;
+    max-width : 100%;
   }
 } 

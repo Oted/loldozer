@@ -16,20 +16,30 @@ var AppDispatcher   = require('../dispatcher/AppDispatcher'),
 
 var CHANGE_EVENT = 'change';
 
-console.log('sdsdsdsd', window.orientation);
-
 Storage.destroyStorage("state");
 Storage.destroyStorage("seen");
 
 Storage.loadSeenStorage();
 
 //the states that needs to be saved goes in here
-var _saved_state = Storage.loadStateStorage();
+var _savedState = Storage.loadStateStorage();
 
 //if it does not exists, this is a first timer, define the root state
-if (!_saved_state) {
-    _saved_state = {
-        _filters : window.orientation ? ['img','gif'] : ['img', 'gif', 'video', 'youtube', 'vine', 'soundcloud', 'vimeo'],
+if (!_savedState) {
+    _savedState = {
+        _filters : window.orientation ? {
+            'img' : 1, 
+            'gif' : 1
+        } : {
+            'img' : 1, 
+            'gif' : 1, 
+            'youtube' : 1, 
+            'video' : 1,
+            'soundcloud' : -1, 
+            'twitch' : -1,
+            'vine' : -1,
+            'vimeo' : -1
+        },
         interactions : {
             'novotes' : 0,
             'upvotes' : 0,
@@ -41,11 +51,11 @@ if (!_saved_state) {
 }
 
 //get first batch of items
-Api.getItems(_saved_state._filters);
+Api.getItems(_savedState._filters);
 Api.getInfo();
 
 //set the Exp class
-Exp = new Exp(_saved_state.interactions, _saved_state.level, _saved_state.experience);
+Exp = new Exp(_savedState.interactions, _savedState.level, _savedState.experience);
 
 //the current adjectives
 var _adjectives ={
@@ -88,16 +98,17 @@ var _performers         = [],
 $(window).unload(updateStorage);
 
 /**
- *  Updates the storage
+ *  Updates the storage, called when level is increased etc
  */
 function updateStorage() {
     Storage.updateSeenSession(_seen.concat(_performers));
     
-    _saved_state.interactions   = Exp.getInteractions();
-    _saved_state.experience     = Exp.getExperience();
-    _saved_state.level          = Exp.getLevel();
+    _savedState.interactions   = Exp.getInteractions();
+    _savedState.experience     = Exp.getExperience();
+    _savedState.level          = Exp.getLevel();
+
     
-    Storage.updateStateStorage(_saved_state);
+    Storage.updateStateStorage(_savedState);
 }
 
 /**
@@ -125,6 +136,9 @@ function createPerformer(obj) {
 function nextPerformer() {
     var lastPerformer = _currentPerformer;
   
+    Effects.shineLogo();
+    Abuse();
+    
     //add old to seen and then remove from performers
     if (lastPerformer) { 
         _performers = Utils.destroyPerformer(_performers, lastPerformer._hash);
@@ -295,7 +309,7 @@ var LolStore = assign({}, EventEmitter.prototype, {
      * Get the filters
      */
     getFilters: function () {
-        return _saved_state._filters;
+        return _savedState._filters;
     },
 
     /**
@@ -339,15 +353,7 @@ AppDispatcher.register(function(action) {
         case LolConstants.LOL_SET_INFO:
             Effects.init();
             _info = action.info;
-
-            if (_saved_state._filters.length < 1) {
-                _saved_state._filters = _info.counts.filter(function(item){
-                    return item.count > 0}
-                ).map(function(item){
-                    return item._id
-                });
-            }
-        break;
+       break;
 
         case LolConstants.LOL_TOGGLE_AUTOPLAY : 
             _autoplay = !_autoplay;
@@ -355,22 +361,26 @@ AppDispatcher.register(function(action) {
         break;
 
         case LolConstants.LOL_UPDATE_FILTERS:
-            var target = action.target;
-           
-            //basically toggles an item in or out from the array 
-            if (_saved_state._filters.indexOf(target) > -1) {
-                _saved_state._filters = _saved_state._filters.filter(function(f){return f !== target});
+            var target = action.target,
+                filter = _savedState._filters[target];
+
+            //toggles the filter or add it and default to disabled
+            if (filter === 1) {
+                _savedState._filters[target] = 0;
+            } else if (filter === 0) {
+                _savedState._filters[target] = 1;
             } else {
-                _saved_state._filters.push(target);
+                _savedState._filters[target] = 0;
             }
 
             LolStore.emitChange();
         break;
 
         case LolConstants.LOL_REFRESH:
+            Effects.init();
             updateStorage();
             _performers = [];
-            Api.getItems(_saved_state._filters);
+            Api.getItems(_savedState._filters);
             nextPerformer();
             LolStore.emitChange();
         break;
@@ -397,16 +407,11 @@ AppDispatcher.register(function(action) {
         break;
 
         case LolConstants.LOL_NEXT:
-            var e = document.getElementById('logo-bright-top');
-            e.style.opacity = 1;
-            setTimeout(function(){e.style.opacity = 0;}, 750);
-
             if (_performers.length < Math.floor(Api.getAmount() / 2) && _currentPerformer) {
                 updateStorage();
-                Api.getItems(_saved_state._filters);
+                Api.getItems(_savedState._filters);
             }
 
-            Abuse();
             nextPerformer();
             LolStore.emitChange();
         break;
@@ -467,8 +472,25 @@ AppDispatcher.register(function(action) {
         break;
 
         case LolConstants.LOL_LEVEL_UP:
+            var l = Exp.getLevel();
+
+            if (l === 3) {
+                _savedState._filters['vine'] = 0;
+            }
+
+            if (l === 5) {
+                _savedState._filters['soundcloud'] = 0;
+            }
+
+            if (l === 7) {
+                _savedState._filters['twitch'] = 0;
+            }
+            
+            if (l === 9) {
+                _savedState._filters['vimeo'] = 0;
+            }
+
             updateStorage();
-            console.log('Wow! level ' + action.level + ' now. Nice! (something cool should happen)');
             _modals["level"] = true;
             LolStore.emitChange();
         break;
