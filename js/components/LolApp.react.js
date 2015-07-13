@@ -22,7 +22,7 @@ document.onkeydown = checkKey;
  *  Voting with the arrows if level is high enough.
  */
 function checkKey(e) {
-    if (LolStore.getLevel() >= 5) {
+    if (LolStore.getLevel() >= 8) {
         e = e || window.event;
         
         switch (e.keyCode) {
@@ -30,16 +30,13 @@ function checkKey(e) {
                 LolActions.previous();
             break;
             case (38) :
-                LolActions.upVote(null);
-                LolActions.next();
+                LolActions.upVote();
             break;
             case (39) :
                 LolActions.noVote();
-                LolActions.next();
             break;
             case (40) :
                 LolActions.downVote();
-                LolActions.next();
             break;
         }
     }

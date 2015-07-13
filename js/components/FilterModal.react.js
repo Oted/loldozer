@@ -11,7 +11,7 @@ var FilterModal = React.createClass({
     },
     render: function() {
         if (!this.props.modal) {
-            return (<div></div>);
+            return (<div keys='filter-modal'></div>);
         }
 
         var style = {
@@ -37,6 +37,7 @@ var FilterModal = React.createClass({
             <div
                 onClick={this._closeModal}
                 style={style}
+                key='filter-modal'
                 className={'overlay'}>
                 <div
                     onClick={this._modalClick}

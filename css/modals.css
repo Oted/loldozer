@@ -16,6 +16,7 @@
   overflow:auto;
   text-align:center;
   z-index:15;
+  opacity:0;
   max-height: 80%;
   overflow-y: scroll;
   margin-left:auto;
@@ -212,6 +213,7 @@
   overflow:auto;
   position: relative;
   padding : 2rem;
+  opacity:0;
   width:60%;
   margin-top:6rem;
   color: #f0f0f0;

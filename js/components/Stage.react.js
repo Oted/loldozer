@@ -28,8 +28,9 @@ var Stage = React.createClass({
         }
 
   	    return (
-            <div id='stage'>
+            <div id='stage' key='stage'>
                 <Soundcloud
+                    key='stage-1'
                     autoplay = {this.props.autoplay}
                     current = {this.props.current}
                 />
@@ -37,25 +38,31 @@ var Stage = React.createClass({
                     current = {this.props.current}
                 />
                 <Youtube
+                    key='stage-2'
                     autoplay = {this.props.autoplay}
                     isMobile= {this.props.isMobile}
                     current = {this.props.current}
                 />
                 <Vimeo
+                    key='stage-3'
                     autoplay = {this.props.autoplay}
                     isMobile= {this.props.isMobile}
                     current = {this.props.current}
                 />
                 <Gif
+                    key='stage-4'
                     current = {this.props.current}
                 />
                 <Image
+                    key='stage-5'
                     current = {this.props.current}
                 />
                 <Twitch
+                    key='stage-6'
                     current = {this.props.current}
                 />
                 <Video
+                    key='stage-7'
                     current = {this.props.current}
                 />
             </div>

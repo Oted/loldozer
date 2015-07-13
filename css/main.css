@@ -49,11 +49,16 @@ img {
   height:auto; 
   width:auto; 
   max-width:100%;
+  max-height:80%;
 }
 
 p {
   letter-spacing: 2px;
   font-weight:100;
+}
+
+.loaded {
+  max-height : 70%;
 }
 
 .click-link {
@@ -90,10 +95,6 @@ p {
 .info-controls li {
   margin-left:1rem;
   margin-right:1rem;
-}
-
-.info-controls li:hover {
-
 }
 
 .fa-toggle-on {

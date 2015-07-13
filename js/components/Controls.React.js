@@ -76,16 +76,11 @@ var Controls = React.createClass({
         console.log('up with ', adjective);
         LolActions.upVote(adjective || null);
         this.lastvote = this.props.current._hash;
-        
-        setTimeout(function() {
-            LolActions.next();
-        }, 700);
     },
 
     _onNext: function() {
         console.log('next');
         LolActions.noVote();
-        LolActions.next();
     },
 
     _onVoteDown: function(e) {
@@ -98,10 +93,6 @@ var Controls = React.createClass({
         console.log('down with ', adjective);
         LolActions.downVote(adjective || null);
         this.lastvote = this.props.current._hash;
-        
-        setTimeout(function() {
-            LolActions.next();
-        }, 700);
     },
 
     _onNegativeOver : function(e) {

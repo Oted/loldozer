@@ -31,7 +31,6 @@ module.exports.loadSeenStorage = function() {
     }
 
     seenStorage = currStorage;
-    console.log('got storage', currStorage);
     return seenStorage;
 };
 
@@ -76,8 +75,6 @@ module.exports.updateSeenSession = function(performers) {
 
     //update and merge for now
     module.exports.mergeAndUpdateStorage(); 
-    
-    console.log('update session', JSON.stringify(seenSession));
 };
 
 /**
@@ -98,7 +95,6 @@ module.exports.loadStateStorage = function() {
 
     stateStorage = sStorage;
 
-    console.log('got state storage', stateStorage);
     return stateStorage;
 };
 
@@ -111,8 +107,6 @@ module.exports.updateStateStorage = function(state) {
     } catch (err) {
         return console.log('err when update storage', err); 
     }
-
-   console.log('update state', JSON.stringify(state));
 }
 
 /**
@@ -144,7 +138,6 @@ module.exports.mergeAndUpdateStorage = function() {
     }
 
     checkForOverlaps();
-    console.log('update storage', JSON.stringify(seenStorage));
     
     try {
         localStorage.setItem("seen", JSON.stringify(seenStorage));
@@ -162,10 +155,6 @@ var checkForOverlaps = function() {
         return;
     }
    
-    //console.log('in merge overlaps',seenStorage); 
-    
-    //iterate the keys
-    //this is the heart of the ISP,
     //compare lasts with firsts etc
     for (var key in seenStorage) {
         //if there is just one span check and compare

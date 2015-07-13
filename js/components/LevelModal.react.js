@@ -11,7 +11,7 @@ var LevelModal = React.createClass({
         };
 
         if (!this.props.modal) {
-            return (<div></div>);
+            return (<div key='level-modal'></div>);
         }
 
         return (
@@ -22,15 +22,16 @@ var LevelModal = React.createClass({
                 <div
                     onClick={this._modalClick}
                     className={'modal active'}
+                    keys='level-modal'
                     style={style}
-                    id={'level-modal'}>                    
-                    <div 
+                    id={'level-modal'}>
+                    <div
                         className='close'
                         style={{'right' : '10px','top':'5px'}}
                         onClick={this._closeModal}>
                         <i className='fa fa-times-circle fa-2x'></i>
                     </div>
-                    <LevelSwitch level={this.props.level} />
+                    <LevelSwitch level={this.props.level}/>
                     <a
                         className={'text-button ok-item'}
                         onClick={this._closeModal}
@@ -106,9 +107,9 @@ var LevelSwitch = React.createClass({
 var LevelOne = React.createClass({
     render: function() {
         return (<div>
-            <h1 className='modal-title'> Welcome to GetSomeInternet, you are level 1! </h1>
+            <h1 className='modal-title'> Welcome to getsomeinternet.com, you are level 1! </h1>
             <p> GSI has declared war against boredom, and you just joined the army. We want you to experience things you would never seen if you where somewhere else. </p>
-            <p> Many of us has gotten used to tailored feeds and smart algorithms that pick what we experience, thats very convenient for us. </p>
+            <p> Many of us has gotten used to tailored feeds and smart algorithms that pick what we see on the internet and thats very convenient for us. </p>
             <p> However, there is also a huge drawback to this, and that is that we often miss the beauty of the wide spread content that the internet offers and hence limit our knowledge. </p>
             <p> This website gives you an endless stream of content from all over the internet, no matter how much you have seen there is always more but you will never know what shows up next. </p>
             <p> It could be a silly cat in space, a documentary about the cold war, the heaviest dubstep drops or a cleaver ted talk about peace in the 21st century. </p>
@@ -219,7 +220,7 @@ var LevelSeven = React.createClass({
             <h1 className='modal-title'> Only true heroes become level 7! </h1>
             <p> twitch.com is a site where people play videogames and stream it live for you to watch and it just got added to yout filters! </p>
             <p> Even if you are not a gamer, maybe you find it entertaining to experience new things? If not then just skip this one in the filters, but we always encourage you to expand your boundaries and discover new things here! </p>
-            <p> Make sure to give it shot! </p>
+            <p> Make sure to give it a shot! </p>
         </div>);
     }
 });
@@ -245,7 +246,7 @@ var LevelNine = React.createClass({
     render: function() {
         return (<div>
             <h1 className='modal-title'> 9 levels now! </h1>
-            <p> Ever heard of vimeo? It is not in your filters! </p>
+            <p> Ever heard of vimeo? It is now in your filters! </p>
             <p> This website has loads of videos uploaded by users and the content varies a lot. </p>
             <p> It could be anything between documentaries and someone backpacking in Asia, in any case we love the randomness it has around it. </p>
             <p> Check it your in the filters </p>

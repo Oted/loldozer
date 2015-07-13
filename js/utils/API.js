@@ -213,8 +213,6 @@ module.exports.postFeedbackMessage = function(item) {
         return null;
     }
 
-    console.log('item',item)
-
     $.ajax({
         method : "POST",
         url: prefix + '/api/feedback',
@@ -242,6 +240,9 @@ module.exports.noVote = function(hash) {
         url: prefix + '/api/novote/' + hash,
         success: function(data, msg) {
             LolActions.api('vote', msg);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            LolActions.api('vote', textStatus);
         }
     });
 };
@@ -259,6 +260,9 @@ module.exports.upVote = function(hash, adjective) {
         data : data,
         success: function(data, msg) {
             LolActions.api('vote', msg);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            LolActions.api('vote', textStatus);
         }
     });
 };
@@ -274,6 +278,9 @@ module.exports.downVote = function(hash, adjective) {
         data : data,
         success: function(data, msg) {
             LolActions.api('vote', msg);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            LolActions.api('vote', textStatus);
         }
     });
 };

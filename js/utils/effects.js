@@ -1,9 +1,35 @@
+var flashNextButton = false;
+
 /**
  *  The init effect.
  */
 module.exports.init = function() {
     module.exports.spinText(1080);
     module.exports.setCrystalSize(30);
+};
+
+/**
+ * Flash the next button so retarded people know where to click
+ */
+module.exports.flashNextButton = function() {
+    var e = document.getElementById('next-button');
+    e.style.color = 'green';
+    setTimeout(function() {
+        e.style.color = 'white';
+        setTimeout(function() {
+            if (flashNextButton) {
+                module.exports.flashNextButton(); 
+            }
+        }, 1000);
+    }, 1000);
+}
+
+/**
+ * Set flashing of next button
+ */
+module.exports.setFlashNext = function(bool) {
+    console.log('here');
+    flashNextButton = bool;
 };
 
 /**

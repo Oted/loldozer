@@ -18,16 +18,13 @@ var Soundcloud = React.createClass({
         var isSoundcloud = this.props.current.type === 'soundcloud';
 
         if (!isSoundcloud) {
-            return (
-                <div
-                    className={isSoundcloud ? 'container' : 'hidden'}>
-                </div>
-            );
+            return (<div></div>);
         }
 
         return (
             <div 
                 className={isSoundcloud ? 'container' : 'hidden'}>
+                style={{'width' : '7rem'}}
                 <SoundcloudReact
                     url={this.props.current.data}
                     opts = {options}               

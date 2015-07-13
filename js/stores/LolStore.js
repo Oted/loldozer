@@ -26,6 +26,7 @@ var _savedState = Storage.loadStateStorage();
 
 //if it does not exists, this is a first timer, define the root state
 if (!_savedState) {
+    Effects.setFlashNext(true);
     _savedState = {
         _filters : window.orientation ? {
             'img' : 1, 
@@ -58,7 +59,7 @@ Api.getInfo();
 Exp = new Exp(_savedState.interactions, _savedState.level, _savedState.experience);
 
 //the current adjectives
-var _adjectives ={
+var _adjectives = {
     "positives": [
         "good"
     ],
@@ -106,7 +107,6 @@ function updateStorage() {
     _savedState.interactions   = Exp.getInteractions();
     _savedState.experience     = Exp.getExperience();
     _savedState.level          = Exp.getLevel();
-
     
     Storage.updateStateStorage(_savedState);
 }
@@ -134,6 +134,12 @@ function createPerformer(obj) {
  *  moves the current to unseen
  */
 function nextPerformer() {
+    //fetch new if needed 
+    if (_performers.length < Math.floor(Api.getAmount() / 2) && _currentPerformer) {
+        updateStorage();
+        Api.getItems(_savedState._filters);
+    }
+    
     var lastPerformer = _currentPerformer;
   
     Effects.shineLogo();
@@ -352,6 +358,7 @@ AppDispatcher.register(function(action) {
     switch (action.actionType) {
         case LolConstants.LOL_SET_INFO:
             Effects.init();
+            Effects.flashNextButton();
             _info = action.info;
        break;
 
@@ -396,6 +403,7 @@ AppDispatcher.register(function(action) {
         break;
 
         case LolConstants.LOL_API:
+            console.log('API said', action);
             if (action.type === 'items') {
                 if (!_currentPerformer) {
                     _currentPerformer = Utils.getPerformer(_performers);
@@ -407,11 +415,6 @@ AppDispatcher.register(function(action) {
         break;
 
         case LolConstants.LOL_NEXT:
-            if (_performers.length < Math.floor(Api.getAmount() / 2) && _currentPerformer) {
-                updateStorage();
-                Api.getItems(_savedState._filters);
-            }
-
             nextPerformer();
             LolStore.emitChange();
         break;
@@ -433,6 +436,11 @@ AppDispatcher.register(function(action) {
             _currentPerformer.likes++;
             updateAdjectives(action.adjective);
             LolStore.emitChange();
+            
+            setTimeout(function() {
+                nextPerformer();
+                LolStore.emitChange();
+            }, 700);
         break;
         
         case LolConstants.LOL_DOWN_VOTE:
@@ -441,6 +449,11 @@ AppDispatcher.register(function(action) {
             updateAdjectives(action.adjective);
             _currentPerformer.dislikes++;
             LolStore.emitChange();
+        
+            setTimeout(function() {
+                nextPerformer();
+                LolStore.emitChange();
+            }, 700);
         break;
         
         case LolConstants.LOL_OPEN_MODAL:
@@ -473,6 +486,10 @@ AppDispatcher.register(function(action) {
 
         case LolConstants.LOL_LEVEL_UP:
             var l = Exp.getLevel();
+
+            if (l === 1) {
+                Effects.setFlashNext(false);
+            }
 
             if (l === 3) {
                 _savedState._filters['vine'] = 0;
@@ -510,14 +527,8 @@ AppDispatcher.register(function(action) {
             destroyPerformer(action._hash);
         break;
 
-        case LolConstants.LOL_DESTROY:
-            destroyPerformer(action._hash);
-            LolStore.emitChange();
-        break;
-
-        case LolConstants.LOL_DESTROY_SEEN:
-            destroySeenPerformers();
-            LolStore.emitChange();
+        case LolConstants.LOL_POST_FEEDBACK:
+            Api.postFeedbackMessage(action.item);
         break;
 
         default:
