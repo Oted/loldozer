@@ -1,5 +1,5 @@
 var LolActions  = require('../actions/LolActions.js'),
-    max         = 11;
+    max         = 10;
 
 /**
  *  Constructor for experience and level handler

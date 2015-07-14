@@ -427,6 +427,7 @@ AppDispatcher.register(function(action) {
         case LolConstants.LOL_NO_VOTE:
             Exp.calculateExperience('0');
             Api.noVote(_currentPerformer._hash);
+            nextPerformer();
             LolStore.emitChange();
         break;
 

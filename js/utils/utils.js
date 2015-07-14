@@ -6,6 +6,8 @@ var expiredTime = 1000 * 60 * 60 * 24 * 3;
  *  or the first one in the list of not provided
  */
 module.exports.getPerformer = function(performers, _hash) {
+    console.log('Getting ', _hash, 'from', performers);
+
     if (!_hash) {
         return performers[0];
     }
@@ -27,7 +29,6 @@ module.exports.destroyPerformer = function(performers, _hash) {
     for (var i = performers.length - 1; i >= 0; i--) {
         if (performers[i]._hash === _hash) {
             performers.splice(i,1);
-            break;
         }
     }
 

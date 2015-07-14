@@ -7,24 +7,23 @@ var React       = require('react'),
 var LevelModal = React.createClass({
     render: function() {
         var style = {
-            display : this.props.modal ? 'block' : 'none',
+            display : this.props.modal ? 'block' : 'none'
         };
 
         if (!this.props.modal) {
-            return (<div key='level-modal'></div>);
+            return (<div></div>);
         }
 
         return (
             <div
                 onClick={this._closeModal}
                 style={style}
-                className={'overlay'}>
+                className='overlay'>
                 <div
                     onClick={this._modalClick}
-                    className={'modal active'}
-                    keys='level-modal'
+                    className='modal active'
                     style={style}
-                    id={'level-modal'}>
+                    id='level-modal'>
                     <div
                         className='close'
                         style={{'right' : '10px','top':'5px'}}
@@ -33,9 +32,9 @@ var LevelModal = React.createClass({
                     </div>
                     <LevelSwitch level={this.props.level}/>
                     <a
-                        className={'text-button ok-item'}
+                        className='text-button ok-item'
                         onClick={this._closeModal}
-                        href={'#'}>
+                        href='#'>
                             CLOSE!
                     </a>
                 </div>
@@ -47,8 +46,13 @@ var LevelModal = React.createClass({
      * Close modal
      */
     _closeModal: function() {
+        var l = this.props.level;
         console.log('close level');
         LolActions.closeModal('level');
+       
+        if (l === 3 || l === 5 || l === 7 || l === 9) { 
+            LolActions.openModal('filter');
+        }
     },
 
     /**

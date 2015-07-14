@@ -58,7 +58,7 @@ var Nav = React.createClass({
                     </ul>
                 </li>
                 <li> 
-                    <img className='logo-top' src='./common/play_logo.png'></img>
+                    <img id='logo-play' className='logo-top' src='./common/play_logo.png'></img>
                     <img className='logo-top' src='./common/around_logo.png'></img>
                     <img id="logo-bright-top" className='logo-top' src='./common/around_logo_bright.png'></img>
                     <img id="logo-text-top" className='logo-top' src='./common/logo_text.png'></img>

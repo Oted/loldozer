@@ -6,7 +6,6 @@ var React       = require('react'),
  */
 var Info = React.createClass({
     render: function() {
-
         if (!this.props.current) {
             return(<div></div>);
         }
@@ -16,10 +15,15 @@ var Info = React.createClass({
             background : calculateColour(this.props.experience)
         };
         
+        var niceExp = parseFloat(this.props.experience).toFixed(1);
+
+        
         return (
             <div
                 className={'info'}>
-                <div style={style} id={'exp-bar'}></div>
+                <div style={style} id={'exp-bar'}>
+                    {this.props.experience ? <p id='exp-bar-text'> {niceExp} / 100 </p> : ''}
+                </div>
                 <h1> {this.props.current ? this.props.current.title : ''} </h1>
                 <ul className='info-controls'>
                     <li style={{'color': '#e9a39b'}}>
@@ -79,7 +83,6 @@ var Info = React.createClass({
             default :
                 return "fa fa-external-link fa-2x";
         }
-    
     }
 });
 

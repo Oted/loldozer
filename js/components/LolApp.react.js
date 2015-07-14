@@ -88,6 +88,7 @@ var LolApp = React.createClass({
   	    return (
             <div>
                 <BestModal
+                    key='best-modal'
                     modal={this.state.modals.best}
                     data={this.state.best}
                 />

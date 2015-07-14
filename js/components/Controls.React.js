@@ -68,29 +68,26 @@ var Controls = React.createClass({
 
     _onVoteUp: function(e) {
         if (this.lastvote === this.props.current._hash) {
-           return;
+            return LolActions.next();
         }
         
         var adjective = e.currentTarget.children[0].innerText;
         
-        console.log('up with ', adjective);
         LolActions.upVote(adjective || null);
         this.lastvote = this.props.current._hash;
     },
 
     _onNext: function() {
-        console.log('next');
         LolActions.noVote();
     },
 
     _onVoteDown: function(e) {
         if (this.lastvote === this.props.current._hash) {
-           return;
+            return LolActions.next();
         }
 
         var adjective = e.currentTarget.children[0].innerText;
 
-        console.log('down with ', adjective);
         LolActions.downVote(adjective || null);
         this.lastvote = this.props.current._hash;
     },

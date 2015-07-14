@@ -5,6 +5,7 @@ var flashNextButton = false;
  */
 module.exports.init = function() {
     module.exports.spinText(1080);
+    module.exports.spinPlay(-1800);
     module.exports.setCrystalSize(30);
 };
 
@@ -13,9 +14,9 @@ module.exports.init = function() {
  */
 module.exports.flashNextButton = function() {
     var e = document.getElementById('next-button');
-    e.style.color = 'green';
+    e.style.color = 'white';
     setTimeout(function() {
-        e.style.color = 'white';
+        e.style.color = 'red';
         setTimeout(function() {
             if (flashNextButton) {
                 module.exports.flashNextButton(); 
@@ -43,6 +44,17 @@ module.exports.shineLogo = function() {
 
 /**
  *  Spin the logo text.
+ */
+module.exports.spinPlay = function(deg) {
+    var e = document.getElementById('logo-play');
+    e.rotation = e.rotation ? e.rotation + deg : deg;
+    e.style.webkitTransform = 'rotate(' + e.rotation + 'deg)';
+    e.style.transform = 'rotate(' + e.rotation + 'deg)';
+};
+
+
+/**
+ *  Spin the inner play.
  */
 module.exports.spinText = function(deg) {
     var e = document.getElementById('logo-text-top');

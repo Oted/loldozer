@@ -139,13 +139,15 @@
     margin-left:1rem;
     margin-right:1rem;
   }
+  .vote-button:hover {}
   #stage-controls {
     left:1rem;
     right:1rem;
   }
   #next-button {
-    font-size:1.5rem;
+    font-size:4rem;
   }
+  #next-button:hover {}
   .container {
     max-width : 100%;
   }

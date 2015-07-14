@@ -113,6 +113,13 @@ p {
   color: #67c401;
 }
 
+#exp-bar-text {
+  font-size : 8px;
+  color : white;
+  margin-left:50%;
+  margin-right:50%;
+}
+
 #exp-bar {
   height: 0.3rem;
   width: 0;
