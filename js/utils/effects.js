@@ -14,9 +14,9 @@ module.exports.init = function() {
  */
 module.exports.flashNextButton = function() {
     var e = document.getElementById('next-button');
-    e.style.color = 'white';
+    e.style.color = 'red';
     setTimeout(function() {
-        e.style.color = 'red';
+        e.style.color = 'white';
         setTimeout(function() {
             if (flashNextButton) {
                 module.exports.flashNextButton(); 

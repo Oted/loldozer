@@ -94,7 +94,6 @@ module.exports.loadStateStorage = function() {
     }
 
     stateStorage = sStorage;
-
     return stateStorage;
 };
 
@@ -123,6 +122,7 @@ module.exports.mergeAndUpdateStorage = function() {
 
     //iterate over all the keys in the session
     for (var key in seenSession) {
+        //if its undefined
         if (!seenSession[key]) {
             delete seenSession[key];
             continue;

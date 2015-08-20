@@ -6,8 +6,6 @@ var expiredTime = 1000 * 60 * 60 * 24 * 3;
  *  or the first one in the list of not provided
  */
 module.exports.getPerformer = function(performers, _hash) {
-    console.log('Getting ', _hash, 'from', performers);
-
     if (!_hash) {
         return performers[0];
     }

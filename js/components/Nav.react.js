@@ -64,6 +64,9 @@ var Nav = React.createClass({
                     <img id="logo-text-top" className='logo-top' src='./common/logo_text.png'></img>
                 </li>
                 <li>
+                    <a id='fb-like' target="_blank" href='https://www.facebook.com/getsomeinternet/' className='fa fa-facebook-square'></a>
+                </li>
+                <li>
                     <a id='level' href='#'>{this.props.level}</a>
                 </li>
            </ul>

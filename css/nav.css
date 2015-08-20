@@ -116,11 +116,11 @@
   color: #67c401;
 }
 
-#level {
+#fb-like {
   position:absolute;
   display: inline-block;
-  top:1rem;
-  right : 1rem;
+  top:1.1rem;
+  right : 6rem;
   text-decoration: none;
   font-size: 2.5rem;
   padding: 0 0.5rem;
@@ -129,8 +129,25 @@
   color: #f0f0f0;
 }
 
-#level:hover {
-  color: #67c401;
+#fb-like:hover {
+  color: #5B5BFF;
+  -webkit-transform: scale(1.2,1.2);
+  -ms-transform: scale(1.2,1.2); /* IE 9 */
+  -webkit-transform: scale(1.2,1.2); /* Safari */
+  transform: scale(1.2,1.2); 
+}
+
+#level {
+  position:absolute;
+  display: inline-block;
+  top:1rem;
+  right : 2rem;
+  text-decoration: none;
+  font-size: 2.5rem;
+  padding: 0 0.5rem;
+  transition: color 0.25s;
+  letter-spacing: 0.25rem;
+  color: #f0f0f0;
 }
 
 .text-button {

@@ -16,8 +16,8 @@ var AppDispatcher   = require('../dispatcher/AppDispatcher'),
 
 var CHANGE_EVENT = 'change';
 
-Storage.destroyStorage("state");
-Storage.destroyStorage("seen");
+//Storage.destroyStorage("state");
+//Storage.destroyStorage("seen");
 
 Storage.loadSeenStorage();
 
@@ -96,7 +96,12 @@ var _performers         = [],
     _currentPerformer   = null;
 
 //make sure things are saved before close
-$(window).unload(updateStorage);
+$(window).unload(function() {
+    _gaq.push(['_trackPageview', '/page-exit?page=' + document.location.pathname + document.location.search + '&from=' + document.referrer]);
+    updateStorage();
+});
+
+
 
 /**
  *  Updates the storage, called when level is increased etc

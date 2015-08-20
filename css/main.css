@@ -54,8 +54,9 @@ img {
 
 p {
   letter-spacing: 2px;
-  font-weight:100;
+  font-weight:200;
   color: white;
+  font-color: white;
 }
 
 .loaded {
