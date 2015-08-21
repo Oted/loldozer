@@ -11,6 +11,49 @@ var LolActions      = require('../actions/LolActions'),
 /**
  *  Fetches new items from the server.
  */
+module.exports.getFirstItems = function() {
+    var type = 'all',
+        seenStorage = Storage.getSuggestedQuery(type),
+        data = {
+            "amount" : amount,
+            "types" : types
+        };
+
+    if (seenStorage && seenStorage[type]) {
+        var first = Array.isArray(seenStorage[type]) ?
+            seenStorage[type][0].first :
+            seenStorage[type].first;
+
+        var last = Array.isArray(seenStorage[type]) ?
+            seenStorage[type][0].last : 
+            seenStorage[type].last; 
+
+        data.first = first;
+        data.last = last;
+    }
+
+    $.ajax({
+        method: 'GET',
+        dataType : 'json',
+        contentType: "application/json; charset=utf-8",
+        url: prefix + '/api/items',
+        data: data,
+        success: function(data, msg) {
+            console.log('got items!', data);
+            for (var i = 0; i < data.length; i++) {
+                LolActions.createPerformer(data[i]);
+            }
+
+            //send a notification that we have fetched out data
+            LolActions.api('items', msg);
+        }
+    });
+};
+
+
+/**
+ *  Fetches new items from the server.
+ */
 module.exports.getItems = function(filters) {
     var types = [];
 

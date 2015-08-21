@@ -63,11 +63,9 @@ var Nav = React.createClass({
                     <img id="logo-bright-top" className='logo-top' src='./common/around_logo_bright.png'></img>
                     <img id="logo-text-top" className='logo-top' src='./common/logo_text.png'></img>
                 </li>
-                <li>
-                    <a id='fb-like' target="_blank" href='https://www.facebook.com/getsomeinternet/' className='fa fa-facebook-square'></a>
-                </li>
-                <li>
+                <li id='right-bar'>
                     <a id='level' href='#'>{this.props.level}</a>
+                    <a id='fb-like' target="_blank" href='https://www.facebook.com/getsomeinternet/' className='fa fa-facebook-square'></a>
                 </li>
            </ul>
         );

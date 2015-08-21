@@ -100,8 +100,6 @@
 }
 
 #contact {
-  position:absolute;
-  display: inline-block;
   top:1.4rem;
   left : 5rem;
   text-decoration: none;
@@ -116,11 +114,19 @@
   color: #67c401;
 }
 
-#fb-like {
-  position:absolute;
+#right-bar {
   display: inline-block;
-  top:1.1rem;
-  right : 6rem;
+  position:absolute;
+  right : 0rem;
+}
+
+#right-bar > * {
+  margin-top : 1rem;
+}
+
+#fb-like {
+  float : right;
+  width : 100%;
   text-decoration: none;
   font-size: 2.5rem;
   padding: 0 0.5rem;
@@ -138,10 +144,8 @@
 }
 
 #level {
-  position:absolute;
-  display: inline-block;
-  top:1rem;
-  right : 2rem;
+  float : right;
+  width : 100%;
   text-decoration: none;
   font-size: 2.5rem;
   padding: 0 0.5rem;
