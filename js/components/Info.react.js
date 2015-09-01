@@ -29,10 +29,16 @@ var Info = React.createClass({
                     <li style={{'color': '#e9a39b'}}>
                         {this.props.current.dislikes || this.props.current.likes ? this.props.current.dislikes : ''}
                     </li>
-                    {this.props.current.source && this.props.level >= 4 ? 
+                    {this.props.current && this.props.current.source ? 
                         <li 
                             id='source'>
                             <a className={this._getSourceIcon()} target='_blank' href={this.props.current.source}></a>
+                        </li>
+                    :''}
+                    {this.props.current && this.props.current.source && this.props.level > 0 ? 
+                        <li 
+                            id='share'>
+                            <i className='fa fa-share-alt fa-2x' onClick={this._copyToClip}></i>
                         </li>
                     :''}
                     {this.props.current.source && this.props.level >= 10 ? 
@@ -49,6 +55,13 @@ var Info = React.createClass({
                 </ul>
             </div>
         );
+    },
+
+    /**
+     * Copy to the clipboard
+     */
+    _copyToClip : function() {
+        window.prompt("Copy the unique link to this item and share it!", 'http://getsomeinternet.com/?hash=' + this.props.current._hash);
     },
 
     /**

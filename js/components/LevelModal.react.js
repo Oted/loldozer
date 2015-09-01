@@ -96,9 +96,6 @@ var LevelSwitch = React.createClass({
             case 9 :
                 return (<LevelNine />);
             break;
-            case 10 :
-                return (<LevelTen />);
-            break;
             default : 
                 return (<LevelMax />);
         }
@@ -115,7 +112,7 @@ var LevelOne = React.createClass({
             <p> WOW, slow down there handsome! </p>
             <p> This level gave you the vote buttons, use them to rate the content you see, press twice to see the next item. </p>
             <p> By voting you participate in deciding what to show up in the highscores and social media. </p>
-            <p> Remember, when all your subsreddits and local newspapers are read for the fifth time. Bounce back here and we promise that you will be entertained! </p>
+            <p> Also, check out the share button above, use it to share the current item with your friends! </p>
         </div>);
     }
 });
@@ -165,25 +162,9 @@ var LevelThree = React.createClass({
 });
 
 /**
- *  For level four.
- */
-var LevelFour = React.createClass({
-    render: function() {
-        return (<div>
-            <h1 className='modal-title'> 4! </h1>
-            <p> Would you like to know more about a stupendous image of that 
-            <a className='click-link' target='_blank' href='https://s-media-cache-ak0.pinimg.com/736x/a8/77/d8/a877d8881cbfee402c202c104022ab32.jpg'> cat in space</a>? Maybe you actually miss the infinite walls of text with all the opinions in the comment sections? And maybe you will be able to comment here as well, one day. </p>
-            <p> The automated scrapers behind this website work day and night to provide you with the latest content from the internet, and there is always a source from where it came. </p>
-            <p> Press the link button above the content to get to the source. </p>
-        </div>);
-    }
-});
-
-
-/**
  *  For level five
  */
-var LevelFive = React.createClass({
+var LevelFour = React.createClass({
     render: function() {
         return (<div>
             <h1 className='modal-title'> You are level 5, NICE! </h1>
@@ -198,7 +179,7 @@ var LevelFive = React.createClass({
 /**
  *  For level six
  */
-var LevelSix = React.createClass({
+var LevelFive = React.createClass({
     render: function() {
         return (<div>
             <h1 className='modal-title'> 6 </h1>
@@ -214,7 +195,7 @@ var LevelSix = React.createClass({
 /**
  *  For level seven
  */
-var LevelSeven = React.createClass({
+var LevelSix = React.createClass({
     render: function() {
         return (<div>
             <h1 className='modal-title'> Only true heroes become level 7! </h1>
@@ -228,7 +209,7 @@ var LevelSeven = React.createClass({
 /**
  *  For level eight
  */
-var LevelEight = React.createClass({
+var LevelSeven = React.createClass({
     render: function() {
         return (<div>
             <h1 className='modal-title'> 8 levels now! </h1>
@@ -242,7 +223,7 @@ var LevelEight = React.createClass({
 /**
  *  For level nine
  */
-var LevelNine = React.createClass({
+var LevelEight = React.createClass({
     render: function() {
         return (<div>
             <h1 className='modal-title'> 9 levels now! </h1>
@@ -257,7 +238,7 @@ var LevelNine = React.createClass({
 /**
  *  For level ten
  */
-var LevelTen = React.createClass({
+var LevelNine = React.createClass({
     render: function() {
         return (<div>
             <h1 className='modal-title'> Level 10! </h1>

@@ -4,8 +4,8 @@ var LolActions      = require('../actions/LolActions'),
     Async           = require('async'),
     $               = require('../../common/jquery.min'),
     Utils           = require('./utils.js'),
-    //prefix          = '',
-    prefix          = 'http://188.166.45.196',
+    prefix          = '',
+    //prefix          = 'http://188.166.45.196',
     amount          = 25;
 
 /**
@@ -67,22 +67,24 @@ module.exports.getItems = function(filters) {
  * fetch that item and put it in the front
  */
 module.exports.maybeGetGivenHash = function(callback) {
-    var path = window.location.pathname,
+    var path = window.location.search,
         hash;
-    path = '/item/0dc1777479206914e32975edc6e394c1';
 
-    if (path.indexOf('/item/') < 0) {
+    if (path.indexOf('?hash=') < 0) {
         return callback();
     }
     
-    hash = path.split('/').pop();
+    hash = path.split('=').pop();
     
+    //this 'validation' is kina meh but works for now
     if (!hash && hash.length != 32) {
+        alert('Invalid hash provided');
         return callback();
     }
 
     module.exports.getItem(hash, function(err, item) {
         if (err || !item || !item.item) {
+            alert('Invalid hash provided');
             return callback();
         }
         

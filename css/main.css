@@ -111,6 +111,14 @@ p {
   cursor : pointer;
 }
 
+#share {
+  cursor : pointer;
+}
+
+#share:hover {
+  color: #67c401;
+}
+
 #source:hover {
   color: #67c401;
 }
