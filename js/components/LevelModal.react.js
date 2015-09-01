@@ -111,15 +111,11 @@ var LevelSwitch = React.createClass({
 var LevelOne = React.createClass({
     render: function() {
         return (<div>
-            <h1 className='modal-title'> Welcome to getsomeinternet.com, you are level 1! </h1>
-            <p> GSI has declared war against boredom, and you just joined the army. We want you to experience things you would never seen if you where somewhere else. </p>
-            <p> Many of us has gotten used to tailored feeds and smart algorithms that pick what we see on the internet and thats very convenient for us. </p>
-            <p> However, there is also a huge drawback to this, and that is that we often miss the beauty of the wide spread content that the internet offers and hence limit our knowledge. </p>
-            <p> This website gives you an endless stream of content from all over the internet, no matter how much you have seen there is always more but you will never know what shows up next. </p>
-            <p> It could be a silly cat in space, a documentary about the cold war, the heaviest dubstep drops or a cleaver ted talk about peace in the 21st century. </p>
-            <p> You gain experience by interacting with the content and the site, as you gain levels, features and enhancements will be added to increase your experience. </p>
-            <p> This level gave you the vote buttons, use them to rate the content you see. </p>
-            <p> Why vote at all? Another level will tell... </p>
+            <h1 className='modal-title'> You are level 1! </h1>
+            <p> WOW, slow down there handsome! </p>
+            <p> This level gave you the vote buttons, use them to rate the content you see, press twice to see the next item. </p>
+            <p> By voting you participate in deciding what to show up in the highscores and social media. </p>
+            <p> Remember, when all your subsreddits and local newspapers are read for the fifth time. Bounce back here and we promise that you will be entertained! </p>
         </div>);
     }
 });
@@ -136,7 +132,7 @@ var LevelTwo = React.createClass({
                 <p> It is okay to feel like this, in fact we encourage you to filter out what types of content you do not wish to have in the frame for the moment. </p>
                 <p> You will still never know what shows up after next click, but you will be able to control what kind of content that shows up </p>
                 <p> Use the filters in the menu up to the left to exclude or include different types of content, the numbers beside the types are the number of current available items of that type. </p>
-                <p> As you gain levels, new types will appear in the filters. </p>
+                <p> By coming back here when you are bored, you are making us and yourself such a great favor. We do not make any money, there are no ads. We just want you to dig this place and come back, we guarantee you to find things you would never find anywhere else! </p>
             </div>
         );
     }

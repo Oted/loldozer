@@ -11,6 +11,7 @@ var React           = require('react'),
     BestModal       = require('./BestModal.react'),
     LolActions      = require('../actions/LolActions'),
     FilterModal     = require('./FilterModal.react'),
+    AboutModal      = require('./AboutModal.react'),
     FeedbackModal   = require('./FeedbackModal.react'),
     LevelModal      = require('./LevelModal.react'),
     StatsModal      = require('./StatsModal.react'),
@@ -94,6 +95,9 @@ var LolApp = React.createClass({
                 />
                 <FeedbackModal
                     modal={this.state.modals.feedback}
+                />
+                <AboutModal
+                    modal={this.state.modals.about}
                 />
                 <StatsModal
                     modal={this.state.modals.stats}

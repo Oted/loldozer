@@ -15,6 +15,16 @@ var Nav = React.createClass({
                         className={this.props.level >= 2 ? 'fa fa-list' : 'disabled'}>
                     </a>
                     <ul>
+                        {this.props.level >= 0 ? 
+                        <li>
+                            <a
+                                className='text-button'
+                                onClick={this._openAboutModal}
+                                href='#'>
+                                WHAT IS THIS PLACE?
+                            </a>
+                        </li>
+                        :''}
                         {this.props.level >= 1000 ? 
                         <li>
                             <a
@@ -74,6 +84,11 @@ var Nav = React.createClass({
     _openFeedbackModal: function() {
         console.log('feedback');
         LolActions.openModal('feedback');
+    },
+
+    _openAboutModal: function() {
+        console.log('about');
+        LolActions.openModal('about');
     },
 
     _openAddModal: function() {

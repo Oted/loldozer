@@ -30,7 +30,9 @@ if (!_savedState) {
     _savedState = {
         _filters : window.orientation ? {
             'img' : 1, 
-            'gif' : 1
+            'gif' : 1,
+            'video' : 1,
+            'youtube' : 1 
         } : {
             'img' : 1, 
             'gif' : 1, 
@@ -49,7 +51,7 @@ if (!_savedState) {
         experience : 0,
         level : 0
     }
-}
+};
 
 //get first batch of items
 Api.getItems(_savedState._filters);
@@ -57,6 +59,7 @@ Api.getInfo();
 
 //set the Exp class
 Exp = new Exp(_savedState.interactions, _savedState.level, _savedState.experience);
+//GAW = new GoogleAnalyticsWrapper(_savedState);
 
 //the current adjectives
 var _adjectives = {
@@ -86,13 +89,15 @@ var _modals = {
     stats : false,
     best : false,
     filter : false,
+    about : _savedState.level === 0 ? true : false,
     level : false
 };
 
 //state of stage
 var _performers         = [],
     _seen               = [],
-    _seen_hash          = {},
+    _seenHash          = {},
+    _lastVoted          = null,
     _currentPerformer   = null;
 
 //make sure things are saved before close
@@ -100,8 +105,6 @@ $(window).unload(function() {
     _gaq.push(['_trackPageview', '/page-exit?page=' + document.location.pathname + document.location.search + '&from=' + document.referrer]);
     updateStorage();
 });
-
-
 
 /**
  *  Updates the storage, called when level is increased etc
@@ -114,7 +117,7 @@ function updateStorage() {
     _savedState.level          = Exp.getLevel();
     
     Storage.updateStateStorage(_savedState);
-}
+};
 
 /**
  *  Creates a performer
@@ -125,7 +128,7 @@ function createPerformer(obj) {
         return null;
     }
     
-    if (_seen_hash[obj._hash]) {
+    if (_seenHash[obj._hash]) {
         console.log(obj, 'has already been seen');
         return null;
     }
@@ -160,7 +163,7 @@ function nextPerformer() {
     //add the last performer if there is any
     if (lastPerformer) {
         _seen.push(lastPerformer);
-        _seen_hash[lastPerformer._hash] = true;
+        _seenHash[lastPerformer._hash] = true;
     }
  
     console.log('new next ', _currentPerformer);
@@ -178,7 +181,7 @@ function previousPerformer() {
     }
 
     //remove from seen
-    delete _seen_hash[lastPerformer._hash];
+    delete _seenHash[lastPerformer._hash];
     _performers.unshift(lastPerformer);
     _currentPerformer = Utils.getPerformer(_performers);
     
@@ -365,6 +368,15 @@ AppDispatcher.register(function(action) {
             Effects.init();
             Effects.flashNextButton();
             _info = action.info;
+
+            if (Exp.isNew()) {
+                for (var i = action.info.onboarding.length - 1; i >= 0;  i--) {
+                    _performers.unshift(action.info.onboarding[i]);
+                }
+            
+                nextPerformer();
+                LolStore.emitChange();
+            }
        break;
 
         case LolConstants.LOL_TOGGLE_AUTOPLAY : 
@@ -442,11 +454,13 @@ AppDispatcher.register(function(action) {
             _currentPerformer.likes++;
             updateAdjectives(action.adjective);
             LolStore.emitChange();
-            
-            setTimeout(function() {
+           
+            if (_lastVoted === _currentPerformer._hash) {
                 nextPerformer();
                 LolStore.emitChange();
-            }, 700);
+            } else {
+                _lastVoted = _currentPerformer._hash;
+            }
         break;
         
         case LolConstants.LOL_DOWN_VOTE:
@@ -455,11 +469,13 @@ AppDispatcher.register(function(action) {
             updateAdjectives(action.adjective);
             _currentPerformer.dislikes++;
             LolStore.emitChange();
-        
-            setTimeout(function() {
+            
+            if (_lastVoted === _currentPerformer._hash) {
                 nextPerformer();
                 LolStore.emitChange();
-            }, 700);
+            } else {
+                _lastVoted = _currentPerformer._hash;
+            }
         break;
         
         case LolConstants.LOL_OPEN_MODAL:

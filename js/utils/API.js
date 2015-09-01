@@ -4,8 +4,8 @@ var LolActions      = require('../actions/LolActions'),
     Async           = require('async'),
     $               = require('../../common/jquery.min'),
     Utils           = require('./utils.js'),
-    //prefix          = '',
-    prefix          = 'http://188.166.45.196',
+    prefix          = '',
+    //prefix          = 'http://188.166.45.196',
     amount          = 25;
 
 /**
