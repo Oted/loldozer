@@ -6,13 +6,14 @@ var AppDispatcher   = require('../dispatcher/AppDispatcher'),
     LolConstants    = require('../constants/LolConstants'),
     StatsHandler    = require('../utils/statshandler.js'),
     Utils           = require('../utils/utils'),
+    $               = require('../../common/jquery.min'),
     Storage         = require('../utils/localstorage'),
     Exp             = require('../utils/Exp'),
     Effects         = require('../utils/effects'),
     Abuse           = require('../utils/abuse'),
+    assign          = require('object-assign'),
     Api             = require('../utils/API'),
-    $               = require('../../common/jquery.min'),
-    assign          = require('object-assign');
+    Async           = require('async');
 
 var CHANGE_EVENT = 'change';
 
@@ -53,12 +54,34 @@ if (!_savedState) {
     }
 };
 
-//get first batch of items
-Api.getItems(_savedState._filters);
-Api.getInfo();
 
-//set the Exp class
-Exp = new Exp(_savedState.interactions, _savedState.level, _savedState.experience);
+/**
+ *  Fetch the info object, 
+ *  eventually an item given a hash,
+ *  then first batch of items
+ */
+Async.series([
+    //set the Exp class
+    function(next) {
+        Exp = new Exp(_savedState.interactions, _savedState.level, _savedState.experience);
+        return next();
+    },
+    //get the info object
+    function(next) {
+        Api.getInfo();
+        return next();
+    },
+    //if this call has a specific hash then add that to the top of the list
+    function(next) {
+        return Api.maybeGetGivenHash(next);
+    },
+    //get first batch of items
+    function(next) {
+        Api.getItems(_savedState._filters);
+        return next();
+    }], 
+function(err) {});
+
 //GAW = new GoogleAnalyticsWrapper(_savedState);
 
 //the current adjectives

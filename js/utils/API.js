@@ -4,52 +4,9 @@ var LolActions      = require('../actions/LolActions'),
     Async           = require('async'),
     $               = require('../../common/jquery.min'),
     Utils           = require('./utils.js'),
-    prefix          = '',
-    //prefix          = 'http://188.166.45.196',
+    //prefix          = '',
+    prefix          = 'http://188.166.45.196',
     amount          = 25;
-
-/**
- *  Fetches new items from the server.
- */
-module.exports.getFirstItems = function() {
-    var type = 'all',
-        seenStorage = Storage.getSuggestedQuery(type),
-        data = {
-            "amount" : amount,
-            "types" : types
-        };
-
-    if (seenStorage && seenStorage[type]) {
-        var first = Array.isArray(seenStorage[type]) ?
-            seenStorage[type][0].first :
-            seenStorage[type].first;
-
-        var last = Array.isArray(seenStorage[type]) ?
-            seenStorage[type][0].last : 
-            seenStorage[type].last; 
-
-        data.first = first;
-        data.last = last;
-    }
-
-    $.ajax({
-        method: 'GET',
-        dataType : 'json',
-        contentType: "application/json; charset=utf-8",
-        url: prefix + '/api/items',
-        data: data,
-        success: function(data, msg) {
-            console.log('got items!', data);
-            for (var i = 0; i < data.length; i++) {
-                LolActions.createPerformer(data[i]);
-            }
-
-            //send a notification that we have fetched out data
-            LolActions.api('items', msg);
-        }
-    });
-};
-
 
 /**
  *  Fetches new items from the server.
@@ -102,6 +59,36 @@ module.exports.getItems = function(filters) {
             //send a notification that we have fetched out data
             LolActions.api('items', msg);
         }
+    });
+};
+
+/**
+ * If window.location contains a valid hash, 
+ * fetch that item and put it in the front
+ */
+module.exports.maybeGetGivenHash = function(callback) {
+    var path = window.location.pathname,
+        hash;
+    path = '/item/0dc1777479206914e32975edc6e394c1';
+
+    if (path.indexOf('/item/') < 0) {
+        return callback();
+    }
+    
+    hash = path.split('/').pop();
+    
+    if (!hash && hash.length != 32) {
+        return callback();
+    }
+
+    module.exports.getItem(hash, function(err, item) {
+        if (err || !item || !item.item) {
+            return callback();
+        }
+        
+        console.log('Setting demanded performer ', item.item);
+        LolActions.createPerformer(item.item);
+        return callback();
     });
 };
 
