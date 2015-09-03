@@ -5,7 +5,7 @@ var LolActions      = require('../actions/LolActions'),
     $               = require('../../common/jquery.min'),
     Utils           = require('./utils.js'),
     prefix          = '',
-    //prefix          = 'http://188.166.45.196',
+    // prefix          = 'http://188.166.45.196',
     amount          = 25;
 
 /**
@@ -89,6 +89,7 @@ module.exports.maybeGetGivenHash = function(callback) {
         }
         
         console.log('Setting demanded performer ', item.item);
+        item.item.shared = true;
         LolActions.createPerformer(item.item);
         return callback();
     });

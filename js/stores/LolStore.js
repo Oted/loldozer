@@ -397,7 +397,10 @@ AppDispatcher.register(function(action) {
                     _performers.unshift(action.info.onboarding[i]);
                 }
             
-                nextPerformer();
+                if (!this._currentPerformer.shared) {
+                    nextPerformer();
+                }
+
                 LolStore.emitChange();
             }
        break;

@@ -16,7 +16,6 @@ var Info = React.createClass({
         };
         
         var niceExp = parseFloat(this.props.experience).toFixed(1);
-
         
         return (
             <div
@@ -25,18 +24,21 @@ var Info = React.createClass({
                     {this.props.experience ? <p id='exp-bar-text'> {niceExp} / 100 </p> : ''}
                 </div>
                 <h1> {this.props.current ? this.props.current.title : ''} </h1>
+                <h1 id='shared-title'> {this.props.current.shared === true ? '(this item was shared with you)' : ''} </h1>
                 <ul className='info-controls'>
                     <li style={{'color': '#e9a39b'}}>
                         {this.props.current.dislikes || this.props.current.likes ? this.props.current.dislikes : ''}
                     </li>
                     {this.props.current && this.props.current.source ? 
                         <li 
+                            data-tooltip='Get to the source'
                             id='source'>
                             <a className={this._getSourceIcon()} target='_blank' href={this.props.current.source}></a>
                         </li>
                     :''}
                     {this.props.current && this.props.current.source && this.props.level > 0 ? 
                         <li 
+                            data-tooltip='Share the current item'
                             id='share'>
                             <i className='fa fa-share-alt fa-2x' onClick={this._copyToClip}></i>
                         </li>

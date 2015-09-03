@@ -14,7 +14,7 @@ function Exp(interactions, level, experience) {
  * Calculates the exp given the interactions.
  */
 Exp.prototype.calculateExperience = function(vote) {
-    if (this.lvl > max) {
+    if (this.lvl >= max) {
         return 0;
     }
 

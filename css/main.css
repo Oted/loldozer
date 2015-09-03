@@ -119,6 +119,11 @@ p {
   color: #67c401;
 }
 
+#shared-title {
+  color: #67c401;
+  font-size : 1rem;
+}
+
 #source:hover {
   color: #67c401;
 }
