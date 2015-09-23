@@ -12,23 +12,13 @@ var LolActions      = require('../actions/LolActions'),
  *  Fetches new items from the server.
  */
 module.exports.getItems = function(filters) {
-    var types = [];
-
-    if (filters) {
-        for (var key in filters) {
-            if (filters[key] === 1) {
-                types.push(key);
-            }
-        }
-    }
-
-    types = JSON.stringify(types);
+    var types = Utils.getActiveTypes(filters);
 
     var type = 'all',
         seenStorage = Storage.getSuggestedQuery(type),
         data = {
             "amount" : amount,
-            "types" : types
+            "types" : JSON.stringify(types)
         };
 
     if (seenStorage && seenStorage[type]) {
@@ -70,19 +60,20 @@ module.exports.maybeGetGivenHash = function(callback) {
     var path = window.location.search,
         hash;
 
+    // path = "http://getsomeinternet.com/?hash=96c2d192ffd9cdab48a3a8026ed1d5c0&utm_content=buffer90254&utm_medium=social&utm_source=facebook.com&utm_campaign=buffer";
+    
     if (path.indexOf('?hash=') < 0) {
         return callback();
     }
+
+    hash = path.match(/hash=([a-zA-Z0-9]{32})/);
     
-    hash = path.split('=').pop();
-    
-    //this 'validation' is kina meh but works for now
-    if (!hash && hash.length != 32) {
+    if (!hash || !hash.length || !hash[1]) {
         alert('Invalid hash provided');
         return callback();
     }
 
-    module.exports.getItem(hash, function(err, item) {
+    module.exports.getItem(hash[1], function(err, item) {
         if (err || !item || !item.item) {
             alert('Invalid hash provided');
             return callback();
@@ -98,31 +89,22 @@ module.exports.maybeGetGivenHash = function(callback) {
 /**
  *  Fetches new items from the server.
  */
-module.exports.getBest = function() {
+module.exports.getBest = function(filters) {
+    var types = Utils.getActiveTypes(filters),
+        data = {
+            "amount" : 25,
+            "types" : JSON.stringify(types)
+        };   
+
     $.ajax({
         method: 'GET',
         dataType : 'json',
         contentType: "application/json; charset=utf-8",
         url: prefix + '/api/bestratings',
-        data : {
-            'amount' : 10
-        },
-        success: function(data, msg) {
-            console.log('got best ratings!', msg, data);
-
-            Async.mapSeries(data, function(item, callback) {
-                module.exports.getItem(item._hash, callback);
-            }, function(err, res) {
-                console.log('here!', msg, data);
-                if (err) {
-                    return LolActions.api('best', err);
-                }
-
-                LolActions.setBest(res);
-                LolActions.api('best', msg);
-            });
-
-            //send a notification that we have fetched out data
+        data : data,
+        success: function(res, msg) {
+            LolActions.api('best', msg);
+            LolActions.setBest(res);
         }
     });
 };
@@ -150,7 +132,7 @@ module.exports.getItem = function(hash, callback) {
 /**
  * Get the info object
  */
-module.exports.getInfo = function() {
+module.exports.getInfo = function(next) {
     $.ajax({
         method: 'GET',
         dataType : 'json',
@@ -160,6 +142,7 @@ module.exports.getInfo = function() {
             //send a notification that we have fetched out data
             LolActions.api('info', msg);
             LolActions.setInfo(data);
+            return next();
         }
     });
 };

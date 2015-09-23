@@ -11,7 +11,11 @@ var Vimeo = React.createClass({
         var isVimeo = this.props.current.type === 'vimeo',
             that    = this,
             data    = '';
-        
+       
+        if (!isVimeo) {
+            return (<div id='vimeo-wrapper' className={isVimeo ? 'container' : 'hidden'}></div>);
+        }
+         
         if (isVimeo) {
             data = this.props.current.data.indexOf('/') > -1 ? this.props.current.data.split('/').pop() : this.props.current.data;
         }
@@ -21,7 +25,8 @@ var Vimeo = React.createClass({
         });
             
         return (
-            <div 
+            <div
+                id='vimeo-wrapper' 
                 className={isVimeo ? 'container' : 'hidden'}>
                 <iframe 
                     src={isVimeo ? 'http://player.vimeo.com/video/' + data + '?autoplay=1&api=1&player_id=vimeo-iframe' : ''}

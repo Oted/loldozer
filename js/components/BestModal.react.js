@@ -105,10 +105,10 @@ var ItemRow = React.createClass({
                     {this.props.object.rank}.
                 </a>
                 <div className='best-title' onClick={this._clickTitle}>
-                    {this.props.object.item.title || 'NO TITLE'}
+                    {this.props.object.title || 'NO TITLE'}
                 </div>
                 <a className='score'>
-                    {this.props.object.item.score}
+                    {this.props.object.score}
                 </a>
             </li>
         );
@@ -118,7 +118,7 @@ var ItemRow = React.createClass({
      *  On title click
      */
     _clickTitle : function() {
-        this.props.setPerformer(this.props.object.item);
+        this.props.setPerformer(this.props.object);
     }
 });
 

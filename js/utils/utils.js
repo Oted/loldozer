@@ -21,6 +21,23 @@ module.exports.getPerformer = function(performers, _hash) {
 }
 
 /**
+ *  Get active types from a given filter
+ */
+module.exports.getActiveTypes = function(filters) {
+    var types = [];
+    
+    if (filters) {
+        for (var key in filters) {
+            if (filters[key] === 1) {
+                types.push(key);
+            }
+        }
+    }
+
+    return types; 
+}
+
+/**
  *  Deletes a performer given a hash
  */
 module.exports.destroyPerformer = function(performers, _hash) {

@@ -68,8 +68,7 @@ Async.series([
     },
     //get the info object
     function(next) {
-        Api.getInfo();
-        return next();
+        Api.getInfo(next);
     },
     //if this call has a specific hash then add that to the top of the list
     function(next) {
@@ -77,7 +76,12 @@ Async.series([
     },
     //get first batch of items
     function(next) {
-        Api.getItems(_savedState._filters);
+        if (!Exp.isNew()) {
+            Api.getItems(_savedState._filters);
+        } else {
+            Api.getBest(_savedState._filters);
+        }
+
         return next();
     }], 
 function(err) {});
@@ -112,14 +116,14 @@ var _modals = {
     stats : false,
     best : false,
     filter : false,
-    about : _savedState.level === 0 ? true : false,
+    about : false,
     level : false
 };
 
 //state of stage
 var _performers         = [],
     _seen               = [],
-    _seenHash          = {},
+    _seenHash           = {},
     _lastVoted          = null,
     _currentPerformer   = null;
 
@@ -157,7 +161,7 @@ function createPerformer(obj) {
     }
     
     Utils.middleware(obj);
-    _performers.push(obj);
+    obj.shared ? _performers.unshift(obj) : _performers.push(obj);
 };
 
 /**
@@ -393,17 +397,14 @@ AppDispatcher.register(function(action) {
             _info = action.info;
 
             if (Exp.isNew()) {
-                for (var i = action.info.onboarding.length - 1; i >= 0;  i--) {
-                    _performers.unshift(action.info.onboarding[i]);
+                //loop backwards to add onboarding in right order to the top of the list
+                for (var i = 0; i < action.info.onboarding.length; i++) {
+                    createPerformer(action.info.onboarding[i]);
                 }
             
-                if (!this._currentPerformer.shared) {
-                    nextPerformer();
-                }
-
                 LolStore.emitChange();
             }
-       break;
+        break;
 
         case LolConstants.LOL_TOGGLE_AUTOPLAY : 
             _autoplay = !_autoplay;
@@ -436,7 +437,7 @@ AppDispatcher.register(function(action) {
         break;
         
         case LolConstants.LOL_CREATE:
-            if (action.type === 'performer') { 
+            if (action.type === 'performer') {
                 createPerformer(action.obj);
             }
 
@@ -448,8 +449,9 @@ AppDispatcher.register(function(action) {
         case LolConstants.LOL_API:
             console.log('API said', action);
             if (action.type === 'items') {
+                //if this is items given and nothing is shown, show next performer 
                 if (!_currentPerformer) {
-                    _currentPerformer = Utils.getPerformer(_performers);
+                    nextPerformer();
                 }
             }
 
@@ -509,7 +511,7 @@ AppDispatcher.register(function(action) {
             
             if (action.modal === "best") {
                 _best = [];
-                Api.getBest();
+                Api.getBest(_savedState._filters);
             }
 
             if (action.modal === "stats") {
@@ -561,7 +563,21 @@ AppDispatcher.register(function(action) {
         break;
 
         case LolConstants.LOL_SET_BEST:
-            _best = action.items.sort(function(a,b){return b.item.score - a.item.score}); 
+            if (!Exp.isNew()) {
+                //if user is over lvl 0, this is a normal call from highscores
+                _best = action.items.sort(function(a,b){return b.score - a.score}); 
+            } else {
+                //otherwise its a part of the onboarding
+                while (action.items.length) { 
+                    var i = Math.floor(Math.random() * action.items.length);
+                    createPerformer(action.items.splice(i,1)[0]);
+                }
+
+                if (!_currentPerformer) {
+                    nextPerformer();
+                }
+            }
+
             LolStore.emitChange();
         break;
 
