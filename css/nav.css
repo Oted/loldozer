@@ -117,11 +117,30 @@
 #right-bar {
   display: inline-block;
   position:absolute;
-  right : 0rem;
+  right : -2rem;
 }
 
 #right-bar > * {
   margin-top : 1rem;
+}
+
+#twitter-like {
+  float : right;
+  width : 100%;
+  text-decoration: none;
+  font-size: 2.5rem;
+  padding: 0 0.5rem;
+  transition: color 0.25s;
+  letter-spacing: 0.25rem;
+  color: #f0f0f0;
+}
+
+#twitter-like:hover {
+  color: #4099FF;
+  -webkit-transform: scale(1.2,1.2);
+  -ms-transform: scale(1.2,1.2); /* IE 9 */
+  -webkit-transform: scale(1.2,1.2); /* Safari */
+  transform: scale(1.2,1.2); 
 }
 
 #fb-like {

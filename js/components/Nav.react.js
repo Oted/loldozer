@@ -76,6 +76,7 @@ var Nav = React.createClass({
                 <li id='right-bar'>
                     <a id='level' href='#'>{this.props.level}</a>
                     <a id='fb-like' target="_blank" href='https://www.facebook.com/getsomeinternet/' className='fa fa-facebook-square'></a>
+                    <a id='twitter-like' target="_blank" href='https://twitter.com/GetSomeInternet' className='fa fa-twitter-square'></a>
                 </li>
            </ul>
         );
