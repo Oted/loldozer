@@ -1,0 +1,39 @@
+
+#mobile-next-button {
+  font-size:4rem;
+  margin-top: 1rem;
+  display: inline-block;
+  text-decoration: none;
+  padding: 0 0.5rem;
+  transition: color 0.25s;
+  letter-spacing: 0.25rem;
+  color: #f0f0f0;
+  cursor: pointer; 
+  cursor: hand;
+}
+
+.mobile-vote-button {
+  font-size:6rem;
+  margin-left:1rem;
+  margin-right:1rem;
+  color: #f0f0f0;
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer; 
+  cursor: hand;
+}
+
+.mobile {
+  font-size:4rem !important;
+}
+
+.mobile-info-controls {
+  padding : 0;
+  display : -webkit-inline-box;
+  font-size : 2rem;
+}
+
+.mobile-info-controls li {
+  margin-left:1rem;
+  margin-right:1rem;
+}
