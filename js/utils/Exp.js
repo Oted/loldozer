@@ -75,10 +75,18 @@ Exp.prototype.levelUp = function() {
 };
 
 /**
+ * Tells if the user is maxed up
+ */
+Exp.prototype.isMax = function() {
+    return this.lvl >= max;
+};
+
+/**
  *  Check if there has been no interactions what so ever
  */
 Exp.prototype.isNew = function() {
     return this.lvl === 0 && this.exp === 0;
-
 };
+
+
 module.exports = Exp;

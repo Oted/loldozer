@@ -6,6 +6,7 @@ var React           = require('react'),
     Nav             = require('./Nav.react'),
     Info            = require('./Info.react'),
     Stage           = require('./Stage.react'),
+    ScrollStage     = require('./ScrollStage.react'),
     Controls        = require('./Controls.react'),
     AddModal        = require('./AddModal.react'),
     BestModal       = require('./BestModal.react'),
@@ -120,33 +121,35 @@ var LolApp = React.createClass({
                     isMobile={this.state.isMobile}
                     level={this.state.level}
                 />
-                {this.state.singleView ? <Info
+                {this.state.single_view ? <Info
                     isMobile={this.state.isMobile}
                     level={this.state.level}
                     autoplay={this.state.autoplay}
                     current={this.state.current}
                     experience={this.state.experience}
                 /> : ''}>
-                {this.state.singleView ? <Stage
+                {this.state.single_view ? <Stage
+                    isMulti={false}
                     isMobile={this.state.isMobile}
-                    performers={this.state.perfomers}
+                    performers={this.state.performers}
                     seen={this.state.seen}
                     autoplay={this.state.autoplay}
                     current={this.state.current}
                 /> : ''}
-                {this.state.singleView ? <Controls
+                {this.state.single_view ? <Controls
                     isMobile={this.state.isMobile}
                     current={this.state.current}
                     feedbackStatus={this.state.statuses['feedback'] ? true : false}
                     adjectives={this.state.adjectives}
                     level={this.state.level}
                 /> : ''}
-                {!this.state.singleView ? <Stage
-                    isMobile={this.state.isMobile}
-                    performers={this.state.perfomers}
-                    seen={this.state.seen}
+                {!this.state.single_view ? <ScrollStage
                     autoplay={this.state.autoplay}
-                    current={this.state.current}
+                    seen={this.state.seen}
+                    isMobile={this.state.isMobile}
+                    feedbackStatus={this.state.statuses['feedback'] ? true : false}
+                    performers={this.state.performers}
+                    seen={this.state.seen}
                 /> : ''}
             </div>
   	    );

@@ -28,44 +28,9 @@ var Stage = React.createClass({
         }
 
   	    return (
-            <div id='stage' key='stage'>
-                <Soundcloud
-                    key='stage-1'
-                    autoplay = {this.props.autoplay}
-                    current = {this.props.current}
-                />
-                <Vine 
-                    current = {this.props.current}
-                />
-                <Youtube
-                    key='stage-2'
-                    autoplay = {this.props.autoplay}
-                    isMobile= {this.props.isMobile}
-                    current = {this.props.current}
-                />
-                <Vimeo
-                    key='stage-3'
-                    autoplay = {this.props.autoplay}
-                    isMobile= {this.props.isMobile}
-                    current = {this.props.current}
-                />
-                <Gif
-                    key='stage-4'
-                    current = {this.props.current}
-                />
-                <Image
-                    key='stage-5'
-                    current = {this.props.current}
-                />
-                <Twitch
-                    key='stage-6'
-                    current = {this.props.current}
-                />
-                <Video
-                    key='stage-7'
-                    current = {this.props.current}
-                />
-            </div>
+            <div className='stage' key={'stage-' + this.props.current._hash}> 
+                {this._getTarget()}
+           </div>
   	    );
     },
 
@@ -85,6 +50,61 @@ var Stage = React.createClass({
     */
     _onChange: function() {
         this.setState(getLolState());
+    },
+
+    /**
+     *  Switch on the type and return the proper target
+     */
+    _getTarget: function() {
+        switch (this.props.current.type) {
+            case "soundcloud" :
+                return <Soundcloud
+                    autoplay = {this.props.autoplay}
+                    current = {this.props.current}
+                />
+            break;
+            case "vine" :
+                return <Vine 
+                    current = {this.props.current}
+                />
+            break;
+            case "youtube" :
+                return <Youtube
+                    autoplay = {this.props.autoplay}
+                    isMobile= {this.props.isMobile}
+                    current = {this.props.current}
+                />
+            break;
+            case "vimeo" :
+                return <Vimeo
+                    autoplay = {this.props.autoplay}
+                    isMobile= {this.props.isMobile}
+                    current = {this.props.current}
+                />
+            break;
+            case "gif" :
+                return <Gif
+                    current = {this.props.current}
+                />
+            break;
+            case "img" : 
+                return <Image
+                    current = {this.props.current}
+                />
+            break;
+            case "twitch" :
+                return <Twitch
+                    current = {this.props.current}
+                />
+            break;
+            case "video" : 
+                return <Video
+                    current = {this.props.current}
+                />
+            break;
+            default : 
+                return <div></div>
+        }
     }
 });
 

@@ -6,7 +6,7 @@ var LolActions      = require('../actions/LolActions'),
     Utils           = require('./utils.js'),
     prefix          = '',
     prefix          = 'http://37.139.19.174',
-    amount          = 25;
+    amount          = 15;
 
 /**
  *  Fetches new items from the server.

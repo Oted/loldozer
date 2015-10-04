@@ -2,7 +2,8 @@ var React           = require('react'),
     YoutubeReact    = require('react-youtube'),
     LolActions      = require('../actions/LolActions'),
     options         = {
-        playerVars: { // https://developers.google.com/youtube/player_parameters
+        // https://developers.google.com/youtube/player_parameters
+        playerVars: { 
             autoplay: 1,
             iv_load_policy : 3
         }
@@ -10,26 +11,18 @@ var React           = require('react'),
 
 var Youtube = React.createClass({
     render: function() {
-        var isYoutube = this.props.current.type === 'youtube';
-        
-        if (!isYoutube) {
-            return (<div id='y-player' className={isYoutube ? 'container' : 'hidden'}></div>);
-        }
-        
-        if (isYoutube) {
-            return (
-                <div 
-                    id='y-player'
-                    className='container'>
-                    <YoutubeReact 
-                        url={'https://www.youtube.com/watch?v=' + this.props.current.data}
-                        opts={options}
-                        onEnd={this._onEnd}
-                        onPlay={this._onPlay}
-                    />
-                </div>
-            );
-        }
+        return (
+            <div 
+                className='container'>
+                <YoutubeReact
+                    id={this.props.current.data}
+                    url={'https://www.youtube.com/watch?v=' + this.props.current.data}
+                    opts={options}
+                    onEnd={this._onEnd}
+                    onPlay={this._onPlay}
+                />
+            </div>
+        );
     },
 
     /**

@@ -29,7 +29,7 @@ var _savedState = Storage.loadStateStorage();
 if (!_savedState) {
     Effects.setFlashNext(true);
     _savedState = {
-        _singleView : false,
+        _singleView : true,
         _statuses : {},
         _filters : window.orientation ? {
             'img' : 1, 
@@ -55,7 +55,9 @@ if (!_savedState) {
         level : 0
     }
 } else {
-    console.log('sdsdsd',_savedState);
+    if (!_savedState._singleView) {
+        _savedState._singleView = true;
+    }
     if (!_savedState._statuses) {
         _savedState._statuses = {};
     }
@@ -70,6 +72,14 @@ Async.series([
     //set the Exp class
     function(next) {
         Exp = new Exp(_savedState.interactions, _savedState.level, _savedState.experience);
+       
+        //if were max, then make sure all filters ar enabled 
+        if (Exp.isMax()) {
+            Object.keys(_savedState.filters).forEach(function(key) {
+                _savedState.filters[key] = _savedState.filters[key] === -1 ? 0 : _savedState.filters[key];
+            }); 
+        }
+
         return next();
     },
     //get the info object
@@ -258,7 +268,7 @@ function updateAdjectives(adjective) {
  */
 function destroyPerformer(_hash) {
     Utils.destroyPerformer(_performers, _hash);
-}
+};
 
 /**
  * Delete all the seen performers.
@@ -269,7 +279,7 @@ function destroySeenPerformers() {
             destroyPerformer(_performers[i]._hash);
         }
     }
-}
+};
 
 var LolStore = assign({}, EventEmitter.prototype, {
    /**
@@ -318,7 +328,7 @@ var LolStore = assign({}, EventEmitter.prototype, {
     * Get the variable storing if this is a single view or not
     */
     getSingleView: function() {
-        return _savedState._singleView;
+        return false; _savedState._singleView;
     },
 
    /**
@@ -465,6 +475,10 @@ AppDispatcher.register(function(action) {
                 //if this is items given and nothing is shown, show next performer 
                 if (!_currentPerformer) {
                     nextPerformer();
+                }
+
+                if (!_savedState._singleView) {
+                
                 }
             }
 

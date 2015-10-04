@@ -10,7 +10,11 @@ var React           = require('react'),
 var Video = React.createClass({
     render: function() {
         var isVideo = this.props.current.type === 'video';
-           
+        
+        if (!isVideo) {
+            return (<div></div>); 
+        }   
+
         return (
             <div 
                 className={isVideo ? 'container' : 'hidden'}>
