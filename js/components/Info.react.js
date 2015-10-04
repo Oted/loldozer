@@ -25,34 +25,28 @@ var Info = React.createClass({
                 </div>
                 <h1> {this.props.current ? this.props.current.title : ''} </h1>
                 <h1 id='shared-title'> {this.props.current && this.props.current.shared === true ? '(this item was shared with you)' : ''} </h1>
-                <ul className='info-controls'>
+                <ul className={this.props.isMobile ? 'mobile-info-controls' : 'info-controls'}>
                     <li style={{'color': '#e9a39b'}}>
-                        {this.props.current.dislikes || this.props.current.likes ? this.props.current.dislikes : ''}
+                        {this.props.current.dislikes > 0 || this.props.current.likes > 0 ? this.props.current.dislikes : ''}
                     </li>
-                    {this.props.current && this.props.current.source ? 
-                        <li 
-                            data-tooltip='Get to the source'
-                            id='source'>
-                            <a className={this._getSourceIcon()} target='_blank' href={this.props.current.source}></a>
-                        </li>
-                    :''}
-                    {this.props.current && this.props.current.source && this.props.level > 0 ? 
-                        <li 
-                            data-tooltip='Share the current item'
-                            id='share'>
-                            <i className='fa fa-share-alt fa-2x' onClick={this._copyToClip}></i>
-                        </li>
-                    :''}
-                    {this.props.current.source && this.props.level >= 10 ? 
-                        <li data-tooltip='Toggle autoplay' onClick={this._toggleAutoplay}>
-                            {this.props.autoplay ? 
-                                <i className="fa fa-toggle-on fa-2x"></i> : 
-                                <i className="fa fa-toggle-off fa-2x"></i>
-                            }
-                        </li>
-                    :''}
+                    <li 
+                        data-tooltip='Get to the source'
+                        id='source'>
+                        <a className={this._getSourceIcon()} target='_blank' href={this.props.current.source}></a>
+                    </li>
+                    <li 
+                        data-tooltip='Share the current item'
+                        id='share'>
+                        <i className='fa fa-share-alt fa-2x' onClick={this._copyToClip}></i>
+                    </li>
+                    <li data-tooltip='Toggle autoplay' onClick={this._toggleAutoplay}>
+                        {this.props.autoplay ? 
+                            <i className="fa fa-toggle-on fa-2x"></i> : 
+                            <i className="fa fa-toggle-off fa-2x"></i>
+                        }
+                    </li>
                     <li style={{'color': '#89e5b0'}}>
-                        {this.props.current.likes || this.props.current.dislikes ? this.props.current.likes : ''}
+                        {this.props.current.likes > 0 || this.props.current.dislikes > 0 ? this.props.current.likes : ''}
                     </li>
                 </ul>
             </div>

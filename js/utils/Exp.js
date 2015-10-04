@@ -1,14 +1,14 @@
 var LolActions  = require('../actions/LolActions.js'),
-    max         = 10;
+    max         = 5;
 
 /**
  *  Constructor for experience and level handler
  */
 function Exp(interactions, level, experience) {
     this.interactions   = interactions;
-    this.lvl            = level;
+    this.lvl            = level > max ? max : level;
     this.exp            = experience;
-}
+};
 
 /**
  * Calculates the exp given the interactions.
@@ -20,15 +20,15 @@ Exp.prototype.calculateExperience = function(vote) {
 
     switch (vote) {
         case "+1" :
-            this.exp += 8 / (this.lvl);
+            this.exp += 5 / (this.lvl);
             this.interactions.upvotes++;
         break;
         case "0" :
-            this.exp += this.lvl > 0 ? 4 / (this.lvl * 1.25) : 7.5;
+            this.exp += this.lvl > 0 ? 1 / (this.lvl * 1.25) : 7.5;
             this.interactions.novotes++;
         break;
         case "-1" :
-            this.exp += 8 / (this.lvl);
+            this.exp += 5 / (this.lvl);
             this.interactions.downvotes++;
         break;
     }
@@ -71,7 +71,7 @@ Exp.prototype.levelUp = function() {
     //set timout for now, not a valid solution 
     setTimeout(function() {
         LolActions.levelUp(level);
-    },10);
+    }, 10);
 };
 
 /**

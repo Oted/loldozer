@@ -12,7 +12,7 @@ var Nav = React.createClass({
                 <li
                     id='list-button'>
                     <a
-                        className={this.props.level >= 2 ? 'fa fa-list' : 'disabled'}>
+                        className={this.props.isMobile ? 'fa fa-list mobile' : 'fa fa-list'}>
                     </a>
                     <ul>
                         {this.props.level >= 0 ? 
@@ -35,7 +35,7 @@ var Nav = React.createClass({
                             </a>
                         </li>
                         :''}
-                        {this.props.level >= 6 ? 
+                        {this.props.level >= 1 ? 
                             <li>
                                 <a
                                     className='text-button'
@@ -45,7 +45,7 @@ var Nav = React.createClass({
                                 </a>
                             </li>
                         :''}
-                        {this.props.level >= 2 ? 
+                        {this.props.level >= 0 ? 
                         <li>
                             <a
                                 className='text-button'
@@ -55,7 +55,7 @@ var Nav = React.createClass({
                             </a>
                         </li>
                         :''}
-                        {this.props.level >= 2 ? 
+                        {this.props.level >= 0 ? 
                             <li>
                                 <a
                                     className='text-button'
@@ -75,8 +75,8 @@ var Nav = React.createClass({
                 </li>
                 <li id='right-bar'>
                     <a id='level' href='#'>{this.props.level}</a>
-                    <a id='fb-like' target="_blank" href='https://www.facebook.com/getsomeinternet/' className='fa fa-facebook-square'></a>
-                    <a id='twitter-like' target="_blank" href='https://twitter.com/GetSomeInternet' className='fa fa-twitter-square'></a>
+                    <a id='fb-like' target="_blank" href='https://www.facebook.com/getsomeinternet/' className={this.props.isMobile ? 'fa fa-facebook-square mobile' : 'fa fa-facebook-square'}></a>
+                    <a id='twitter-like' target="_blank" href='https://twitter.com/GetSomeInternet' className={this.props.isMobile ? 'fa fa-twitter-square mobile' : 'fa fa-twitter-square'}></a>
                 </li>
            </ul>
         );

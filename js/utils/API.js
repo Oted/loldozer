@@ -5,7 +5,7 @@ var LolActions      = require('../actions/LolActions'),
     $               = require('../../common/jquery.min'),
     Utils           = require('./utils.js'),
     prefix          = '',
-    // prefix          = 'http://188.166.45.196',
+    // prefix          = 'http://37.139.19.174',
     amount          = 25;
 
 /**
@@ -237,11 +237,11 @@ module.exports.postFeedbackMessage = function(item) {
             "email" : item.email
         },
         error: function(res, msg, err) {
-            LolActions.api('support', res.status);
+            LolActions.api('feedback', msg);
         },
         success : function(data, msg) {
             console.log(msg, data);
-            LolActions.api('support', 200);
+            LolActions.api('feedback', msg);
         }
     });
 };

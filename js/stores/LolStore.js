@@ -29,6 +29,7 @@ var _savedState = Storage.loadStateStorage();
 if (!_savedState) {
     Effects.setFlashNext(true);
     _savedState = {
+        _statuses : {},
         _filters : window.orientation ? {
             'img' : 1, 
             'gif' : 1,
@@ -52,8 +53,12 @@ if (!_savedState) {
         experience : 0,
         level : 0
     }
-};
-
+} else {
+    console.log('sdsdsd',_savedState);
+    if (!_savedState._statuses) {
+        _savedState._statuses = {};
+    }
+}
 
 /**
  *  Fetch the info object, 
@@ -107,9 +112,6 @@ var _best = [];
 //info object of the state of backend
 var _info = {};
 
-//describes the status of requests
-var _statuses = {};
-
 //states of modals
 var _modals = {
     add : false,
@@ -159,7 +161,7 @@ function createPerformer(obj) {
         console.log(obj, 'has already been seen');
         return null;
     }
-    
+
     Utils.middleware(obj);
     obj.shared ? _performers.unshift(obj) : _performers.push(obj);
 };
@@ -174,7 +176,7 @@ function nextPerformer() {
         updateStorage();
         Api.getItems(_savedState._filters);
     }
-    
+   
     var lastPerformer = _currentPerformer;
   
     Effects.shineLogo();
@@ -364,7 +366,7 @@ var LolStore = assign({}, EventEmitter.prototype, {
      * Get api states
      */
     getStatuses: function () {
-        return _statuses;
+        return _savedState._statuses;
     },
 
     emitChange: function() {
@@ -399,7 +401,10 @@ AppDispatcher.register(function(action) {
             if (Exp.isNew()) {
                 //loop backwards to add onboarding in right order to the top of the list
                 for (var i = 0; i < action.info.onboarding.length; i++) {
-                    createPerformer(action.info.onboarding[i]);
+                    var item = action.info.onboarding[i];
+                    
+                    item.onboarding = true;
+                    createPerformer(item);
                 }
             
                 LolStore.emitChange();
@@ -455,7 +460,7 @@ AppDispatcher.register(function(action) {
                 }
             }
 
-            _statuses[action.type] = action.status;
+            _savedState._statuses[action.type] = action.status;
             LolStore.emitChange();
         break;
 
@@ -541,19 +546,19 @@ AppDispatcher.register(function(action) {
                 Effects.setFlashNext(false);
             }
 
-            if (l === 3) {
+            if (l === 2) {
                 _savedState._filters['vine'] = 0;
             }
 
-            if (l === 5) {
+            if (l === 3) {
                 _savedState._filters['soundcloud'] = 0;
             }
 
-            if (l === 7) {
+            if (l === 4) {
                 _savedState._filters['twitch'] = 0;
             }
             
-            if (l === 9) {
+            if (l === 5) {
                 _savedState._filters['vimeo'] = 0;
             }
 
@@ -569,8 +574,11 @@ AppDispatcher.register(function(action) {
             } else {
                 //otherwise its a part of the onboarding
                 while (action.items.length) { 
-                    var i = Math.floor(Math.random() * action.items.length);
-                    createPerformer(action.items.splice(i,1)[0]);
+                    var i       = Math.floor(Math.random() * action.items.length),
+                        item    = action.items.splice(i,1)[0];
+
+                    item.highscore = true;
+                    createPerformer(item);
                 }
 
                 if (!_currentPerformer) {

@@ -5,6 +5,11 @@ var React       = require('react'),
  * The navigation
  */
 var Controls = React.createClass({
+    getInitialState: function() {
+        return {
+            'count': 1 
+        };
+    },
     render: function() {
         return (
             <div
@@ -22,7 +27,7 @@ var Controls = React.createClass({
                         onClick={this._onVoteDown}
                         onMouseOver={this._onNegativeOver}
                         onMouseOut={this._onNegativeOut}
-                        className={this.props.level > 0 ? 'vote-button' : 'disabled'}>
+                        className={this.props.level > 0 ? this.props.isMobile ? 'mobile-vote-button': 'vote-button' : 'disabled'}>
                         <a 
                             className='fa fa-thumbs-down'>
                         </a>
@@ -31,10 +36,10 @@ var Controls = React.createClass({
                 <div
                     className='neutrals'>
                     <div
-                        id='next-button'>
+                        id={this.props.isMobile ? 'mobile-next-button' : 'next-button'}>
                         <a 
                             onClick={this._onNext}>
-                            {this.props.isMobile ? 'G S I' : 'GET SOME INTERNET'}
+                            {this.props.isMobile ? 'N E X T' : 'GET SOME INTERNET'}
                         </a>
                     </div>
                 </div>
@@ -44,7 +49,7 @@ var Controls = React.createClass({
                         onClick={this._onVoteUp}
                         onMouseOver={this._onPositiveOver}
                         onMouseOut={this._onPositiveOut}
-                        className={this.props.level > 0 ? 'vote-button' : 'disabled'}>
+                        className={this.props.level > 0 ? this.props.isMobile ? 'mobile-vote-button': 'vote-button' : 'disabled'}>
                         <a 
                             className='fa fa-thumbs-up'>
                         </a>
@@ -78,6 +83,14 @@ var Controls = React.createClass({
     },
 
     _onNext: function() {
+        this.setState({
+            count: this.state.count + 1
+        });
+
+        if (this.state.count % 25 === 0 && !this.props.feedbackStatus) {
+            LolActions.openModal('feedback');
+        }
+
         LolActions.noVote();
     },
 

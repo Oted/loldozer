@@ -49,8 +49,13 @@ module.exports.updateSeenSession = function(performers) {
 
     //loop over all performers, 
     for (var i = 0; i < performers.length; i++) {
-        key     = performers[i].type,
-        value   = parseInt(performers[i]._sort);
+        //skip irrelevent items
+        if (performers[i].highscore == true || performers[i].onboarding == true || performers[i].shared == true) {
+            continue;
+        }
+
+        var key     = performers[i].type,
+            value   = parseInt(performers[i]._sort);
         
         if (!seenSession["all"]) {
             seenSession["all"] = {

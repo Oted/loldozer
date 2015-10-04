@@ -23,23 +23,21 @@ document.onkeydown = checkKey;
  *  Voting with the arrows if level is high enough.
  */
 function checkKey(e) {
-    if (LolStore.getLevel() >= 8) {
-        e = e || window.event;
-        
-        switch (e.keyCode) {
-            case (37) :
-                LolActions.previous();
-            break;
-            case (38) :
-                LolActions.upVote();
-            break;
-            case (39) :
-                LolActions.noVote();
-            break;
-            case (40) :
-                LolActions.downVote();
-            break;
-        }
+    e = e || window.event;
+    
+    switch (e.keyCode) {
+        case (37) :
+            LolActions.previous();
+        break;
+        case (38) :
+            LolActions.upVote();
+        break;
+        case (39) :
+            LolActions.noVote();
+        break;
+        case (40) :
+            LolActions.downVote();
+        break;
     }
 }
 
@@ -118,9 +116,11 @@ var LolApp = React.createClass({
                     modal={this.state.modals.filter}
                 />
                 <Nav
+                    isMobile={this.state.isMobile}
                     level={this.state.level}
                 />
                 <Info
+                    isMobile={this.state.isMobile}
                     level={this.state.level}
                     autoplay={this.state.autoplay}
                     current={this.state.current}
@@ -136,6 +136,7 @@ var LolApp = React.createClass({
                 <Controls
                     isMobile={this.state.isMobile}
                     current={this.state.current}
+                    feedbackStatus={this.state.statuses['feedback'] ? true : false}
                     adjectives={this.state.adjectives}
                     level={this.state.level}
                 />

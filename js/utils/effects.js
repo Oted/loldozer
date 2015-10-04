@@ -13,7 +13,7 @@ module.exports.init = function() {
  * Flash the next button so retarded people know where to click
  */
 module.exports.flashNextButton = function() {
-    var e = document.getElementById('next-button');
+    var e = document.getElementById('next-button') || document.getElementById('mobile-next-button');
     e.style.color = 'red';
     setTimeout(function() {
         e.style.color = 'white';
