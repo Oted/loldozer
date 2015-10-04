@@ -24,7 +24,7 @@ Exp.prototype.calculateExperience = function(vote) {
             this.interactions.upvotes++;
         break;
         case "0" :
-            this.exp += this.lvl > 0 ? 1 / (this.lvl * 1.25) : 7.5;
+            this.exp += this.lvl > 0 ? 1 / (this.lvl * 1.25) : 13;
             this.interactions.novotes++;
         break;
         case "-1" :

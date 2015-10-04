@@ -563,7 +563,13 @@ AppDispatcher.register(function(action) {
             }
 
             updateStorage();
-            _modals["level"] = true;
+
+            if (l === 1) {
+                _modals["filter"] = true;
+            } else {
+                _modals["level"] = true;
+            }
+
             LolStore.emitChange();
         break;
 
