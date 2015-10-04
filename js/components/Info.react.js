@@ -23,7 +23,7 @@ var Info = React.createClass({
                 <div style={style} id={'exp-bar'}>
                     {this.props.experience ? <p id='exp-bar-text'> {niceExp} / 100 </p> : ''}
                 </div>
-                <h1> {this.props.current ? this.props.current.title : ''} </h1>
+                <h1 className={this.props.isMobile ? 'mobile-title' : 'title'}> {this.props.current ? this.props.current.title : ''} </h1>
                 <h1 id='shared-title'> {this.props.current && this.props.current.shared === true ? '(this item was shared with you)' : ''} </h1>
                 <ul className={this.props.isMobile ? 'mobile-info-controls' : 'info-controls'}>
                     <li style={{'color': '#e9a39b'}}>

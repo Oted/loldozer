@@ -191,15 +191,8 @@ p {
 }
 
 .title {
-  -webkit-transition: color 0.25s;
-  -moz-transition: color 0.25s;
-  -o-transition: color 0.25s;
-  transition: color 0.25s;
-  margin-left:2rem;
-  margin-right:2rem;
-  transition: color 0.25s;
-  cursor: pointer; 
-  cursor: hand;
+  margin-left:5rem;
+  margin-right:5rem;
 }
 
 #right-corner-image {
@@ -223,13 +216,6 @@ p {
   -webkit-transition: width 2s, height 2s; /* Safari */
   transition: width 2s, height 2s;
 }
-
-@media screen and (max-width: 960px) {
-  #corner-image {
-    width : 100%;
-  }
-}
-
 
 /**
  * Tooltip Styles
