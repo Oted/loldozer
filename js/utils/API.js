@@ -5,7 +5,7 @@ var LolActions      = require('../actions/LolActions'),
     $               = require('../../common/jquery.min'),
     Utils           = require('./utils.js'),
     prefix          = '',
-    // prefix          = 'http://37.139.19.174',
+    prefix          = 'http://37.139.19.174',
     amount          = 25;
 
 /**

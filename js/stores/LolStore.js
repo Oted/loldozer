@@ -54,7 +54,7 @@ if (!_savedState) {
         level : 0
     }
 } else {
-    console.log('sdsdsd',_savedState);
+    console.log('ss',_savedState);
     if (!_savedState._statuses) {
         _savedState._statuses = {};
     }
@@ -69,6 +69,14 @@ Async.series([
     //set the Exp class
     function(next) {
         Exp = new Exp(_savedState.interactions, _savedState.level, _savedState.experience);
+
+        //if were max, then make sure all filters ar enabled 
+        if (Exp.isMax()) {
+            Object.keys(_savedState._filters).forEach(function(key) {
+                _savedState._filters[key] = _savedState._filters[key] < 0 ? 0 : _savedState._filters[key];
+            }); 
+        }
+
         return next();
     },
     //get the info object

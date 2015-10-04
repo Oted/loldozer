@@ -24,7 +24,7 @@ Exp.prototype.calculateExperience = function(vote) {
             this.interactions.upvotes++;
         break;
         case "0" :
-            this.exp += this.lvl > 0 ? 1 / (this.lvl * 1.25) : 13;
+            this.exp += this.lvl > 0 ? 1 / (this.lvl * 1.25) : 7.5;
             this.interactions.novotes++;
         break;
         case "-1" :
@@ -75,10 +75,18 @@ Exp.prototype.levelUp = function() {
 };
 
 /**
+ * Tells if the user is maxed up
+ */
+Exp.prototype.isMax = function() {
+    return this.lvl >= max;
+};
+
+/**
  *  Check if there has been no interactions what so ever
  */
 Exp.prototype.isNew = function() {
     return this.lvl === 0 && this.exp === 0;
-
 };
+
+
 module.exports = Exp;
