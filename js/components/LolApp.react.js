@@ -54,6 +54,7 @@ function getLolState() {
         adjectives  : LolStore.getAdjectives(),
         modals      : LolStore.getModalStates(),
         statuses    : LolStore.getStatuses(),
+        single_view : LolStore.getSingleView(),
         best        : LolStore.getBestPerformers(),
         stats_views : LolStore.getStatsViews(),
         level       : LolStore.getLevel(),
@@ -119,27 +120,34 @@ var LolApp = React.createClass({
                     isMobile={this.state.isMobile}
                     level={this.state.level}
                 />
-                <Info
+                {this.state.singleView ? <Info
                     isMobile={this.state.isMobile}
                     level={this.state.level}
                     autoplay={this.state.autoplay}
                     current={this.state.current}
                     experience={this.state.experience}
-                />
-                <Stage
+                /> : ''}>
+                {this.state.singleView ? <Stage
                     isMobile={this.state.isMobile}
                     performers={this.state.perfomers}
                     seen={this.state.seen}
                     autoplay={this.state.autoplay}
                     current={this.state.current}
-                />
-                <Controls
+                /> : ''}
+                {this.state.singleView ? <Controls
                     isMobile={this.state.isMobile}
                     current={this.state.current}
                     feedbackStatus={this.state.statuses['feedback'] ? true : false}
                     adjectives={this.state.adjectives}
                     level={this.state.level}
-                />
+                /> : ''}
+                {!this.state.singleView ? <Stage
+                    isMobile={this.state.isMobile}
+                    performers={this.state.perfomers}
+                    seen={this.state.seen}
+                    autoplay={this.state.autoplay}
+                    current={this.state.current}
+                /> : ''}
             </div>
   	    );
     },

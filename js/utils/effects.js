@@ -14,6 +14,11 @@ module.exports.init = function() {
  */
 module.exports.flashNextButton = function() {
     var e = document.getElementById('next-button') || document.getElementById('mobile-next-button');
+
+    if (!e) {
+        return;
+    }
+
     e.style.color = 'red';
     setTimeout(function() {
         e.style.color = 'white';
@@ -29,7 +34,6 @@ module.exports.flashNextButton = function() {
  * Set flashing of next button
  */
 module.exports.setFlashNext = function(bool) {
-    console.log('here');
     flashNextButton = bool;
 };
 
@@ -38,6 +42,11 @@ module.exports.setFlashNext = function(bool) {
  */
 module.exports.shineLogo = function() {
     var e = document.getElementById('logo-bright-top');
+
+    if (!e) {
+        return;
+    }
+
     e.style.opacity = 1;
     setTimeout(function(){e.style.opacity = 0;}, 750);
 }
@@ -47,6 +56,11 @@ module.exports.shineLogo = function() {
  */
 module.exports.spinPlay = function(deg) {
     var e = document.getElementById('logo-play');
+
+    if (!e) {
+        return;
+    }
+
     e.rotation = e.rotation ? e.rotation + deg : deg;
     e.style.webkitTransform = 'rotate(' + e.rotation + 'deg)';
     e.style.transform = 'rotate(' + e.rotation + 'deg)';
@@ -58,6 +72,11 @@ module.exports.spinPlay = function(deg) {
  */
 module.exports.spinText = function(deg) {
     var e = document.getElementById('logo-text-top');
+
+    if (!e) {
+        return;
+    }
+
     e.rotation = e.rotation ? e.rotation + deg : deg;
     e.style.webkitTransform = 'rotate(' + e.rotation + 'deg)';
     e.style.transform = 'rotate(' + e.rotation + 'deg)';

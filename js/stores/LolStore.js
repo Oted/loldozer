@@ -29,6 +29,7 @@ var _savedState = Storage.loadStateStorage();
 if (!_savedState) {
     Effects.setFlashNext(true);
     _savedState = {
+        _singleView : false,
         _statuses : {},
         _filters : window.orientation ? {
             'img' : 1, 
@@ -313,6 +314,13 @@ var LolStore = assign({}, EventEmitter.prototype, {
         return Exp.getLevel();
     },
  
+   /**
+    * Get the variable storing if this is a single view or not
+    */
+    getSingleView: function() {
+        return _savedState._singleView;
+    },
+
    /**
     * Get the current performer
     */
