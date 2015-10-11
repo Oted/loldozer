@@ -87,7 +87,7 @@ var Controls = React.createClass({
             count: this.state.count + 1
         });
 
-        if (this.state.count % 25 === 0 && !this.props.feedbackStatus) {
+        if (this.state.count % 50 === 0 && !this.props.feedbackStatus) {
             LolActions.openModal('feedback');
         }
 

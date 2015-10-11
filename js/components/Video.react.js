@@ -10,12 +10,17 @@ var React           = require('react'),
 var Video = React.createClass({
     render: function() {
         var isVideo = this.props.current.type === 'video';
-           
+        
+        if (!isVideo) {
+            return (<div></div>); 
+        }   
+
         return (
             <div 
                 className={isVideo ? 'container' : 'hidden'}>
                 <video 
-                    controls 
+                    controls
+                    loop 
                     autoPlay
                     preload='auto' 
                     type='video/mp4' 

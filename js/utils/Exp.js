@@ -7,7 +7,7 @@ var LolActions  = require('../actions/LolActions.js'),
 function Exp(interactions, level, experience) {
     this.interactions   = interactions;
     this.lvl            = level > max ? max : level;
-    this.exp            = experience;
+    this.exp            = level >= max ? 0 : experience;
 };
 
 /**
