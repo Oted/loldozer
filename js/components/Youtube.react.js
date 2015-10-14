@@ -1,5 +1,4 @@
 var React           = require('react'),
-    YoutubeReact    = require('react-youtube'),
     LolActions      = require('../actions/LolActions'),
     options         = {
         // https://developers.google.com/youtube/player_parameters
@@ -11,6 +10,11 @@ var React           = require('react'),
 
 var Youtube = React.createClass({
     render: function() {
+        YoutubeReact    = require('react-youtube');
+        if (this.props.isMulti) {
+            options.playerVars.autoplay = 0;
+        }
+
         return (
             <div 
                 className='container'>

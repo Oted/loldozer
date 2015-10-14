@@ -127,7 +127,7 @@ var LolApp = React.createClass({
                     autoplay={this.state.autoplay}
                     current={this.state.current}
                     experience={this.state.experience}
-                /> : ''}>
+                /> : ''}
                 {this.state.single_view ? <Stage
                     isMulti={false}
                     isMobile={this.state.isMobile}
