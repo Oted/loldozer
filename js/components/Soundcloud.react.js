@@ -15,21 +15,20 @@ var React           = require('react'),
 
 var Soundcloud = React.createClass({
     render: function() {
-        var isSoundcloud = this.props.current.type === 'soundcloud';
-
-        if (!isSoundcloud) {
-            return (<div id='s-player'></div>);
+        if (this.props.isMulti) {
+            options.auto_play = false;
         }
 
         return (
             <div 
-                className={isSoundcloud ? 'container' : 'hidden'}
-                id='s-player'
-                style={{'width' : '30rem'}}>
+                key={this.props.data} 
+                className={this.props.isMulti ? 'scroll-container soundcloud' : 'container soundcloud'}>
                 <SoundcloudReact
-                    url={this.props.current.data}
-                    opts = {options}               
-                    onEnd={this._onEnd}
+                    id = {'scloud' + this.props.current.data}
+                    key = {'scloud' + this.props.current.data}
+                    url = {this.props.current.data}
+                    opts = {options}
+                    onEnd = {this._onEnd}
                 />
             </div>
         );

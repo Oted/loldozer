@@ -7,78 +7,74 @@ var React       = require('react'),
 var Nav = React.createClass({
     render: function() {
         return (
-            <ul 
-                id='nav'>
-                <li
-                    id='list-button'>
-                    <a
-                        className={this.props.isMobile ? 'fa fa-list mobile' : 'fa fa-list'}>
-                    </a>
-                    <ul>
-                        {this.props.level >= 0 ? 
-                        <li>
-                            <a
-                                className='text-button'
-                                onClick={this._openAboutModal}
-                                href='#'>
-                                WHAT IS THIS PLACE?
-                            </a>
-                        </li>
-                        :''}
-                        {this.props.level >= 1000 ? 
-                        <li>
-                            <a
-                                className='text-button'
-                                onClick={this._openAddModal}
-                                href='#'>
-                                GIVE SOME INTERNET
-                            </a>
-                        </li>
-                        :''}
-                        {this.props.level >= 1 ? 
+            <div>
+                <ul className='sub-nav dropdown'>
+                    <li id='list-button'>
+                        <a className={this.props.isMobile ? 'fa fa-list mobile' : 'fa fa-list'}> </a>
+                        <ul>
+                            {this.props.level >= 0 ? 
                             <li>
-                                <a
+                                <i
                                     className='text-button'
-                                    onClick={this._openBestModal}
-                                    href='#'>
-                                    THE BEST INTERNETS
-                                </a>
+                                    onClick={this._openAboutModal}>
+                                    WHAT IS THIS PLACE?
+                                </i>
                             </li>
-                        :''}
-                        {this.props.level >= 0 ? 
-                        <li>
-                            <a
-                                className='text-button'
-                                onClick={this._openFilterModal}
-                                href='#'>
-                                FILTER THE INTERNET
-                            </a>
-                        </li>
-                        :''}
-                        {this.props.level >= 0 ? 
+                            :''}
+                            {this.props.level >= 1000 ? 
                             <li>
-                                <a
+                                <i
                                     className='text-button'
-                                    onClick={this._openFeedbackModal}
-                                    href='#'>
-                                    HELP US IMPROVE
-                                </a>
+                                    onClick={this._openAddModal}>
+                                    GIVE SOME INTERNET
+                                </i>
                             </li>
-                        :''}
-                    </ul>
-                </li>
-                <li> 
-                    <img id='logo-play' className='logo-top' src='./common/play_logo.png'></img>
-                    <img className='logo-top' src='./common/around_logo.png'></img>
-                    <img id="logo-bright-top" className='logo-top' src='./common/around_logo_bright.png'></img>
-                    <img id="logo-text-top" className='logo-top' src='./common/logo_text.png'></img>
-                </li>
-                <li id='right-bar'>
-                    <a id='level' href='#'>{this.props.level}</a>
-                    <a id='fb-like' target="_blank" href='https://www.facebook.com/getsomeinternet/' className={this.props.isMobile ? 'fa fa-facebook-square mobile' : 'fa fa-facebook-square'}></a>
-                    <a id='twitter-like' target="_blank" href='https://twitter.com/GetSomeInternet' className={this.props.isMobile ? 'fa fa-twitter-square mobile' : 'fa fa-twitter-square'}></a>
-                </li>
-           </ul>
+                            :''}
+                            {this.props.level >= 1 ? 
+                                <li>
+                                    <i
+                                        className='text-button'
+                                        onClick={this._openBestModal}>
+                                        THE BEST INTERNETS
+                                    </i>
+                                </li>
+                            :''}
+                            {this.props.level >= 0 ? 
+                            <li>
+                                <i
+                                    className='text-button'
+                                    onClick={this._openFilterModal}>
+                                    FILTER THE INTERNET
+                                </i>
+                            </li>
+                            :''}
+                            {this.props.level >= 0 ? 
+                                <li>
+                                    <i
+                                        className='text-button'
+                                        onClick={this._openFeedbackModal}>
+                                        HELP US IMPROVE
+                                    </i>
+                                </li>
+                            :''}
+                        </ul>
+                    </li>
+                    <li> 
+                    </li>
+                </ul>
+                <ul className='sub-nav'>
+                    <li> 
+                        <img id='logo-play' className='logo-top' src='./common/play_logo.png'></img>
+                        <img className='logo-top' src='./common/around_logo.png'></img>
+                        <img id="logo-bright-top" className='logo-top' src='./common/around_logo_bright.png'></img>
+                        <img id="logo-text-top" className='logo-top' src='./common/logo_text.png'></img>
+                    </li>
+                    <li id='right-bar'>
+                        <a id='fb-like' target="_blank" href='https://www.facebook.com/getsomeinternet/' className={this.props.isMobile ? 'fa fa-facebook-square mobile' : 'fa fa-facebook-square'}></a>
+                        <a id='twitter-like' target="_blank" href='https://twitter.com/GetSomeInternet' className={this.props.isMobile ? 'fa fa-twitter-square mobile' : 'fa fa-twitter-square'}></a>
+                    </li>
+               </ul>
+           </div>
         );
     },
 

@@ -6,7 +6,6 @@ var flashNextButton = false;
 module.exports.init = function() {
     module.exports.spinText(1080);
     module.exports.spinPlay(-1800);
-    module.exports.setCrystalSize(30);
 };
 
 /**
@@ -80,15 +79,4 @@ module.exports.spinText = function(deg) {
     e.rotation = e.rotation ? e.rotation + deg : deg;
     e.style.webkitTransform = 'rotate(' + e.rotation + 'deg)';
     e.style.transform = 'rotate(' + e.rotation + 'deg)';
-};
-
-/**
- *  Set sizes of crystals
- */
-module.exports.setCrystalSize = function(width) {
-    var l = document.getElementById('left-corner-image'),
-        r = document.getElementById('right-corner-image');
-
-    l.style.width = width + '%';
-    r.style.width = width + '%';
 };

@@ -1,5 +1,5 @@
 var React       = require('react'),
-    ImageLoader = require('react-imageloader'),
+    LolActions  = require('../actions/LolActions'),
     Loading     = require('./loading.react');
 
 /**
@@ -7,23 +7,33 @@ var React       = require('react'),
  */
 var Image = React.createClass({
     render: function() {
-        var isImage = this.props.current.type === 'img';
-    
+        if (this.props.isMulti) {
+            return (
+                <div
+                    className='scroll-container'>
+                    <img
+                        className='image-performer'
+                        onClick={this._onImageClick}
+                        src={this.props.current.data}>
+                    </img>
+                </div>
+            )
+        }
+
         return (
-            <div 
-                className={isImage ? 'container' : 'hidden'}>
-                <ImageLoader 
-                    style={{'width' : '100%'}} 
-                    src={isImage ? this.props.current.data : ''}
-                    preloader={this._whileLoading}>
-                </ImageLoader>
+            <div
+                className='container'>
+                <img
+                    src={this.props.current.data}>
+                </img>
             </div>
-        );
+        )
     },
-    _whileLoading : function() {
-        return (
-            <Loading />
-        );
+
+    _onImageClick : function(event) {
+        console.log('inspect item');
+
+        LolActions.openModal('inspect', this.props.current);
     }
 });
 

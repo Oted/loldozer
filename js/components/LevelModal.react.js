@@ -33,8 +33,7 @@ var LevelModal = React.createClass({
                     <LevelSwitch level={this.props.level}/>
                     <a
                         className='text-button ok-item'
-                        onClick={this._closeModal}
-                        href='#'>
+                        onClick={this._closeModal}>
                             CLOSE!
                     </a>
                 </div>

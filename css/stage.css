@@ -26,71 +26,13 @@
   font-size:3rem;
 }
 
-.vote-button {
-  font-size:3rem;
-  margin-left:1rem;
-  margin-right:1rem;
-  color: #f0f0f0;
-  display: inline-block;
-  text-decoration: none;
-  -webkit-transition: color 0.25s;
-  -moz-transition: color 0.25s;
-  -o-transition: color 0.25s;
-  transition: color 0.25s;
-  cursor: pointer; 
-  cursor: hand;
+.vote-number {
+  display:initial;
+  margin-left:0px;
 }
 
-.vote-button:hover {
-  -webkit-transform: scale(1.5,1.5);
-  -ms-transform: scale(1.5,1.5); /* IE 9 */
-  -webkit-transform: scale(1.5,1.5); /* Safari */
-  transform: scale(1.5,1.5); 
-}
-
-#next-button {
-  font-size:2rem;
-  margin-top: 1rem;
-  display: inline-block;
-  text-decoration: none;
-  padding: 0 0.5rem;
-  transition: color 0.25s;
-  letter-spacing: 0.25rem;
-  color: #f0f0f0;
-  cursor: pointer; 
-  cursor: hand;
-}   
-
-#next-button:hover {
-  letter-spacing: 0.4rem;
-}
-  
-.positives {
-  float:right;
-}
-
-.positives a:hover {
-  color: #89e5b0;
-}
-
-.neutrals {
-  display:inline-block;
-}
-
-.neutrals a:hover {
-  color: #67C401;
-}
-
-.negatives {
-  float:left;
-}
-
-.negatives a:hover {
+.red:hover {
   color: #e9a39b;
-}
-
-#downvote-button:active {
-  color: #c0392b;
 }
 
 .stage {

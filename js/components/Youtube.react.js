@@ -1,6 +1,9 @@
 var React           = require('react'),
+    YoutubeReact    = require('react-youtube'),
     LolActions      = require('../actions/LolActions'),
     options         = {
+        height: '390',
+        width: '640',
         // https://developers.google.com/youtube/player_parameters
         playerVars: { 
             autoplay: 1,
@@ -9,24 +12,48 @@ var React           = require('react'),
     };
 
 var Youtube = React.createClass({
+    getInitialState : function() {
+        return {
+            'loaded' : false
+        }
+    },
+
     render: function() {
-        YoutubeReact    = require('react-youtube');
-        if (this.props.isMulti) {
+        if (this.props.isMulti === true) {
             options.playerVars.autoplay = 0;
+        }
+
+        if (this.state.player) {
+            if (this.props.isFocus === true) {
+                this.state.player.playVideo();
+            } else if (this.state.player) {
+                this.state.player.pauseVideo();
+            }
         }
 
         return (
             <div 
-                className='container'>
+                key={this.props.data}
+                className={this.props.isMulti ? 'scroll-container' : 'container'}>
                 <YoutubeReact
-                    id={this.props.current.data}
+                    id={'ytube' + this.props.current.data}
+                    key={'ytube' + this.props.current.data}
                     url={'https://www.youtube.com/watch?v=' + this.props.current.data}
                     opts={options}
+                    onReady={this._onReady}
                     onEnd={this._onEnd}
                     onPlay={this._onPlay}
+                    onError={function(err){console.log('ERR', err)}}
                 />
             </div>
         );
+    },
+
+    _onReady : function(event) {
+        this.setState({
+            "player" : event.target,
+            "loaded" : true
+        });
     },
 
     /**
@@ -34,7 +61,6 @@ var Youtube = React.createClass({
      */
     _onPlay : function(event) {
         if (this.props.current.type !== 'youtube') {
-            //console.log('OMGG NO FUCK WAA ', this.props.current);
             event.target.pauseVideo();
         }
     },

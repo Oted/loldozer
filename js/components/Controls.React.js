@@ -120,7 +120,6 @@ var Controls = React.createClass({
     _onPositiveOut : function(e) {
         document.querySelector('#right-corner-image').style.opacity = 0.4;
     }
-
 });
 
 module.exports = Controls;

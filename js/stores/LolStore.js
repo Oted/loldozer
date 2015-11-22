@@ -4,7 +4,6 @@
 var AppDispatcher   = require('../dispatcher/AppDispatcher'),
     EventEmitter    = require('events').EventEmitter,
     LolConstants    = require('../constants/LolConstants'),
-    StatsHandler    = require('../utils/statshandler.js'),
     Utils           = require('../utils/utils'),
     $               = require('../../common/jquery.min'),
     Storage         = require('../utils/localstorage'),
@@ -17,8 +16,8 @@ var AppDispatcher   = require('../dispatcher/AppDispatcher'),
 
 var CHANGE_EVENT = 'change';
 
-//Storage.destroyStorage("state");
-//Storage.destroyStorage("seen");
+Storage.destroyStorage("state");
+Storage.destroyStorage("seen");
 
 Storage.loadSeenStorage();
 
@@ -29,7 +28,6 @@ var _savedState = Storage.loadStateStorage();
 if (!_savedState) {
     Effects.setFlashNext(true);
     _savedState = {
-        _singleView : true,
         _statuses : {},
         _filters : window.orientation ? {
             'img' : 1, 
@@ -55,9 +53,6 @@ if (!_savedState) {
         level : 0
     }
 } else {
-    if (!_savedState._singleView) {
-        _savedState._singleView = true;
-    }
     if (!_savedState._statuses) {
         _savedState._statuses = {};
     }
@@ -72,11 +67,11 @@ Async.series([
     //set the Exp class
     function(next) {
         Exp = new Exp(_savedState.interactions, _savedState.level, _savedState.experience);
-       
+    
         //if were max, then make sure all filters ar enabled 
         if (Exp.isMax()) {
-            Object.keys(_savedState.filters).forEach(function(key) {
-                _savedState.filters[key] = _savedState.filters[key] === -1 ? 0 : _savedState.filters[key];
+            Object.keys(_savedState._filters).forEach(function(key) {
+                _savedState._filters[key] = _savedState._filters[key] === -1 ? 0 : _savedState._filters[key];
             }); 
         }
 
@@ -84,7 +79,7 @@ Async.series([
     },
     //get the info object
     function(next) {
-        Api.getInfo(next);
+        Api.getInfo(_savedState, next);
     },
     //if this call has a specific hash then add that to the top of the list
     function(next) {
@@ -102,8 +97,6 @@ Async.series([
     }], 
 function(err) {});
 
-//GAW = new GoogleAnalyticsWrapper(_savedState);
-
 //the current adjectives
 var _adjectives = {
     "positives": [
@@ -114,9 +107,6 @@ var _adjectives = {
     ]
 };
 
-//autplay toggle
-var _autoplay = false;
-
 //current best performers
 var _best = [];
 
@@ -126,31 +116,23 @@ var _info = {};
 //states of modals
 var _modals = {
     add : false,
-    stats : false,
     best : false,
     filter : false,
     about : false,
-    level : false
+    level : false,
+    inspect : false 
 };
 
 //state of stage
 var _performers         = [],
-    _seen               = [],
-    _seenHash           = {},
-    _lastVoted          = null,
+    _performersHash     = {},
     _currentPerformer   = null;
-
-//make sure things are saved before close
-$(window).unload(function() {
-    _gaq.push(['_trackPageview', '/page-exit?page=' + document.location.pathname + document.location.search + '&from=' + document.referrer]);
-    updateStorage();
-});
 
 /**
  *  Updates the storage, called when level is increased etc
  */
 function updateStorage() {
-    Storage.updateSeenSession(_seen.concat(_performers));
+    Storage.updateSeenSession(_performers);
     
     _savedState.interactions   = Exp.getInteractions();
     _savedState.experience     = Exp.getExperience();
@@ -160,7 +142,8 @@ function updateStorage() {
 };
 
 /**
- *  Creates a performer
+ *  Creates a performer 
+ *  All new items needs to pass through this function
  */
 function createPerformer(obj) {
     if (!obj._hash) {
@@ -168,65 +151,16 @@ function createPerformer(obj) {
         return null;
     }
     
-    if (_seenHash[obj._hash]) {
+    if (_performersHash[obj._hash]) {
         console.log(obj, 'has already been seen');
         return null;
     }
 
     Utils.middleware(obj);
+
+    _performersHash[obj._hash] = obj;
     obj.shared ? _performers.unshift(obj) : _performers.push(obj);
 };
-
-/**
- *  Change the current performer to a new one,
- *  moves the current to unseen
- */
-function nextPerformer() {
-    //fetch new if needed 
-    if (_performers.length < Math.floor(Api.getAmount() / 2) && _currentPerformer) {
-        updateStorage();
-        Api.getItems(_savedState._filters);
-    }
-   
-    var lastPerformer = _currentPerformer;
-  
-    Effects.shineLogo();
-    Abuse();
-    
-    //add old to seen and then remove from performers
-    if (lastPerformer) { 
-        _performers = Utils.destroyPerformer(_performers, lastPerformer._hash);
-    }
-
-    _currentPerformer = Utils.getPerformer(_performers);
-    
-    //add the last performer if there is any
-    if (lastPerformer) {
-        _seen.push(lastPerformer);
-        _seenHash[lastPerformer._hash] = true;
-    }
- 
-    console.log('new next ', _currentPerformer);
-}
-
-/**
- *  Change the current performer to the previous one,
- *  moves the first in seen to performers and press next
- */
-function previousPerformer() {
-    var lastPerformer = _seen.pop();
-  
-    if (!lastPerformer) {
-        return;
-    }
-
-    //remove from seen
-    delete _seenHash[lastPerformer._hash];
-    _performers.unshift(lastPerformer);
-    _currentPerformer = Utils.getPerformer(_performers);
-    
-    console.log('new previous ',_currentPerformer);
-}
 
 /**
  *  Update adjectives, fetch new if nessecary.
@@ -270,16 +204,6 @@ function destroyPerformer(_hash) {
     Utils.destroyPerformer(_performers, _hash);
 };
 
-/**
- * Delete all the seen performers.
- */
-function destroySeenPerformers() {
-    for (var i in _performers) {
-        if (_performers[i].seen) {
-            destroyPerformer(_performers[i]._hash);
-        }
-    }
-};
 
 var LolStore = assign({}, EventEmitter.prototype, {
    /**
@@ -290,13 +214,6 @@ var LolStore = assign({}, EventEmitter.prototype, {
     },
 
    /**
-    * Get the entire collection of seen performers
-    */
-    getSeenPerformers: function() {
-        return _seen;
-    },
-
-   /**
     * Get the current performer
     */
     getCurrentPerformer: function() {
@@ -304,35 +221,21 @@ var LolStore = assign({}, EventEmitter.prototype, {
     },
 
     /**
-     * return the autplay feautre
-     */
-    getAutoplay: function() {
-        return _autoplay;
-    },
-
-    /**
-     *  Return if mobild or not.
+     *  Return if mobile or not.
      */
     isMobile: function() {
         return typeof window.orientation !== 'undefined';
     },
 
    /**
-    * Get the current performer
+    * Get the level
     */
     getLevel: function() {
         return Exp.getLevel();
     },
  
    /**
-    * Get the variable storing if this is a single view or not
-    */
-    getSingleView: function() {
-        return false; _savedState._singleView;
-    },
-
-   /**
-    * Get the current performer
+    * Get the expp
     */
     getExperience: function() {
         return Exp.getExperience();
@@ -343,13 +246,6 @@ var LolStore = assign({}, EventEmitter.prototype, {
      */
     getAdjectives: function () {
         return _adjectives;
-    },
-
-    /**
-     * Get the data from the statshandler
-     */
-    getStatsViews: function () {
-        return StatsHandler.getData();
     },
 
     /**
@@ -424,13 +320,8 @@ AppDispatcher.register(function(action) {
                     item.onboarding = true;
                     createPerformer(item);
                 }
-            
-                LolStore.emitChange();
             }
-        break;
-
-        case LolConstants.LOL_TOGGLE_AUTOPLAY : 
-            _autoplay = !_autoplay;
+            
             LolStore.emitChange();
         break;
 
@@ -455,7 +346,7 @@ AppDispatcher.register(function(action) {
             updateStorage();
             _performers = [];
             Api.getItems(_savedState._filters);
-            nextPerformer();
+            
             LolStore.emitChange();
         break;
         
@@ -469,88 +360,83 @@ AppDispatcher.register(function(action) {
             }
         break;
 
+        case LolConstants.LOL_SCROLL:
+            updateStorage();
+
+            setTimeout(function(){
+                Api.getItems(_savedState._filters);
+            }, 500);
+        break;
+        
         case LolConstants.LOL_API:
             console.log('API said', action);
             if (action.type === 'items') {
-                //if this is items given and nothing is shown, show next performer 
-                if (!_currentPerformer) {
-                    nextPerformer();
-                }
-
-                if (!_savedState._singleView) {
-                
-                }
+                Effects.shineLogo();
             }
 
             _savedState._statuses[action.type] = action.status;
             LolStore.emitChange();
         break;
 
-        case LolConstants.LOL_NEXT:
-            nextPerformer();
-            LolStore.emitChange();
-        break;
+        case LolConstants.LOL_ITEM_IN_FOCUS:
+            _currentPerformer = _performersHash[action.hash];
 
-        case LolConstants.LOL_PREVIOUS:
-            previousPerformer();
             LolStore.emitChange();
         break;
 
         case LolConstants.LOL_NO_VOTE:
             Exp.calculateExperience('0');
             Api.noVote(_currentPerformer._hash);
-            nextPerformer();
+            
             LolStore.emitChange();
         break;
 
         case LolConstants.LOL_UP_VOTE:
-            Exp.calculateExperience('+1');
-            Api.upVote(_currentPerformer._hash, action.adjective);
-            _currentPerformer.likes++;
+            var targetHash = action.hash || _currentPerformer._hash;
+
+            Api.upVote(targetHash, action.adjective);
             updateAdjectives(action.adjective);
+            
+            if (!action.hash) {
+                _currentPerformer.likes++;
+            }
+
+            Exp.calculateExperience('+1');
             LolStore.emitChange();
-           
-            if (_lastVoted === _currentPerformer._hash) {
-                nextPerformer();
+            
+            if (_lastVoted === targetHash) {
                 LolStore.emitChange();
             } else {
-                _lastVoted = _currentPerformer._hash;
+                _lastVoted = targetHash;
             }
         break;
         
         case LolConstants.LOL_DOWN_VOTE:
-            Exp.calculateExperience('-1');
-            Api.downVote(_currentPerformer._hash, action.adjective);
+            var targetHash = action.hash || _currentPerformer._hash;
+
+            Api.downVote(targetHash, action.adjective);
             updateAdjectives(action.adjective);
-            _currentPerformer.dislikes++;
+            
+            if (!action.hash) {
+                _currentPerformer.dislikes++;
+            }
+
+            Exp.calculateExperience('-1');
             LolStore.emitChange();
             
-            if (_lastVoted === _currentPerformer._hash) {
-                nextPerformer();
+            if (_lastVoted === targetHash) {
                 LolStore.emitChange();
             } else {
-                _lastVoted = _currentPerformer._hash;
+                _lastVoted = targetHash;
             }
         break;
         
         case LolConstants.LOL_OPEN_MODAL:
-            _modals[action.modal] = true;
+            _modals[action.modal] = action.data || true;
             
             if (action.modal === "best") {
                 _best = [];
                 Api.getBest(_savedState._filters);
-            }
-
-            if (action.modal === "stats") {
-                StatsHandler.clearData();
-                
-                if (action.data.type === 'current') {
-                    Api.getRatings(_currentPerformer._hash);
-                } else if (action.data._hash) {
-                    Api.getRatings(action.data._hash);
-                } else {
-                    console.log('Cannot view an unknown item');
-                }
             }
 
             LolStore.emitChange();
@@ -602,17 +488,8 @@ AppDispatcher.register(function(action) {
                     item.highscore = true;
                     createPerformer(item);
                 }
-
-                if (!_currentPerformer) {
-                    nextPerformer();
-                }
             }
 
-            LolStore.emitChange();
-        break;
-
-        case LolConstants.LOL_SET_RATINGS:
-            StatsHandler.transformRatingsToChart(action.ratings);
             LolStore.emitChange();
         break;
 

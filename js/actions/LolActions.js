@@ -8,6 +8,25 @@ var LolActions = {
     /**
      * Creates a new obj and add it to the performers
      */
+    bottomScroll: function() {
+        AppDispatcher.dispatch({
+            actionType: LolConstants.LOL_SCROLL
+        });
+    },
+
+    /**
+     * Creates a new obj and add it to the performers
+     */
+    itemInFocus: function(hash) {
+        AppDispatcher.dispatch({
+            actionType: LolConstants.LOL_ITEM_IN_FOCUS,
+            hash : hash
+        });
+    },
+        
+    /**
+     * Creates a new obj and add it to the performers
+     */
     createPerformer: function(obj) {
         AppDispatcher.dispatch({
             actionType: LolConstants.LOL_CREATE,
@@ -50,20 +69,22 @@ var LolActions = {
     /**
      * When user press next
      */
-    upVote: function(adjective) {
+    upVote: function(adjective, hash) {
         AppDispatcher.dispatch({
             actionType: LolConstants.LOL_UP_VOTE,
-            adjective: adjective
+            adjective : adjective,
+            hash : hash
         });
     },
     
     /**
      * When user press next
      */
-    downVote: function(adjective) {
+    downVote: function(adjective, hash) {
         AppDispatcher.dispatch({
             actionType: LolConstants.LOL_DOWN_VOTE,
-            adjective : adjective
+            adjective : adjective,
+            hash : hash
         });
     },
     

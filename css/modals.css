@@ -12,11 +12,12 @@
 }
 
 .modal {
+  border-radius: 15px;
   position:relative;
   overflow:auto;
   text-align:center;
   z-index:15;
-  max-height: 70%;
+  max-height: 90%;
   overflow-y: scroll;
   margin-left:auto;
   margin-right:auto;
@@ -40,7 +41,6 @@
 
 .modal.active {
   opacity : 1;
-  display : block;
 }
 
 .close {
@@ -52,14 +52,6 @@
 
 .close:hover {
   color: #e9a39b;
-}
-
-#stats-modal {
-  position: relative;   
-  margin-top:3rem;
-  padding-bottom:6rem;
-  width:90%;
-  height:80%;
 }
 
 /**
@@ -106,9 +98,14 @@
   cursor: hand;
 }
 
-/**
- *  Filter modal stuff
- */
+#inspect-modal {
+  position: relative; 
+  max-width:90%;
+  max-height:90%;
+  padding-top:3rem;
+  color: #f0f0f0;
+}
+
 #filter-modal {
   overflow:auto;
   position: relative;   
@@ -135,9 +132,6 @@
   background-color : rgba(79, 79, 79, 0.46);
 }
 
-/**
- *  Best modal stuff
- */
 #best-modal {
   position: relative;
   margin-top:3rem;
@@ -219,6 +213,7 @@
 }
 
 .ok-item {
+  color:white;
   width : 90%; 
 }
 

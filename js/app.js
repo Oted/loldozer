@@ -1,11 +1,14 @@
-/**
- * Init
- */
-var React       = require('react'),
+var ReactDOM    = require('react-dom'),
+    React       = require('react'),
     LolApp      = require('./components/LolApp.react');
 
-React.render(
-  <LolApp />,
-  document.getElementById('lolapp')
-);
-
+/**
+ *
+ */
+var Wrapper = React.createClass({
+    render() {
+        return <LolApp />;
+    }
+})
+ 
+ReactDOM.render(<Wrapper />, document.getElementById('lolapp'));

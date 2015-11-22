@@ -36,12 +36,11 @@ var FeedbackModal = React.createClass({
                             <p> It could be a silly cat in space, a documentary about the cold war, the heaviest dubstep drops or a cleaver ted talk about peace in the 21st century. </p>
                             <p> You gain experience by interacting with the content and the site, as you gain levels, features and enhancements will be added to increase your experience. </p>
                         </div>
-                        <a
+                        <i
                             className={'text-button ok-item'}
-                            onClick={this._closeModal}
-                            href={'#'}>
+                            onClick={this._closeModal}>
                                 OK!
-                        </a> 
+                        </i> 
                     </div>
                 </div>
             </div>

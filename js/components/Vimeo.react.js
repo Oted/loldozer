@@ -1,6 +1,6 @@
 var React           = require('react'),
     LolActions      = require('../actions/LolActions'),
-    Froogaloop      = require('../../common/froogaloop')(),
+    Froogaloop      = require('../../common/froogaloop'),
     options         = {
         height: '390',
         width: '640'
@@ -8,35 +8,42 @@ var React           = require('react'),
 
 var Vimeo = React.createClass({
     render: function() {
-        var isVimeo = this.props.current.type === 'vimeo',
-            that    = this,
-            data    = '';
-       
-        if (!isVimeo) {
-            return (<div id='vimeo-wrapper' className={isVimeo ? 'container' : 'hidden'}></div>);
-        }
-         
-        if (isVimeo) {
-            data = this.props.current.data.indexOf('/') > -1 ? this.props.current.data.split('/').pop() : this.props.current.data;
-        }
+        var that    = this,
+            data    = this.props.current.data.indexOf('/') > -1 ? this.props.current.data.split('/').pop() : this.props.current.data;
 
-        Froogaloop(document.getElementById('vimeo-iframe')).addEvent('ready', function() {
-            Froogaloop(document.getElementById('vimeo-iframe')).addEvent('finish', that._onEnd);
-        });
+        // if (!data) {
+            // return (<div></div>);
+        // }
+
+        // var player  = Froogaloop(document.getElementById('vimeo' + data));
+       
+        // Froogaloop(player).addEvent('ready', function() {
+            // console.log('SOOO READY');
+
+            // Froogaloop(player).addEvent('finish', that._onEnd);
+            // Froogaloop(player).addEvent('play', function(){console.log('playinggg')});
+            // player.addEvent('pause', onPause);
+            // player.addEvent('finish', onFinish);
+            // player.addEvent('playProgress', onPlayProgress);
+        // });
             
+        // if (player) {
+            // if (this.props.isFocus === true) {
+                // player.api('play', function(){console.log(arguments)});
+            // } else {
+                // player.api('pause');
+            // }
+        // }
+
         return (
             <div
-                id='vimeo-wrapper' 
-                className={isVimeo ? 'container' : 'hidden'}>
+                className={this.props.isMulti ? 'scroll-container' : 'container'}>
                 <iframe 
-                    src={isVimeo ? 'http://player.vimeo.com/video/' + data + '?autoplay=1&api=1&player_id=vimeo-iframe' : ''}
+                    src={'http://player.vimeo.com/video/' + data + '?autoplay=' + (this.props.isMulti === true ? '0' : '1') + '&api=1&player_id=' + 'vimeo' + data}
                     width={options.width} 
-                    id='vimeo-iframe'
+                    id={'vimeo' + data}
                     height={options.height}
                     frameborder="0" 
-                    webkitallowfullscreen 
-                    mozallowfullscreen 
-                    allowfullscreen
                 ></iframe> 
             </div>
         );
@@ -50,7 +57,6 @@ var Vimeo = React.createClass({
             LolActions.next();
         }
     }
-
 });
 
 module.exports = Vimeo;

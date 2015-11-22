@@ -11,8 +11,8 @@ var Info = React.createClass({
         }
         
         var style = {
-            width : this.props.experience + '%',
-            background : calculateColour(this.props.experience)
+            'width'     : this.props.experience + '%',
+            'background': calculateColour(this.props.experience)
         };
         
         var niceExp = parseFloat(this.props.experience).toFixed(1);

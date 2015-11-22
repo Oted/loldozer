@@ -1,12 +1,11 @@
 var LolActions      = require('../actions/LolActions'),
     Storage         = require('./localstorage'),
-    StatsHandler    = require('./statshandler.js'),
     Async           = require('async'),
     $               = require('../../common/jquery.min'),
     Utils           = require('./utils.js'),
     prefix          = '',
     prefix          = 'http://37.139.19.174',
-    amount          = 15;
+    amount          = 20;
 
 /**
  *  Fetches new items from the server.
@@ -132,12 +131,15 @@ module.exports.getItem = function(hash, callback) {
 /**
  * Get the info object
  */
-module.exports.getInfo = function(next) {
+module.exports.getInfo = function(state, next) {
     $.ajax({
         method: 'GET',
         dataType : 'json',
         contentType: "application/json; charset=utf-8",
         url: prefix + '/api/info',
+        data : { 
+            state : JSON.stringify(state)
+        },
         success: function(data, msg) {
             //send a notification that we have fetched out data
             LolActions.api('info', msg);

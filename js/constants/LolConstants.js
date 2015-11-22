@@ -10,6 +10,8 @@ module.exports = keyMirror({
     LOL_DOWN_VOTE: null,
     LOL_CREATE: null,
     LOL_API: null,
+    LOL_ITEM_IN_FOCUS: null,
+    LOL_SCROLL:null,
     LOL_SEEN: null,
     LOL_UNDO_SEEN: null,
     LOL_POST_FEEDBACK: null,

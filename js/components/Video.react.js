@@ -9,23 +9,18 @@ var React           = require('react'),
  */
 var Video = React.createClass({
     render: function() {
-        var isVideo = this.props.current.type === 'video';
-        
-        if (!isVideo) {
-            return (<div></div>); 
-        }   
-
         return (
             <div 
-                className={isVideo ? 'container' : 'hidden'}>
+                className={this.props.isMulti ? 'scroll-container' : 'container'}>
                 <video 
-                    controls 
-                    autoPlay
+                    autoPlay="autoplay"
                     preload='auto' 
+                    controls
+                    loop
                     type='video/mp4' 
                     height={options.height} 
                     width={options.width}
-                    src={isVideo ? this.props.current.data : ''}> 
+                    src={this.props.current.data}> 
                 </video>
             </div>
         );

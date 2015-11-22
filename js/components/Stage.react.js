@@ -28,7 +28,7 @@ var Stage = React.createClass({
         }
 
   	    return (
-            <div className='stage'> 
+            <div className={this.props.isMulti ?  '' : 'stage'}> 
                 {this._getTarget()}
            </div>
   	    );
@@ -59,6 +59,7 @@ var Stage = React.createClass({
         switch (this.props.current.type) {
             case "soundcloud" :
                 return <Soundcloud
+                    isFocus = {this.props.isFocus}
                     isMulti = {this.props.isMulti}
                     autoplay = {this.props.autoplay}
                     current = {this.props.current}
@@ -66,12 +67,14 @@ var Stage = React.createClass({
             break;
             case "vine" :
                 return <Vine 
+                    isFocus = {this.props.isFocus}
                     isMulti = {this.props.isMulti}
                     current = {this.props.current}
                 />
             break;
             case "youtube" :
                 return <Youtube
+                    isFocus = {this.props.isFocus}
                     isMulti = {this.props.isMulti}
                     autoplay = {this.props.autoplay}
                     isMobile= {this.props.isMobile}
@@ -80,6 +83,7 @@ var Stage = React.createClass({
             break;
             case "vimeo" :
                 return <Vimeo
+                    isFocus = {this.props.isFocus}
                     isMulti = {this.props.isMulti}
                     autoplay = {this.props.autoplay}
                     isMobile= {this.props.isMobile}
@@ -88,24 +92,28 @@ var Stage = React.createClass({
             break;
             case "gif" :
                 return <Gif
+                    isFocus = {this.props.isFocus}
                     isMulti = {this.props.isMulti}
                     current = {this.props.current}
                 />
             break;
             case "img" : 
                 return <Image
+                    isFocus = {this.props.isFocus}
                     isMulti = {this.props.isMulti}
                     current = {this.props.current}
                 />
             break;
             case "twitch" :
                 return <Twitch
+                    isFocus = {this.props.isFocus}
                     isMulti = {this.props.isMulti}
                     current = {this.props.current}
                 />
             break;
             case "video" : 
                 return <Video
+                    isFocus = {this.props.isFocus}
                     isMulti = {this.props.isMulti}
                     current = {this.props.current}
                 />

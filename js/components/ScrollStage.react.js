@@ -1,75 +1,140 @@
 var React               = require('react'),
     LolActions          = require('../actions/LolActions'),
-    Stage               = require('./Stage.react');
+    Stage               = require('./Stage.react'),
+    ScrollItemControls  = require('./ScrollItemControls.react'),
+    Infinite            = require('react-infinite');
 
 /**
  *  Create the stage where performers go
  */
 var ScrollStage = React.createClass({
-    shouldComponentUpdate: function(nextProps, nextState) {
-        return this.props.performers.length > 0;
-    },
-
     getInitialState: function() {
-        //keep a hash of the items currently in dusplay
         return {
-            'displayed' : {},
-            'performers' : []
-        };
+            'elements': [],
+            'itemInFocus' : null,
+            'isInfiniteLoading': false
+        }
     },
+    
+    componentWillReceiveProps: function(nextProps) {
+        if (!nextProps.performers.length) {
+            return ;
+        }
 
-    render: function() {
-        var p = this.props;
+        if (this.state.elements.length !== nextProps.performers.length) {
+            this.setState({
+                isInfiniteLoading: false
+            });
+        }
 
-        this.state.performers = this.props.performers.map(function(item) {
-            return (
-                <li 
-                    key={item._hash}
-                    className='scroll-item'> 
-                    <Stage  
-                        isMulti={true}
-                        isMobile={p.isMobile}
-                        performers={p.perfomers}
-                        seen={p.seen}
-                        autoplay={p.autoplay}
-                        current={item}
-                    />
-                </li>
-            );
+        this.setState({
+            elements: this.buildElements(nextProps, 0, nextProps.performers.length)
         });
 
-        // for (var i = 0; i < this.props.performers.length; i++) {
-            // var item = this.props.performers[i];
+        if (!nextProps.itemInFocus) {
+            nextProps.itemInFocus = nextProps.performers[0];
+        }
 
-            // if (this.state.displayed[item._hash]) {
-                // continue;
-            // }
+        if (!this.state.itemInfocus || this.state.itemInFocus._hash !== nextProps.itemInFocus._hash) {
+            this.setState({
+                "itemInFocus" : nextProps.itemInFocus
+            })
+        }
+    },
+    
+    buildElements: function(props, start, end) {
+        var elements = [];
 
-            // this.state.performers.push(
-                // <li 
-                    // key={item._hash}
-                    // className='scroll-item'> 
-                    // <Stage  
-                        // isMulti={true}
-                        // isMobile={this.props.isMobile}
-                        // performers={this.props.perfomers}
-                        // seen={this.props.seen}
-                        // autoplay={this.props.autoplay}
-                        // current={item}
-                    // />
-                // </li>
-            // );
+        for (var i = start; i < end; i++) {
+            var performer = props.performers[i];
             
-            // this.state.displayed[item._hash] = true;
-        // }
-        console.log('sdsdsdsdsdsasasas', this.state.performers);
+            elements.push(
+                <div
+                    id={'scroll-' + performer._hash}
+                    key={'scroll-' + performer._hash}
+                    className={(props.itemInFocus || {})._hash === performer._hash ? 'focus scroll-item' : 'scroll-item'}>
+                    <div className='info'>
+                        <h1> {performer.title || '(untitled)'} </h1>
+                        <h1 className='shared-title'> {performer.shared === true ? '(this item was shared with you)' : ''} </h1>
+                    </div>
+                    <Stage
+                        style={{'maxHeight': '390px'}}
+                        isMulti={true}
+                        isMobile={props.isMobile}
+                        performers={props.perfomers}
+                        seen={props.seen}
+                        autoplay={props.autoplay}
+                        current={performer}
+                        isFocus={(props.itemInFocus || {})._hash === performer._hash}
+                    />
+                    <ScrollItemControls current={performer}></ScrollItemControls>
+                </div>
+            );
+        }
+
+        return elements;
+    },
+
+    _handleItemInFocus : function(node) {
+        var targets = node.children[0].children,
+            target  = targets.length % 2 === 0 ? targets[Math.floor(targets.length / 2) - 1] : targets[Math.floor(targets.length / 2)],
+            id      = target.getAttribute('id'),
+            hash;
+       
+        if (!target || !id) {
+            return;
+        }
         
-        return (
-            <ul className='scroll-stage'>
-                {this.state.performers}
-            </ul>
-        );
-    }
+        hash = id.split('-').pop();
+       
+        if (this.state.itemInFocus === hash) {
+            return;
+        }
+
+        LolActions.itemInFocus(hash);
+    },
+
+    handleInfiniteLoad: function() {
+        if (this.state.isInfiniteLoading) {
+            console.log('alrdy loading...');
+            return;
+        }
+
+        this.setState({
+            isInfiniteLoading: true
+        });
+
+        LolActions.bottomScroll();
+    },
+
+    render : function() {
+        var that = this;
+
+        if (!this.props.performers.length) {
+            return (<div></div>);
+        }
+
+        return (<div id='scroll-container'> 
+                    <Infinite
+                            handleScroll={this._handleItemInFocus}
+                            useWindowAsScrollContainer 
+                            elementHeight={498}
+                            infiniteLoadBeginEdgeOffset={2000}
+                            onInfiniteLoad={this.handleInfiniteLoad}
+                            loadingSpinnerDelegate={this.elementInfiniteLoad()}
+                            isInfiniteLoading={this.state.isInfiniteLoading}>
+                                {this.state.elements}
+                    </Infinite>
+                </div>
+            );
+    },
+
+    elementInfiniteLoad: function() {
+        return 
+            <div className="infinite-list-item">
+                Loading...
+            </div>
+    },
 });
 
 module.exports = ScrollStage;

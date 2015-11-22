@@ -6,42 +6,42 @@ var React           = require('react'),
     Nav             = require('./Nav.react'),
     Info            = require('./Info.react'),
     Stage           = require('./Stage.react'),
+    ExpBar          = require('./ExpBar.react'),
     ScrollStage     = require('./ScrollStage.react'),
     Controls        = require('./Controls.react'),
     AddModal        = require('./AddModal.react'),
+    InspectModal    = require('./InspectModal.react'),
     BestModal       = require('./BestModal.react'),
     LolActions      = require('../actions/LolActions'),
     FilterModal     = require('./FilterModal.react'),
     AboutModal      = require('./AboutModal.react'),
     FeedbackModal   = require('./FeedbackModal.react'),
     LevelModal      = require('./LevelModal.react'),
-    StatsModal      = require('./StatsModal.react'),
     LolStore        = require('../stores/LolStore');
 
-document.onkeydown = checkKey;
+// document.onkeydown = checkKey;
 
 /**
  *  Voting with the arrows if level is high enough.
  */
-function checkKey(e) {
-    e = e || window.event;
+// function checkKey(e) {
+    // e = e || window.event;
     
-    switch (e.keyCode) {
-        case (37) :
-            LolActions.previous();
-        break;
-        case (38) :
-            LolActions.upVote();
-        break;
-        case (39) :
-            LolActions.noVote();
-        break;
-        case (40) :
-            LolActions.downVote();
-        break;
-    }
-}
-
+    // switch (e.keyCode) {
+        // case (37) :
+            // LolActions.previous();
+        // break;
+        // case (38) :
+            // LolActions.upVote();
+        // break;
+        // case (39) :
+            // LolActions.noVote();
+        // break;
+        // case (40) :
+            // LolActions.downVote();
+        // break;
+    // }
+// }
 
 /**
  * Retrieve the current performers data from the LolStore
@@ -51,18 +51,14 @@ function getLolState() {
         current     : LolStore.getCurrentPerformer(),
         experience  : LolStore.getExperience(),
         performers  : LolStore.getPerformers(),
-        seen        : LolStore.getSeenPerformers(),
         adjectives  : LolStore.getAdjectives(),
         modals      : LolStore.getModalStates(),
         statuses    : LolStore.getStatuses(),
-        single_view : LolStore.getSingleView(),
         best        : LolStore.getBestPerformers(),
-        stats_views : LolStore.getStatsViews(),
         level       : LolStore.getLevel(),
         info        : LolStore.getInfo(),
         filters     : LolStore.getFilters(),
-        isMobile    : LolStore.isMobile(),
-        autoplay    : LolStore.getAutoplay()
+        isMobile    : LolStore.isMobile()
     };
 }
 
@@ -99,13 +95,13 @@ var LolApp = React.createClass({
                 <AboutModal
                     modal={this.state.modals.about}
                 />
-                <StatsModal
-                    modal={this.state.modals.stats}
-                    data={this.state.stats_views}
-                />
                 <AddModal
                     status={this.state.statuses.add}
                     modal={this.state.modals.add}
+                />
+                <InspectModal
+                    modal={this.state.modals.inspect ? true : false}
+                    target={this.state.modals.inspect}
                 />
                 <LevelModal
                     level={this.state.level}
@@ -121,36 +117,18 @@ var LolApp = React.createClass({
                     isMobile={this.state.isMobile}
                     level={this.state.level}
                 />
-                {this.state.single_view ? <Info
-                    isMobile={this.state.isMobile}
-                    level={this.state.level}
-                    autoplay={this.state.autoplay}
-                    current={this.state.current}
+                <ExpBar
                     experience={this.state.experience}
-                /> : ''}
-                {this.state.single_view ? <Stage
-                    isMulti={false}
-                    isMobile={this.state.isMobile}
-                    performers={this.state.performers}
-                    seen={this.state.seen}
-                    autoplay={this.state.autoplay}
-                    current={this.state.current}
-                /> : ''}
-                {this.state.single_view ? <Controls
-                    isMobile={this.state.isMobile}
-                    current={this.state.current}
-                    feedbackStatus={this.state.statuses['feedback'] ? true : false}
-                    adjectives={this.state.adjectives}
-                    level={this.state.level}
-                /> : ''}
-                {!this.state.single_view ? <ScrollStage
+                />
+                <ScrollStage
+                    itemInFocus={this.state.current}
                     autoplay={this.state.autoplay}
                     seen={this.state.seen}
                     isMobile={this.state.isMobile}
                     feedbackStatus={this.state.statuses['feedback'] ? true : false}
                     performers={this.state.performers}
                     seen={this.state.seen}
-                /> : ''}
+                /> 
             </div>
   	    );
     },
