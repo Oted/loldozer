@@ -77,7 +77,7 @@ var ScrollStage = React.createClass({
 
     _handleItemInFocus : function(node) {
         var targets = node.querySelectorAll('div > div > div[id]'),
-            target  = targets[Math.floor(targets.length / 2)],
+            target  = this.props.isMobile ? targets[Math.round(targets.length / 2)] : targets[Math.floor(targets.length / 2)],
             id      = target.getAttribute('id'),
             hash;
        

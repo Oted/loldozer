@@ -17,7 +17,8 @@ var Youtube         = require('../components/Youtube.react'),
 var Stage = React.createClass({
     getInitialState : function() {
         return {
-            'pushed' : false
+            'pushed' : false,
+            'time' : this._getRequiredViewTime(this.props.current.type)
         }
     },
 
@@ -29,13 +30,12 @@ var Stage = React.createClass({
         if (nextProps.isFocus && !this.counter && !this.state.pushed) {
             var that = this;
 
-            this.counter = setTimeout(function(target) { LolActions.viewedItem(nextProps.current) }, 5000, nextProps.current);
+            this.counter = setTimeout(function(target) { LolActions.viewedItem(nextProps.current) }, this.state.time, nextProps.current);
         }
     },
 
     componentWillUnmount: function() {
         if (this.counter) {
-            console.log('removeing....')
             clearTimeout(this.counter); 
         }
     },
@@ -53,6 +53,22 @@ var Stage = React.createClass({
                 {this._getTarget()}
            </div>
   	    );
+    },
+
+    _getRequiredViewTime : function(type) {
+        if (type === 'gif') {
+            return 6500;
+        }
+
+        if (type === 'img') {
+            return 6000;
+        }
+
+        if (type === 'video') {
+            return 9000;
+        }
+   
+        return 14000;
     },
 
     /**

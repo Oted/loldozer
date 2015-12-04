@@ -13,9 +13,6 @@ var ScrollItemHeader = React.createClass({
         };
     },
     componentWillReceiveProps: function(nextProps) {
-        if (this.props.current.viewed !== nextProps.current.viewed) {
-            console.log('FLASH');
-        }
     },
     render: function() {
         return (
