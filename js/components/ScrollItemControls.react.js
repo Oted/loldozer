@@ -7,10 +7,15 @@ var React       = require('react'),
 var ScrollItemHeader = React.createClass({
     getInitialState: function() {
         return {
-            likes: this.props.current.likes,
-            dislikes: this.props.current.dislikes,
-            voted : false
+            'likes'     : this.props.current.likes,
+            'dislikes'  : this.props.current.dislikes,
+            'voted'     : false
         };
+    },
+    componentWillReceiveProps: function(nextProps) {
+        if (this.props.current.viewed !== nextProps.current.viewed) {
+            console.log('FLASH');
+        }
     },
     render: function() {
         return (
@@ -28,8 +33,6 @@ var ScrollItemHeader = React.createClass({
                 </span> 
                 <span
                     onClick={this._onVoteDown}
-                    onMouseOver={this._onNegativeOver}
-                    onMouseOut={this._onNegativeOut}
                     className='control-icon'>
                     <i className='fa fa-thumbs-down left-margin'></i>
                 </span> 
@@ -39,14 +42,20 @@ var ScrollItemHeader = React.createClass({
                 </div>
                 <span
                     onClick={this._onVoteUp}
-                    onMouseOver={this._onPositiveOver}
-                    onMouseOut={this._onPositiveOut}
                     className='control-icon'>
                     <i className='fa fa-thumbs-up'></i>
                 </span>
                 <div 
                     className='vote-number'>
                     {this.state.likes}
+                </div>
+                <span
+                    className={this.props.current.viewed ? 'blue control-icon' : 'control-icon'}>
+                    <i className='fa fa-eye'></i>
+                </span>
+                <div 
+                    className='vote-number'>
+                    {this.props.current.view_time}
                 </div>
             </div>
         );
@@ -90,23 +99,7 @@ var ScrollItemHeader = React.createClass({
         LolActions.openModal('inspect', this.props.current);
     },
 
-    _onNegativeOver : function(e) {
-        // document.querySelector('#left-corner-image').style.opacity = 1;
-    },
-
-    _onNegativeOut : function(e) {
-        // document.querySelector('#left-corner-image').style.opacity = 0.4;
-    },
-
-    _onPositiveOver : function(e) {
-        // document.querySelector('#right-corner-image').style.opacity = 1;
-    },
-
-    _onPositiveOut : function(e) {
-        // document.querySelector('#right-corner-image').style.opacity = 0.4;
-    },
-
-    _getSourceIcon: function () {
+    _getSourceIcon: function() {
         var s = this.props.current.source_type;
 
         if (!this.props.current.source) {

@@ -48,10 +48,7 @@ var LevelModal = React.createClass({
         var l = this.props.level;
         console.log('close level');
         LolActions.closeModal('level');
-       
-        if (l === 3 || l === 5 || l === 7 || l === 9) { 
-            LolActions.openModal('filter');
-        }
+        LolActions.openModal('filter');
     },
 
     /**
@@ -95,29 +92,12 @@ var LevelSwitch = React.createClass({
 var LevelOne = React.createClass({
     render: function() {
         return (<div>
-            <h1 className='modal-title'> You are level 1! </h1>
-            <p> Double-tap the thumbs to vote and gain experience! </p>
+            <h1 className='modal-title'> Nice, you are level 1. </h1>
+            <p> Voting will give you new content types, by voting items you also help us produce high quality highscores and list which we will provide shortly here. </p> 
+            <p> Have a look in the filters and select what you like to see! </p>
         </div>);
     }
 });
-
-/**
- *  For level two
- */
-// var LevelTwo = React.createClass({
-    // render: function() {
-        // return (
-            // <div>
-                // <h1 className='modal-title'> LVL 2! </h1>
-                // <p> Sometimes we just want to hear a nice tune, sometimes we want to see some imagery and sometimes we want it all! </p>
-                // <p> It is okay to feel like this, in fact we encourage you to filter out what types of content you do not wish to have in the frame for the moment. </p>
-                // <p> You will still never know what shows up after next click, but you will be able to control what kind of content that shows up </p>
-                // <p> Use the filters in the menu up to the left to exclude or include different types of content, the numbers beside the types are the number of current available items of that type. </p>
-                // <p> By coming back here when you are bored, you are making us and yourself such a great favor. We do not make any money, there are no ads. We just want you to dig this place and come back, we guarantee you to find things you would never find anywhere else! </p>
-            // </div>
-        // );
-    // }
-// });
 
 /**
  *  For level two
@@ -127,7 +107,7 @@ var LevelTwo = React.createClass({
         return (<div>
             <h1 className='modal-title'> You are level 2, good job! </h1>
             <p> In the heart of the american internet culture lies Vine. </p>
-            <p> A site where people uploads short videos about anything from live concerts to silly pranks. You just got Vine added to your filters, make sure to check it out! </p>
+            <p> A site where people uploads short videos about anything from live concerts to silly pranks. You just got Vine added to your filters! </p>
         </div>);
     }
 });
@@ -146,23 +126,6 @@ var LevelThree = React.createClass({
     }
 });
 
-
-/**
- *  For level six
- */
-// var LevelFive = React.createClass({
-    // render: function() {
-        // return (<div>
-            // <h1 className='modal-title'> 6 </h1>
-            // <p> What is the fuzz about the voting, and why should one vote at all? </p>
-            // <p> The races to the frontpages or the highscores in this case is a big deal, at least when it is your own content. </p> 
-            // <p> Maybe one day, you will be able to see your own content get rated. Until then stay tuned and see whats currently the best stuff. </p>
-            // <p> Click the highscores section up in the left corner. </p>
-            // <p> The highscores show you the currently highest rated items, this list changes rapidly when new items are added and old removed. </p>
-        // </div>);
-    // }
-// });
-
 /**
  *  For level four
  */
@@ -178,20 +141,6 @@ var LevelFour = React.createClass({
 });
 
 /**
- *  For level eight
- */
-// var LevelSeven = React.createClass({
-    // render: function() {
-        // return (<div>
-            // <h1 className='modal-title'> 8 levels now! </h1>
-            // <p> You know the feeling when you clicked away something but then want to see it again? </p>
-            // <p> Well now you can! </p>
-            // <p> Use the arrow buttons on a keyboard to vote up/down or see next/previous! </p>
-        // </div>);
-    // }
-// });
-
-/**
  *  For level four
  */
 var LevelFive = React.createClass({
@@ -205,20 +154,6 @@ var LevelFive = React.createClass({
         </div>);
     }
 });
-
-/**
- *  For level ten
- */
-// var LevelNine = React.createClass({
-    // render: function() {
-        // return (<div>
-            // <h1 className='modal-title'> Level 10! </h1>
-            // <p> Some days, you are too tired to even click, or maybe you just do not really care what is on, as long as something is on! </p>
-            // <p> For these days, you can now toggle the autoplay button for playable items (youtube, vimeo, soundcloud), try to use it like a radio feature for any combinations of these content types. </p>
-            // <p> Content seen this way will not be voted. </p>
-        // </div>);
-    // }
-// });
 
 /**
  *  For level later 

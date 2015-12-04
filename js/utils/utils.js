@@ -18,7 +18,7 @@ module.exports.getPerformer = function(performers, _hash) {
     
     console.log('could not get performer!');
     return null;
-}
+};
 
 /**
  *  Get active types from a given filter
@@ -35,7 +35,7 @@ module.exports.getActiveTypes = function(filters) {
     }
 
     return types; 
-}
+};
 
 /**
  *  Deletes a performer given a hash
@@ -48,7 +48,7 @@ module.exports.destroyPerformer = function(performers, _hash) {
     }
 
     return performers;
-}
+};
 
 /**
  *  All new current passes through this function
@@ -59,6 +59,11 @@ module.exports.middleware = function(performer) {
             .replace(/^(http:\/\/)+/, 'http://')
             .replace(/^http:\/\/https:\/\//, 'http://');
     }
+
+    performer.view_time = Math.floor(Math.random() * Math.random() * 20) + 1;
+
+    //add performer view_time object
+    performer.viewed = false;
 };
 
 /**

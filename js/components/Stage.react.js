@@ -15,8 +15,29 @@ var Youtube         = require('../components/Youtube.react'),
  *  Create the stage where performers go
  */
 var Stage = React.createClass({
-    propTypes: {
-        current: ReactPropTypes.object.isRequired
+    getInitialState : function() {
+        return {
+            'pushed' : false
+        }
+    },
+
+    componentWillReceiveProps: function(nextProps) {
+        if (!nextProps.isFocus && this.counter) {
+            clearTimeout(this.counter);
+        }
+
+        if (nextProps.isFocus && !this.counter && !this.state.pushed) {
+            var that = this;
+
+            this.counter = setTimeout(function(target) { LolActions.viewedItem(nextProps.current) }, 5000, nextProps.current);
+        }
+    },
+
+    componentWillUnmount: function() {
+        if (this.counter) {
+            console.log('removeing....')
+            clearTimeout(this.counter); 
+        }
     },
 
     /**
@@ -32,24 +53,6 @@ var Stage = React.createClass({
                 {this._getTarget()}
            </div>
   	    );
-    },
-
-    /**
-     *  Next arrow was clicked.
-     */
-    _onNext: function() {
-        LolActions.next();
-    },
-
-    _onPrevious: function() {
-        LolActions.previous();
-    },
-
-    /**
-    * Event handler for 'change' events coming from the LolStore
-    */
-    _onChange: function() {
-        this.setState(getLolState());
     },
 
     /**

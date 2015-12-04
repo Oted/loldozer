@@ -5,7 +5,6 @@ var AppDispatcher   = require('../dispatcher/AppDispatcher'),
     EventEmitter    = require('events').EventEmitter,
     LolConstants    = require('../constants/LolConstants'),
     Utils           = require('../utils/utils'),
-    $               = require('../../common/jquery.min'),
     Storage         = require('../utils/localstorage'),
     Exp             = require('../utils/Exp'),
     Effects         = require('../utils/effects'),
@@ -29,11 +28,15 @@ if (!_savedState) {
     Effects.setFlashNext(true);
     _savedState = {
         _statuses : {},
-        _filters : window.orientation ? {
+        _filters : typeof window.ontouchstart !== 'undefined' ? {
             'img' : 1, 
             'gif' : 1,
-            'video' : 1,
-            'youtube' : 1 
+            'video' : 0,
+            'youtube' : 0,
+            'soundcloud' : -1, 
+            'twitch' : -1,
+            'vine' : -1,
+            'vimeo' : -1
         } : {
             'img' : 1, 
             'gif' : 1, 
@@ -49,12 +52,23 @@ if (!_savedState) {
             'upvotes' : 0,
             'downvotes' : 0
         },
+        visits : 0,
+        fetches : 1,
+        view_time : 1,
         experience : 0,
         level : 0
     }
 } else {
     if (!_savedState._statuses) {
         _savedState._statuses = {};
+    }
+
+    if (!_savedState.fetches) {
+        _savedState.fetches = 1;
+    }
+
+    if (!_savedState.visits) {
+        _savedState.visits = 0;
     }
 }
 
@@ -87,15 +101,19 @@ Async.series([
     },
     //get first batch of items
     function(next) {
-        if (!Exp.isNew()) {
-            Api.getItems(_savedState._filters);
+        if (!isNew()) {
+            _savedState['fetches']++;
+            Api.getItems(Storage, _savedState._filters);
         } else {
             Api.getBest(_savedState._filters);
         }
 
         return next();
-    }], 
-function(err) {});
+    }],
+function(err) {
+    _savedState.visits++;
+    console.log('Current state', _savedState);
+});
 
 //the current adjectives
 var _adjectives = {
@@ -126,19 +144,21 @@ var _modals = {
 //state of stage
 var _performers         = [],
     _performersHash     = {},
+    _lastVoted          = null,
     _currentPerformer   = null;
 
 /**
  *  Updates the storage, called when level is increased etc
  */
 function updateStorage() {
+    console.log('Updating storage');
     Storage.updateSeenSession(_performers);
     
     _savedState.interactions   = Exp.getInteractions();
     _savedState.experience     = Exp.getExperience();
     _savedState.level          = Exp.getLevel();
     
-    Storage.updateStateStorage(_savedState);
+    return Storage.updateStateStorage(_savedState);
 };
 
 /**
@@ -160,6 +180,13 @@ function createPerformer(obj) {
 
     _performersHash[obj._hash] = obj;
     obj.shared ? _performers.unshift(obj) : _performers.push(obj);
+};
+
+/**
+ *  Check if the user is new
+ */
+function isNew() {
+    return _savedState.visits <= 1 && _savedState.level === 0;
 };
 
 /**
@@ -224,7 +251,7 @@ var LolStore = assign({}, EventEmitter.prototype, {
      *  Return if mobile or not.
      */
     isMobile: function() {
-        return typeof window.orientation !== 'undefined';
+        return typeof window.ontouchstart !== 'undefined';
     },
 
    /**
@@ -244,42 +271,42 @@ var LolStore = assign({}, EventEmitter.prototype, {
     /**
      * Get adjectives
      */
-    getAdjectives: function () {
+    getAdjectives: function() {
         return _adjectives;
     },
 
     /**
      * Get data for current best internetz
      */
-    getBestPerformers: function () {
+    getBestPerformers: function() {
         return _best;
     },
 
     /**
      * Get the info object
      */
-    getInfo: function () {
+    getInfo: function() {
         return _info;
     },
 
     /**
      * Get the filters
      */
-    getFilters: function () {
+    getFilters: function() {
         return _savedState._filters;
     },
 
     /**
      * Get modal states
      */
-    getModalStates: function () {
+    getModalStates: function() {
         return _modals;
     },
 
     /**
      * Get api states
      */
-    getStatuses: function () {
+    getStatuses: function() {
         return _savedState._statuses;
     },
 
@@ -312,7 +339,7 @@ AppDispatcher.register(function(action) {
             Effects.flashNextButton();
             _info = action.info;
 
-            if (Exp.isNew()) {
+            if (isNew()) {
                 //loop backwards to add onboarding in right order to the top of the list
                 for (var i = 0; i < action.info.onboarding.length; i++) {
                     var item = action.info.onboarding[i];
@@ -345,13 +372,27 @@ AppDispatcher.register(function(action) {
             Effects.init();
             updateStorage();
             _performers = [];
-            Api.getItems(_savedState._filters);
+
+            _savedState['fetches']++;
+            Api.getItems(Storage,_savedState._filters);
             
+            LolStore.emitChange();
+        break;
+        
+        case LolConstants.LOL_VIEWED_ITEM:
+            var target = action.obj;
+
+            _performersHash[target._hash].view_time++
+            _performersHash[target._hash].viewed = true;
+            Api.viewedItem(target._hash);
+
+            Exp.calculateExperience('0');
             LolStore.emitChange();
         break;
         
         case LolConstants.LOL_CREATE:
             if (action.type === 'performer') {
+                console.log('creating performer!');
                 createPerformer(action.obj);
             }
 
@@ -361,17 +402,18 @@ AppDispatcher.register(function(action) {
         break;
 
         case LolConstants.LOL_SCROLL:
-            updateStorage();
+            _savedState['fetches']++;
+            Api.getItems(Storage,_savedState._filters);
+            Abuse();
 
-            setTimeout(function(){
-                Api.getItems(_savedState._filters);
-            }, 500);
+            LolStore.emitChange();
         break;
         
         case LolConstants.LOL_API:
             console.log('API said', action);
             if (action.type === 'items') {
                 Effects.shineLogo();
+                updateStorage();
             }
 
             _savedState._statuses[action.type] = action.status;
@@ -401,14 +443,12 @@ AppDispatcher.register(function(action) {
                 _currentPerformer.likes++;
             }
 
-            Exp.calculateExperience('+1');
-            LolStore.emitChange();
-            
-            if (_lastVoted === targetHash) {
-                LolStore.emitChange();
-            } else {
+            if (_lastVoted !== targetHash) {
                 _lastVoted = targetHash;
             }
+
+            Exp.calculateExperience('+1');
+            LolStore.emitChange();
         break;
         
         case LolConstants.LOL_DOWN_VOTE:
@@ -421,14 +461,12 @@ AppDispatcher.register(function(action) {
                 _currentPerformer.dislikes++;
             }
 
-            Exp.calculateExperience('-1');
-            LolStore.emitChange();
-            
-            if (_lastVoted === targetHash) {
-                LolStore.emitChange();
-            } else {
+            if (_lastVoted !== targetHash) {
                 _lastVoted = targetHash;
             }
+
+            Exp.calculateExperience('-1');
+            LolStore.emitChange();
         break;
         
         case LolConstants.LOL_OPEN_MODAL:
@@ -476,7 +514,7 @@ AppDispatcher.register(function(action) {
         break;
 
         case LolConstants.LOL_SET_BEST:
-            if (!Exp.isNew()) {
+            if (!isNew()) {
                 //if user is over lvl 0, this is a normal call from highscores
                 _best = action.items.sort(function(a,b){return b.score - a.score}); 
             } else {

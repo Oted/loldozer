@@ -52,10 +52,10 @@ var ScrollStage = React.createClass({
                 <div
                     id={'scroll-' + performer._hash}
                     key={'scroll-' + performer._hash}
-                    className={(props.itemInFocus || {})._hash === performer._hash ? 'focus scroll-item' : 'scroll-item'}>
+                    className={(props.itemInFocus || {})._hash === performer._hash ? 'focus scroll-item' : 'un-focus scroll-item'}>
                     <div className='info'>
                         <h1> {performer.title || '(untitled)'} </h1>
-                        <h1 className='shared-title'> {performer.shared === true ? '(this item was shared with you)' : ''} </h1>
+                        <h1 className='shared-title blue'> {performer.shared === true ? '(this item was shared with you)' : ''} </h1>
                     </div>
                     <Stage
                         style={{'maxHeight': '390px'}}
@@ -76,8 +76,8 @@ var ScrollStage = React.createClass({
     },
 
     _handleItemInFocus : function(node) {
-        var targets = node.children[0].children,
-            target  = targets.length % 2 === 0 ? targets[Math.floor(targets.length / 2) - 1] : targets[Math.floor(targets.length / 2)],
+        var targets = node.querySelectorAll('div > div > div[id]'),
+            target  = targets[Math.floor(targets.length / 2)],
             id      = target.getAttribute('id'),
             hash;
        
@@ -121,7 +121,6 @@ var ScrollStage = React.createClass({
                             elementHeight={498}
                             infiniteLoadBeginEdgeOffset={2000}
                             onInfiniteLoad={this.handleInfiniteLoad}
-                            loadingSpinnerDelegate={this.elementInfiniteLoad()}
                             isInfiniteLoading={this.state.isInfiniteLoading}>
                                 {this.state.elements}
                     </Infinite>

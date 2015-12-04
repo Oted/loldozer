@@ -15,7 +15,7 @@
     "react-loadermixin": "^1.0.4",
     "react-soundcloud-widget": "^2.0.3",
     "react-video": "^1.5.3",
-    "react-youtube": "^3.1.0",
+    "react-youtube": "^4.1.2",
     "uglify-js": "^2.4.23",
     "validator": "^3.39.0"
   },

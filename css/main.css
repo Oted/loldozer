@@ -24,7 +24,7 @@ ul {
 }
 
 h1 {
-  font-weight: 300;
+  font-weight: 500;
   font-size: 1.25rem;
   margin: 0.5rem 0;
 }
@@ -54,15 +54,19 @@ p {
 
 .hidden {
   opacity : 0;
-  display:none;
+  display : none;
 }
 
 .red {
-  color: #e9a39b;
+  color: #FF1B01;
 }
 
 .green {
-  color: #89e5b0;
+  color: #00D000;
+}
+
+.blue {
+  color: #4099FF;
 }
 
 .loaded {
@@ -93,6 +97,7 @@ p {
 }
 
 .info {
+  white-space: nowrap;
   display : block;
   text-align: center;
   padding-top:0.5rem;
@@ -105,8 +110,8 @@ p {
 }
 
 .info > span {
-  margin-left:0.5rem;
-  margin-right:0.5rem;
+  margin-left:4rem;
+  margin-right:1rem;
 }
 
 .info-controls li {
@@ -141,6 +146,7 @@ iframe[id*='scloud'] {
 }
 
 #exp-bar-text {
+  z-index:200;
   font-size : 9px;
   color : white;
   margin-left:50%;
@@ -148,12 +154,13 @@ iframe[id*='scloud'] {
 }
 
 #exp-bar {
+  z-index:200;
   top:0;
   transition: opacity 1s ease-in-out;
   -moz-transition: opacity 1s ease-in-out;
   -webkit-transition: opacity 1s ease-in-out;
   position : fixed;
-  height: 0.4rem;
+  height: 0.5rem;
   width: 0;
   display: -webkit-box;
   display: -moz-box;
@@ -193,7 +200,6 @@ iframe[id*='scloud'] {
 }
 
 .shared-title {
-  color: #458400;
   font-size : 1rem;
 }
 

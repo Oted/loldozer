@@ -1,8 +1,10 @@
 /*
  *  Deals with the localstorage and make sure to not show the 
  *  same stuff next time someone returns. The algorithm presented here
- *  is very related to the Interval Scheduel Problem, what to query 
- *  and how is not obvious. Below is an explenation of how its meant to work
+ *  is very related to the Interval Scheduel Problem.
+ *
+ *  Module should only be required once from the store and injected where it needs to be used, 
+ *  until i have time to rwreite this
  */
 
 var clone   = require('./utils').clone,
@@ -23,10 +25,11 @@ module.exports.loadSeenStorage = function() {
         currStorage = JSON.parse(currStorage)
     } catch (err) {
         currStorage = null;
-        console.log(err);
+        console.log('WARNING, could not load storage', err);
     }
 
     if (!currStorage) {
+        console.log('WARNING, no current storage!');
         return null;
     }
 
@@ -79,7 +82,7 @@ module.exports.updateSeenSession = function(performers) {
     }
 
     //update and merge for now
-    module.exports.mergeAndUpdateStorage(); 
+    return module.exports.mergeAndUpdateStorage(); 
 };
 
 /**
@@ -98,8 +101,7 @@ module.exports.loadStateStorage = function() {
         return null;
     }
 
-    stateStorage = sStorage;
-    return stateStorage;
+    return sStorage;
 };
 
 /**
@@ -279,6 +281,7 @@ module.exports.destroySession = function() {
  */
 module.exports.getSuggestedQuery = function(type) {
     if (seenStorage && Array.isArray(seenStorage[type]) && seenStorage[type].length < 1) {
+        console.log('WARING, no returned query!');
         return null;
     }
 
@@ -288,6 +291,7 @@ module.exports.getSuggestedQuery = function(type) {
             return seenStorage;
         }
      
+        console.log('WARING, no returned query!');
         return null;
     }
     

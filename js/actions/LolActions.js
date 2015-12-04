@@ -36,6 +36,16 @@ var LolActions = {
     },
 
     /**
+     * Sends an item to view
+     */
+    viewedItem: function(obj) {
+        AppDispatcher.dispatch({
+            actionType: LolConstants.LOL_VIEWED_ITEM,
+            obj: obj
+        });
+    },
+
+    /**
      * Creates new adjectives
      */
     createAdjectives: function(obj) {
@@ -85,24 +95,6 @@ var LolActions = {
             actionType: LolConstants.LOL_DOWN_VOTE,
             adjective : adjective,
             hash : hash
-        });
-    },
-    
-    /**
-     * When user press next
-     */
-    next: function() {
-        AppDispatcher.dispatch({
-            actionType: LolConstants.LOL_NEXT
-        });
-    },
- 
-    /**
-     * When user press previous
-     */
-    previous: function() {
-        AppDispatcher.dispatch({
-            actionType: LolConstants.LOL_PREVIOUS
         });
     },
     
@@ -204,15 +196,6 @@ var LolActions = {
         AppDispatcher.dispatch({
             actionType: LolConstants.LOL_LEVEL_UP,
             level: level
-        });
-    },
-
-    /**
-     * Toggle autoplay
-     */
-    toggleAutoplay: function() {
-        AppDispatcher.dispatch({
-            actionType: LolConstants.LOL_TOGGLE_AUTOPLAY
         });
     }
 };

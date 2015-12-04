@@ -2,15 +2,14 @@ var aps         = 0,
     Storage     = require('../utils/localstorage'),
     warnings    = 0;
 
-module.exports = function(action) {
-    console.log(aps);
+module.exports = function() {
     aps++;
     setTimeout(function() {
         aps--;
-    }, 1500);
+    }, 5000);
 
     //threshold before warning
-    if (aps >= 4) {
+    if (aps >= 2) {
         sendWarning();
     }
 }
@@ -21,7 +20,7 @@ var sendWarning = function() {
     
     switch (warnings) {
         case 1 : 
-            alert('You are clicking too fast, calm down!'); 
+            alert('You are scrolling too fast, calm down!'); 
         break;
         case 2 : 
             alert('Slow down!');

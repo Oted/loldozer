@@ -1,43 +1,40 @@
 var React       = require('react'),
-    jQuery      = require('../../common/jquery.min'),
-    gifCount    = 0;
+    LolActions  = require('../actions/LolActions');
 
 /**
  * The navigation
  */
 var Gif = React.createClass({
     render: function() {
+        if (this.props.current.type === 'gifv') {
+            this.props.current.data = this.props.current.data.replace('.gifv', '.gif');
+        }
+
         if (this.props.isMulti) {
             return (
                 <div
                     className='scroll-container'>
-                    <img
+                    <img className='image-performer' onClick={this._onImageClick}
                         src={this.props.current.data}>
                     </img>
                 </div>
             )
         }
  
-        if (this.props.current.type === 'gifv') {
-            this.props.current.data = this.props.current.data.replace('.gifv', '.gif');
-        }
-
-        gifCount++;
-
         return (
             <div 
                 className='container' >
                 <img
-                    style={{'width' : '100%'}} 
-                    src={gifCount % 2 === 0 ? this.props.current.data : ''}
-                    className={gifCount % 2 === 0 ? '' : 'hidden'}>
-                </img>
-                <img 
-                    src={gifCount % 2 === 1 ? this.props.current.data : ''}
-                    className={gifCount % 2 === 1 ? '' : 'hidden'}>
+                    src={this.props.current.data}>
                 </img>
             </div>
         );
+    },
+
+    _onImageClick : function(event) {
+        console.log('inspect item');
+
+        LolActions.openModal('inspect', this.props.current);
     }
 });
 

@@ -1,5 +1,4 @@
 var LolActions      = require('../actions/LolActions'),
-    Storage         = require('./localstorage'),
     Async           = require('async'),
     $               = require('../../common/jquery.min'),
     Utils           = require('./utils.js'),
@@ -10,7 +9,7 @@ var LolActions      = require('../actions/LolActions'),
 /**
  *  Fetches new items from the server.
  */
-module.exports.getItems = function(filters) {
+module.exports.getItems = function(Storage, filters) {
     var types = Utils.getActiveTypes(filters);
 
     var type = 'all',
@@ -32,6 +31,8 @@ module.exports.getItems = function(filters) {
         data.first = first;
         data.last = last;
     }
+
+    console.log('requestinn', seenStorage, data);
 
     $.ajax({
         method: 'GET',
@@ -59,7 +60,7 @@ module.exports.maybeGetGivenHash = function(callback) {
     var path = window.location.search,
         hash;
 
-    // path = "http://getsomeinternet.com/?hash=96c2d192ffd9cdab48a3a8026ed1d5c0&utm_content=buffer90254&utm_medium=social&utm_source=facebook.com&utm_campaign=buffer";
+    path = "http://getsomeinternet.com/?hash=96c2d192ffd9cdab48a3a8026ed1d5c0&utm_content=buffer90254&utm_medium=social&utm_source=facebook.com&utm_campaign=buffer";
     
     if (path.indexOf('?hash=') < 0) {
         return callback();
@@ -138,8 +139,7 @@ module.exports.getInfo = function(state, next) {
         contentType: "application/json; charset=utf-8",
         url: prefix + '/api/info',
         data : { 
-            state : JSON.stringify(state)
-        },
+            state : JSON.stringify(state)},
         success: function(data, msg) {
             //send a notification that we have fetched out data
             LolActions.api('info', msg);
@@ -221,7 +221,6 @@ module.exports.addItem = function(item) {
     });
 };
 
-
 /**
  * Add a new item!
  */
@@ -248,6 +247,24 @@ module.exports.postFeedbackMessage = function(item) {
     });
 };
 
+/**
+ *  Votes 0 for an item
+ */
+module.exports.viewedItem = function(hash) {
+    $.ajax({
+        method: 'POST',
+        url: prefix + '/api/view/' + hash,
+        data : {
+            'view_time' : 1
+        },
+        success: function(data, msg) {
+            LolActions.api('view', msg);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            LolActions.api('view', textStatus);
+        }
+    });
+};
 
 /**
  *  Votes 0 for an item
@@ -264,7 +281,6 @@ module.exports.noVote = function(hash) {
         }
     });
 };
-
 
 /**
  *  Votes 1 for an item

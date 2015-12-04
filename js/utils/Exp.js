@@ -20,15 +20,15 @@ Exp.prototype.calculateExperience = function(vote) {
 
     switch (vote) {
         case "+1" :
-            this.exp += 5 / (this.lvl);
+            this.exp += this.lvl > 0 ? 5 : 33.334;
             this.interactions.upvotes++;
         break;
         case "0" :
-            this.exp += this.lvl > 0 ? 1 / (this.lvl * 1.25) : 7.5;
+            this.exp += this.lvl > 0 ? 1.5 : 0;
             this.interactions.novotes++;
         break;
         case "-1" :
-            this.exp += 5 / (this.lvl);
+            this.exp += this.lvl > 0 ? 5 : 33.334;
             this.interactions.downvotes++;
         break;
     }
@@ -80,13 +80,5 @@ Exp.prototype.levelUp = function() {
 Exp.prototype.isMax = function() {
     return this.lvl >= max;
 };
-
-/**
- *  Check if there has been no interactions what so ever
- */
-Exp.prototype.isNew = function() {
-    return this.lvl === 0 && this.exp === 0;
-};
-
 
 module.exports = Exp;
