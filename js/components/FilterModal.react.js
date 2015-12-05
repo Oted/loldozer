@@ -44,6 +44,7 @@ var FilterModal = React.createClass({
                     className={'modal active'}
                     style={style}
                     id={'filter-modal'}>
+                    <h1 className='modal-title'> Select the wanted content </h1>
                     <div 
                         className='close'
                         style={{'right' : '10px','top':'5px'}}

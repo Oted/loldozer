@@ -23,7 +23,7 @@ module.exports.loadSeenStorage = function() {
 
     try {
         currStorage = JSON.parse(currStorage)
-    } catch (err) {
+    } catch(err) {
         currStorage = null;
         console.log('WARNING, could not load storage', err);
     }
@@ -93,7 +93,7 @@ module.exports.loadStateStorage = function() {
 
     try {
         sStorage = JSON.parse(sStorage);
-    } catch (err) {
+    } catch(err) {
         console.log(err);
     }
 
@@ -110,7 +110,7 @@ module.exports.loadStateStorage = function() {
 module.exports.updateStateStorage = function(state) {
    try {
         localStorage.setItem("state", JSON.stringify(state));
-    } catch (err) {
+    } catch(err) {
         return console.log('err when update storage', err); 
     }
 }
@@ -148,7 +148,7 @@ module.exports.mergeAndUpdateStorage = function() {
     
     try {
         localStorage.setItem("seen", JSON.stringify(seenStorage));
-    } catch (err) {
+    } catch(err) {
         console.log('err when update storage', err); 
     }
 };

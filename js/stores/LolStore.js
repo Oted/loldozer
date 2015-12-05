@@ -262,6 +262,13 @@ var LolStore = assign({}, EventEmitter.prototype, {
     },
  
    /**
+    * Get the stage height
+    */
+    getStageHeight: function() {
+        return 390;
+    },
+    
+   /**
     * Get the expp
     */
     getExperience: function() {

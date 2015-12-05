@@ -9,10 +9,14 @@ var React               = require('react'),
  */
 var ScrollStage = React.createClass({
     getInitialState: function() {
+        this.scrollCounter = 0;
+
         return {
             'elements': [],
             'itemInFocus' : null,
-            'isInfiniteLoading': false
+            'isInfiniteLoading': false,
+            'itemHeight' : 498,
+            'navHeight' : 136
         }
     },
     
@@ -76,17 +80,20 @@ var ScrollStage = React.createClass({
     },
 
     _handleItemInFocus : function(node) {
-        var targets = node.querySelectorAll('div > div > div[id]'),
-            target  = this.props.isMobile ? targets[Math.round(targets.length / 2)] : targets[Math.floor(targets.length / 2)],
-            id      = target.getAttribute('id'),
-            hash;
-       
-        if (!target || !id) {
+        //for optiminze, only check every 40 times
+        this.scrollCounter++;
+
+        if (this.scrollCounter % 40 !== 0) {
             return;
         }
-        
-        hash = id.split('-').pop();
-       
+      
+        this.scrollCounter = 0;
+
+        var scrollHeight    = (window.pageYOffset || document.documentElement.scrollTop) - this.state.navHeight,
+            focusIndex      = Math.round(scrollHeight / this.state.itemHeight);
+
+        var hash = this.state.elements[focusIndex].key.split('-').pop();
+
         if (this.state.itemInFocus === hash) {
             return;
         }
@@ -118,7 +125,7 @@ var ScrollStage = React.createClass({
                     <Infinite
                             handleScroll={this._handleItemInFocus}
                             useWindowAsScrollContainer 
-                            elementHeight={498}
+                            elementHeight={this.state.itemHeight}
                             infiniteLoadBeginEdgeOffset={2000}
                             onInfiniteLoad={this.handleInfiniteLoad}
                             isInfiniteLoading={this.state.isInfiniteLoading}>
