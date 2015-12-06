@@ -6,7 +6,7 @@ var ReactDOM    = require('react-dom'),
  *
  */
 var Wrapper = React.createClass({
-    render() {
+    render : function() {
         return <LolApp />;
     }
 })

@@ -12,9 +12,7 @@
     "react": "^0.14.0",
     "react-dom": "^0.14.2",
     "react-infinite": "^0.7.1",
-    "react-loadermixin": "^1.0.4",
     "react-soundcloud-widget": "^2.0.3",
-    "react-video": "^1.5.3",
     "react-youtube": "^4.1.2",
     "uglify-js": "^2.6.1",
     "validator": "^3.39.0"

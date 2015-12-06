@@ -8,7 +8,6 @@ var React           = require('react'),
     Stage           = require('./Stage.react'),
     ExpBar          = require('./ExpBar.react'),
     ScrollStage     = require('./ScrollStage.react'),
-    Controls        = require('./Controls.react'),
     AddModal        = require('./AddModal.react'),
     InspectModal    = require('./InspectModal.react'),
     BestModal       = require('./BestModal.react'),
@@ -18,30 +17,6 @@ var React           = require('react'),
     FeedbackModal   = require('./FeedbackModal.react'),
     LevelModal      = require('./LevelModal.react'),
     LolStore        = require('../stores/LolStore');
-
-// document.onkeydown = checkKey;
-
-/**
- *  Voting with the arrows if level is high enough.
- */
-// function checkKey(e) {
-    // e = e || window.event;
-    
-    // switch (e.keyCode) {
-        // case (37) :
-            // LolActions.previous();
-        // break;
-        // case (38) :
-            // LolActions.upVote();
-        // break;
-        // case (39) :
-            // LolActions.noVote();
-        // break;
-        // case (40) :
-            // LolActions.downVote();
-        // break;
-    // }
-// }
 
 /**
  * Retrieve the current performers data from the LolStore

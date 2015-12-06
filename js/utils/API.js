@@ -3,7 +3,7 @@ var LolActions      = require('../actions/LolActions'),
     $               = require('../../common/jquery.min'),
     Utils           = require('./utils.js'),
     prefix          = '',
-    prefix          = 'http://37.139.19.174',
+//    prefix          = 'http://37.139.19.174',
     amount          = 20;
 
 /**
@@ -32,8 +32,6 @@ module.exports.getItems = function(Storage, filters) {
         data.last = last;
     }
 
-    console.log('requestinn', seenStorage, data);
-
     $.ajax({
         method: 'GET',
         dataType : 'json',
@@ -60,7 +58,7 @@ module.exports.maybeGetGivenHash = function(callback) {
     var path = window.location.search,
         hash;
 
-    path = "http://getsomeinternet.com/?hash=96c2d192ffd9cdab48a3a8026ed1d5c0&utm_content=buffer90254&utm_medium=social&utm_source=facebook.com&utm_campaign=buffer";
+    //path = "http://getsomeinternet.com/?hash=96c2d192ffd9cdab48a3a8026ed1d5c0&utm_content=buffer90254&utm_medium=social&utm_source=facebook.com&utm_campaign=buffer";
     
     if (path.indexOf('?hash=') < 0) {
         return callback();
@@ -92,7 +90,7 @@ module.exports.maybeGetGivenHash = function(callback) {
 module.exports.getBest = function(filters) {
     var types = Utils.getActiveTypes(filters),
         data = {
-            "amount" : 25,
+            "amount" : amount,
             "types" : JSON.stringify(types)
         };   
 
@@ -104,7 +102,8 @@ module.exports.getBest = function(filters) {
         data : data,
         success: function(res, msg) {
             LolActions.api('best', msg);
-            LolActions.setBest(res);
+            
+                LolActions.setBest(res);
         }
     });
 };
@@ -139,11 +138,13 @@ module.exports.getInfo = function(state, next) {
         contentType: "application/json; charset=utf-8",
         url: prefix + '/api/info',
         data : { 
-            state : JSON.stringify(state)},
+            state : JSON.stringify(state)
+        },
         success: function(data, msg) {
             //send a notification that we have fetched out data
             LolActions.api('info', msg);
             LolActions.setInfo(data);
+
             return next();
         }
     });

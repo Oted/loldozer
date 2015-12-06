@@ -34,8 +34,7 @@ var FeedbackModal = React.createClass({
                     {!this.state.sent ?
                         <div>
                             <div>
-                                <h1 className='title'> We value your opinion! </h1>
-                                <p> As one of our first users we want to make sure that you enjoy this place. your opinion is gold to us and any feedback given will be carefully considered. </p>
+                                <h1 className='modal-title'> We value your opinion! </h1>
                                 <p> Tell us about what changes and improvements you would like to see, or any bugs you have experienced while being here.</p>
                                 <textarea id='feedback-text' rows="8"></textarea>
                                 <p> If you would like us to come back to you, give us your email! </p>

@@ -54,7 +54,6 @@ if (!_savedState) {
         },
         visits : 0,
         fetches : 1,
-        view_time : 1,
         experience : 0,
         level : 0
     }
@@ -93,7 +92,7 @@ Async.series([
     },
     //get the info object
     function(next) {
-        Api.getInfo(_savedState, next);
+        return Api.getInfo(_savedState, next);
     },
     //if this call has a specific hash then add that to the top of the list
     function(next) {
@@ -144,7 +143,6 @@ var _modals = {
 //state of stage
 var _performers         = [],
     _performersHash     = {},
-    _lastVoted          = null,
     _currentPerformer   = null;
 
 /**
@@ -189,49 +187,6 @@ function isNew() {
     return _savedState.visits <= 1 && _savedState.level === 0;
 };
 
-/**
- *  Update adjectives, fetch new if nessecary.
- */
-function updateAdjectives(adjective) {
-    if (!adjective) {
-        console.log('No adjective provided');
-        return;
-    }
-
-    //check if this adjective is in the positives
-    for (var p = _adjectives.positives.length - 1; p >=0; p--) {
-        if (_adjectives.positives[p] === adjective) {
-            _adjectives.positives.splice(p,1);
-            break;
-        }
-    }
-
-    //check if this adjective is in the negatives
-    for (var n = _adjectives.negatives.length - 1; n >=0; n--) {
-        if (_adjectives.negatives[n] === adjective) {
-            _adjectives.negatives.splice(n,1);
-            break;
-        }
-    }
-
-    //if were out of adjectives on either side, fetch new
-    if (_adjectives.positives.length < 1 || _adjectives.negatives.length < 1) {
-        console.log('out of adjectives', _adjectives);
-        Api.getAdjectives();
-    }
-
-    return;
-};
-
-/**
- * Delete an item.
- * @param  {string} id
- */
-function destroyPerformer(_hash) {
-    Utils.destroyPerformer(_performers, _hash);
-};
-
-
 var LolStore = assign({}, EventEmitter.prototype, {
    /**
     * Get the entire collection of performers 
@@ -261,13 +216,6 @@ var LolStore = assign({}, EventEmitter.prototype, {
         return Exp.getLevel();
     },
  
-   /**
-    * Get the stage height
-    */
-    getStageHeight: function() {
-        return 390;
-    },
-    
    /**
     * Get the expp
     */
@@ -410,6 +358,7 @@ AppDispatcher.register(function(action) {
 
         case LolConstants.LOL_SCROLL:
             _savedState['fetches']++;
+            console.log('Scrolll');
             Api.getItems(Storage,_savedState._filters);
             Abuse();
 
@@ -444,14 +393,9 @@ AppDispatcher.register(function(action) {
             var targetHash = action.hash || _currentPerformer._hash;
 
             Api.upVote(targetHash, action.adjective);
-            updateAdjectives(action.adjective);
             
             if (!action.hash) {
                 _currentPerformer.likes++;
-            }
-
-            if (_lastVoted !== targetHash) {
-                _lastVoted = targetHash;
             }
 
             Exp.calculateExperience('+1');
@@ -462,14 +406,9 @@ AppDispatcher.register(function(action) {
             var targetHash = action.hash || _currentPerformer._hash;
 
             Api.downVote(targetHash, action.adjective);
-            updateAdjectives(action.adjective);
             
             if (!action.hash) {
                 _currentPerformer.dislikes++;
-            }
-
-            if (_lastVoted !== targetHash) {
-                _lastVoted = targetHash;
             }
 
             Exp.calculateExperience('-1');
@@ -536,11 +475,6 @@ AppDispatcher.register(function(action) {
             }
 
             LolStore.emitChange();
-        break;
-
-        case LolConstants.LOL_ADD_ITEM:
-            Api.addItem(action.item);
-            destroyPerformer(action._hash);
         break;
 
         case LolConstants.LOL_POST_FEEDBACK:
