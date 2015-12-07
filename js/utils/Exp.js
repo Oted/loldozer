@@ -20,7 +20,7 @@ Exp.prototype.calculateExperience = function(vote) {
 
     switch (vote) {
         case "+1" :
-            this.exp += this.lvl > 0 ? 6 / this.lvl : 33.33;
+            this.exp += this.lvl > 0 ? 6 / this.lvl : 33.34;
             this.interactions.upvotes++;
         break;
         case "0" :
@@ -28,7 +28,7 @@ Exp.prototype.calculateExperience = function(vote) {
             this.interactions.novotes++;
         break;
         case "-1" :
-            this.exp += this.lvl > 0 ? 6 / this.lvl : 33.33;
+            this.exp += this.lvl > 0 ? 6 / this.lvl : 33.34;
             this.interactions.downvotes++;
         break;
     }

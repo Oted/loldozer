@@ -15,8 +15,8 @@ var AppDispatcher   = require('../dispatcher/AppDispatcher'),
 
 var CHANGE_EVENT = 'change';
 
-Storage.destroyStorage("state");
-Storage.destroyStorage("seen");
+// Storage.destroyStorage("state");
+// Storage.destroyStorage("seen");
 
 Storage.loadSeenStorage();
 
@@ -100,12 +100,12 @@ Async.series([
     },
     //get first batch of items
     function(next) {
-        if (!isNew()) {
-            _savedState['fetches']++;
+        // if (!isNew()) {
+            // _savedState['fetches']++;
             Api.getItems(Storage, _savedState._filters);
-        } else {
-            Api.getBest(_savedState._filters);
-        }
+        // } else {
+            // Api.getBest(_savedState._filters);
+        // }
 
         return next();
     }],
@@ -156,7 +156,7 @@ function updateStorage() {
     _savedState.experience     = Exp.getExperience();
     _savedState.level          = Exp.getLevel();
     
-    return Storage.updateStateStorage(_savedState);
+    Storage.updateStateStorage(_savedState);
 };
 
 /**
@@ -166,12 +166,12 @@ function updateStorage() {
 function createPerformer(obj) {
     if (!obj._hash) {
         console.log('No hash on obj, returning null');
-        return null;
+        return;
     }
     
     if (_performersHash[obj._hash]) {
         console.log(obj, 'has already been seen');
-        return null;
+        return;
     }
 
     Utils.middleware(obj);
@@ -303,8 +303,6 @@ AppDispatcher.register(function(action) {
                     createPerformer(item);
                 }
             }
-            
-            LolStore.emitChange();
         break;
 
         case LolConstants.LOL_UPDATE_FILTERS:
@@ -357,8 +355,8 @@ AppDispatcher.register(function(action) {
         break;
 
         case LolConstants.LOL_SCROLL:
+            updateStorage();
             _savedState['fetches']++;
-            console.log('Scrolll');
             Api.getItems(Storage,_savedState._filters);
             Abuse();
 
@@ -465,7 +463,7 @@ AppDispatcher.register(function(action) {
                 _best = action.items.sort(function(a,b){return b.score - a.score}); 
             } else {
                 //otherwise its a part of the onboarding
-                while (action.items.length) { 
+                while (action.items.length) {
                     var i       = Math.floor(Math.random() * action.items.length),
                         item    = action.items.splice(i,1)[0];
 

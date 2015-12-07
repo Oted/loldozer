@@ -14,7 +14,7 @@ var ScrollStage = React.createClass({
         return {
             'elements': [],
             'itemInFocus' : null,
-            'isInfiniteLoading': false,
+            'isInfiniteLoading': true,
             'itemHeight' : 500,
             'navHeight' : 136
         }
@@ -89,12 +89,13 @@ var ScrollStage = React.createClass({
       
         this.scrollCounter = 0;
 
-        var scrollHeight    = (window.pageYOffset || document.documentElement.scrollTop) - this.state.navHeight + window.innerHeight / 3,
+        var position        = window.pageYOffset || document.documentElement.scrollTop,
+            scrollHeight    = position - this.state.navHeight + window.innerHeight / 3,
             focusIndex      = Math.round(scrollHeight / this.state.itemHeight);
 
         var hash = this.state.elements[focusIndex].key.split('-').pop();
 
-        if (this.state.itemInFocus === hash) {
+        if (this.state.itemInFocus === hash || position < 1) {
             return;
         }
 

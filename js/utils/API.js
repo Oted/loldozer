@@ -3,7 +3,7 @@ var LolActions      = require('../actions/LolActions'),
     $               = require('../../common/jquery.min'),
     Utils           = require('./utils.js'),
     prefix          = '',
-//    prefix          = 'http://37.139.19.174',
+    // prefix          = 'http://37.139.19.174',
     amount          = 20;
 
 /**
@@ -39,7 +39,6 @@ module.exports.getItems = function(Storage, filters) {
         url: prefix + '/api/items',
         data: data,
         success: function(data, msg) {
-            console.log('got items!', data);
             for (var i = 0; i < data.length; i++) {
                 LolActions.createPerformer(data[i]);
             }
@@ -101,9 +100,11 @@ module.exports.getBest = function(filters) {
         url: prefix + '/api/bestratings',
         data : data,
         success: function(res, msg) {
-            LolActions.api('best', msg);
+            LolActions.setBest(res);
             
-                LolActions.setBest(res);
+            setTimeout(function() {
+                LolActions.api('best', msg);
+            }, 100);
         }
     });
 };
@@ -163,7 +164,6 @@ module.exports.getRatings = function(hash) {
             'hash' : hash
         },
         success: function(data, msg) {
-            console.log('got ratings!', msg, data);
             LolActions.setRatings(data, hash);
 
             //send a notification that we have fetched out data
@@ -185,8 +185,6 @@ module.exports.getAdjectives = function() {
             "amount" : 3
         },
         success: function(data, msg) {
-            console.log('got adjectives!', data);
-            
             LolActions.createAdjectives(data);
 
             //send a notification that we have fetched our data
@@ -216,7 +214,6 @@ module.exports.addItem = function(item) {
             LolActions.api('add', res.status);
         },
         success : function(data, msg) {
-            console.log(msg, data);
             LolActions.api('add', 200);
         }
     });
@@ -242,7 +239,6 @@ module.exports.postFeedbackMessage = function(item) {
             LolActions.api('feedback', msg);
         },
         success : function(data, msg) {
-            console.log(msg, data);
             LolActions.api('feedback', msg);
         }
     });
