@@ -23,7 +23,7 @@ var Youtube = React.createClass({
             options.playerVars.autoplay = 0;
         }
 
-        if (this.state.player) {
+        if (this.state.player && !this.props.isMobile) {
             if (this.props.isFocus === true) {
                 this.state.player.playVideo();
             } else if (this.state.player) {
@@ -33,11 +33,10 @@ var Youtube = React.createClass({
 
         return (
             <div 
-                key={this.props.data}
+                key={'ytube-' + this.props.current.data}
                 className={this.props.isMulti ? 'scroll-container' : 'container'}>
                 <YoutubeReact
                     id={'ytube' + this.props.current.data}
-                    key={'ytube' + this.props.current.data}
                     url={'https://www.youtube.com/watch?v=' + this.props.current.data}
                     opts={options}
                     onReady={this._onReady}

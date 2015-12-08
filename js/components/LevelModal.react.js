@@ -92,9 +92,10 @@ var LevelSwitch = React.createClass({
 var LevelOne = React.createClass({
     render: function() {
         return (<div>
-            <h1 className='modal-title'> Nice, you are level 1. </h1>
-            <p> Voting will give you new content types, by voting items you also help us produce high quality highscores and list which we will provide shortly here. </p> 
-            <p> Have a look in the filters and select what you like to see! </p>
+            <h1 className='modal-title'> You are level 1. </h1>
+            <p> Higher levels will give you new content. </p>
+            <p> By using the filters you can select what content you want to see. </p>
+            <p> We will open the filters for you when you close this, you can always access them in the menu to the left. </p>
         </div>);
     }
 });

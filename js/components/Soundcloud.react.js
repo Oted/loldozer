@@ -1,6 +1,6 @@
 var React           = require('react'),
     LolActions      = require('../actions/LolActions'),
-    SoundcloudReact = require('react-soundcloud-widget'),
+    SoundcloudReact = require('react-soundcloud-widget').default,
     options         = {
         auto_play : true,
         buying : false,
@@ -19,16 +19,17 @@ var Soundcloud = React.createClass({
             options.auto_play = false;
         }
 
+        console.log(SoundcloudReact);
+
         return (
             <div 
-                key={this.props.data} 
+                key={'scloud-' + this.props.current._hash}
                 className={this.props.isMulti ? 'scroll-container soundcloud' : 'container soundcloud'}>
                 <SoundcloudReact
-                    id = {'scloud' + this.props.current.data}
-                    key = {'scloud' + this.props.current.data}
-                    url = {this.props.current.data}
-                    opts = {options}
-                    onEnd = {this._onEnd}
+                    id={'scloud' + this.props.current._hash}
+                    url={this.props.current.data}
+                    opts={options}
+                    onEnd={this._onEnd}
                 />
             </div>
         );
@@ -38,9 +39,7 @@ var Soundcloud = React.createClass({
      *  Fired when a song finnishes, if autoplay then play
      */
     _onEnd : function() {
-        if (this.props.autoplay) {
-            LolActions.next();
-        }
+        return;
     }
 });
 

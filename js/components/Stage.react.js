@@ -7,7 +7,7 @@ var Youtube         = require('../components/Youtube.react'),
     Image           = require('../components/Image.react'),
     Vimeo           = require('../components/Vimeo.react'),
     Twitch          = require('../components/Twitch.react'),
-    Vine            = require('../components/Vine.rect.js'),
+    Vine            = require('../components/Vine.rect'),
     Video           = require('../components/Video.react'),
     Gif             = require('../components/Gif.react');
 
@@ -80,8 +80,8 @@ var Stage = React.createClass({
                 return <Soundcloud
                     isFocus = {this.props.isFocus}
                     isMulti = {this.props.isMulti}
-                    autoplay = {this.props.autoplay}
                     current = {this.props.current}
+                    isMobile= {this.props.isMobile}
                 />
             break;
             case "vine" :
@@ -89,13 +89,13 @@ var Stage = React.createClass({
                     isFocus = {this.props.isFocus}
                     isMulti = {this.props.isMulti}
                     current = {this.props.current}
+                    isMobile= {this.props.isMobile}
                 />
             break;
             case "youtube" :
                 return <Youtube
                     isFocus = {this.props.isFocus}
                     isMulti = {this.props.isMulti}
-                    autoplay = {this.props.autoplay}
                     isMobile= {this.props.isMobile}
                     current = {this.props.current}
                 />
@@ -104,7 +104,6 @@ var Stage = React.createClass({
                 return <Vimeo
                     isFocus = {this.props.isFocus}
                     isMulti = {this.props.isMulti}
-                    autoplay = {this.props.autoplay}
                     isMobile= {this.props.isMobile}
                     current = {this.props.current}
                 />
@@ -112,6 +111,7 @@ var Stage = React.createClass({
             case "gif" :
                 return <Gif
                     isFocus = {this.props.isFocus}
+                    isMobile= {this.props.isMobile}
                     isMulti = {this.props.isMulti}
                     current = {this.props.current}
                 />
@@ -120,6 +120,7 @@ var Stage = React.createClass({
                 return <Image
                     isFocus = {this.props.isFocus}
                     isMulti = {this.props.isMulti}
+                    isMobile= {this.props.isMobile}
                     current = {this.props.current}
                 />
             break;
@@ -133,6 +134,7 @@ var Stage = React.createClass({
             case "video" : 
                 return <Video
                     isFocus = {this.props.isFocus}
+                    isMobile= {this.props.isMobile}
                     isMulti = {this.props.isMulti}
                     current = {this.props.current}
                 />
