@@ -58,7 +58,9 @@ var ScrollStage = React.createClass({
                     key={'scroll-' + performer._hash}
                     className={(props.itemInFocus || {})._hash === performer._hash ? 'focus scroll-item' : 'un-focus scroll-item'}>
                     <div className='info'>
-                        <h1> {performer.title || '(untitled)'} </h1>
+                        <h1>
+                            { performer.title ? performer.title.length <= 80 ? performer.title : performer.title.slice(0,77) + '...' : '(untitled)' }
+                        </h1>
                         <h1 className='shared-title blue'> {performer.shared === true ? '(this item was shared with you)' : ''} </h1>
                     </div>
                     <Stage
